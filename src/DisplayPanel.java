@@ -13,16 +13,30 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class DisplayPanel extends JPanel implements KeyListener, MouseListener, ActionListener {
     private int farmerX;
     private int farmerY;
+    private ArrayList<ArrayList<Crop>> plots;
     private BufferedImage farmer;
+    private BufferedImage plotLand;
 
     public DisplayPanel() {
         farmerX = 0;
         farmerY = 0;
+        plots = new ArrayList<>();
+        int numRows = 2;
+        Crop soil = new Crop ("Soil");
+        for (int i = 0; i < numRows; i++) {
+            plots.add(new ArrayList<Crop>());
+        }
+        plots.get(0).add(soil);
+        plots.get(1).add(soil);
+        plots.get(0).add(soil);
+        plots.get(1).add(soil);
+
 
         // UPDATE timer to be 10ms, which will now trigger 100 times per second
         Timer timer = new Timer(10, this);
@@ -30,6 +44,7 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
 
         try {
             farmer = ImageIO.read(new File("src\\farmer.png"));
+            plotLand = ImageIO.read(new File("src\\plotLand.png"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -43,6 +58,11 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        for (int r = 0; r < plots.size(); r++){
+            for (int c = 0; c < plots.get(r).size(); c++){
+                g.drawImage(plotLand, 100+(50*c), 300+(50*r), null);
+            }
+        }
         g.drawImage(farmer, farmerX, farmerY, null);
     }
 
