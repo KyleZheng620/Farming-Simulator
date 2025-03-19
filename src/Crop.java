@@ -12,10 +12,12 @@ public class Crop {
         this.crop = crop;
         waterLevel = 0;
         growthTimeLeft = 10;
-
     }
 
-    public boolean waterCrop(boolean rain, boolean player) {
+    public Boolean waterCrop(boolean rain, boolean player) {
+        if (crop.equals("soil")){
+            return null;
+        }
         if (rain && player){
             waterLevel+=5;
         } else if (rain){
@@ -29,7 +31,10 @@ public class Crop {
         return true;
     }
 
-    public boolean dayPass(){
+    public Boolean dayPass(){
+        if (crop.equals("soil")){
+            return null;
+        }
         double chance = Math.random();
         if (chance>0.8){
             growthTimeLeft--;
@@ -42,4 +47,11 @@ public class Crop {
     }
 
 
+    public void setCrop(String newCrop){
+        crop = newCrop;
+    }
+
+    public String getCrop(){
+        return crop;
+    }
 }

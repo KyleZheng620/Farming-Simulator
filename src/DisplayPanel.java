@@ -60,7 +60,9 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
         super.paintComponent(g);
         for (int r = 0; r < plots.size(); r++){
             for (int c = 0; c < plots.get(r).size(); c++){
-                g.drawImage(plotLand, 100+(50*c), 300+(50*r), null);
+                if (plots.get(r).get(c).getCrop().equals("soil")){
+                    g.drawImage(plotLand, 100+(50*c), 300+(50*r), null);
+                }
             }
         }
         g.drawImage(farmer, farmerX, farmerY, null);
