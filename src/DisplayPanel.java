@@ -19,24 +19,12 @@ import java.util.ArrayList;
 public class DisplayPanel extends JPanel implements KeyListener, MouseListener, ActionListener {
     private int farmerX;
     private int farmerY;
-    private ArrayList<ArrayList<Crop>> plots;
     private BufferedImage farmer;
     private BufferedImage plotLand;
 
     public DisplayPanel() {
         farmerX = 0;
         farmerY = 0;
-        plots = new ArrayList<>();
-        int numRows = 2;
-        Crop soil = new Crop ("Soil");
-        for (int i = 0; i < numRows; i++) {
-            plots.add(new ArrayList<Crop>());
-        }
-        plots.get(0).add(soil);
-        plots.get(1).add(soil);
-        plots.get(0).add(soil);
-        plots.get(1).add(soil);
-
 
         // UPDATE timer to be 10ms, which will now trigger 100 times per second
         Timer timer = new Timer(10, this);
@@ -45,6 +33,7 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
         try {
             farmer = ImageIO.read(new File("src\\farmer.png"));
             plotLand = ImageIO.read(new File("src\\plotLand.png"));
+
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

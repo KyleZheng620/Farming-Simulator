@@ -1,5 +1,3 @@
-import java.lang.reflect.Array;
-
 public class Crop {
 
     private boolean watered;
@@ -40,10 +38,7 @@ public class Crop {
             growthTimeLeft--;
         }
         waterLevel--;
-        if (waterLevel<0){
-            return false;
-        }
-        return true;
+        return waterLevel >= 0;
     }
 
 
