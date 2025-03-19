@@ -24,4 +24,8 @@ public class FarmLand {
         }
         return false;
     }
+
+    public ArrayList<ArrayList<Crop>> getPlots() {
+        return plots;
+    }
 }

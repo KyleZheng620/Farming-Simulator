@@ -22,6 +22,7 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
     private BufferedImage farmer;
     private BufferedImage plotLand;
 
+
     public DisplayPanel() {
         farmerX = 0;
         farmerY = 0;
@@ -47,7 +48,7 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for (int r = 0; r < plots.size(); r++){
+        for (int r = 0; r < farmPlot.size(); r++){
             for (int c = 0; c < plots.get(r).size(); c++){
                 if (plots.get(r).get(c).getCrop().equals("soil")){
                     g.drawImage(plotLand, 100+(50*c), 300+(50*r), null);
@@ -55,6 +56,8 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
             }
         }
         g.drawImage(farmer, farmerX, farmerY, null);
+        System.out.println(farmerX);
+        System.out.println(farmerY);
     }
 
     @Override
