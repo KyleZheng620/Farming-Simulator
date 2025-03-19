@@ -2,38 +2,32 @@ public class Crop {
     private String crop;
 
     private int waterLevel;
-    private int CropPrice = 0;
+    private int CropPrice;
     private int growthTimeLeft;
     private int growthTime;
-
-    private boolean watered;
 
     private String[] AllPlants = {"Rice","Potatoes","Wheat","Mandarin","Soil"};
 
     public Crop(String crop){
         this.crop = crop;
-        this.CropPrice = CropPrice;
-        this.growthTime = growthTime;
-
         if (crop.equals("Rice")) {
             CropPrice = 10;
-            growthTime = 5;
+            growthTime = 8;
         } else if (crop.equals("Potatoes")) {
             CropPrice = 10;
-            growthTime = 5;
+            growthTime = 8;
         } else if (crop.equals("Wheat")) {
             CropPrice = 10;
-            growthTime = 5;
+            growthTime = 8;
         } else if (crop.equals("Mandarin")) {
             CropPrice = 10;
-            growthTime = 5;
+            growthTime = 8;
         } else if (crop.equals("Soil")) {
             CropPrice = 0;
             growthTime = 0;
         }
 
-        watered = false;
-        waterLevel = 0;
+        waterLevel = 3;
         growthTimeLeft = growthTime;
     }
 
@@ -55,7 +49,7 @@ public class Crop {
     }
 
     public Boolean dayPass(){
-        if (crop.equals("soil")){
+        if (crop.equals("Soil")){
             return null;
         }
         double chance = Math.random();
@@ -76,4 +70,8 @@ public class Crop {
     }
 
     public int getCropPrice() { return CropPrice;}
+
+    public int getWaterLevel(){
+        return waterLevel/2;
+    }
 }

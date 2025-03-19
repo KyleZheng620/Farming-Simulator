@@ -21,11 +21,13 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
     private int farmerY;
     private BufferedImage farmer;
     private BufferedImage plotLand;
-
+    private BufferedImage spriteSheet;
+    private FarmLand farmPlots;
 
     public DisplayPanel() {
         farmerX = 0;
         farmerY = 0;
+        farmPlots = new FarmLand();
 
         // UPDATE timer to be 10ms, which will now trigger 100 times per second
         Timer timer = new Timer(10, this);
@@ -34,6 +36,7 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
         try {
             farmer = ImageIO.read(new File("src\\farmer.png"));
             plotLand = ImageIO.read(new File("src\\plotLand.png"));
+            spriteSheet = ImageIO.read(new File("src\\crop_spritesheet-1.png-2.png"));
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -48,16 +51,39 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for (int r = 0; r < farmPlot.size(); r++){
-            for (int c = 0; c < plots.get(r).size(); c++){
-                if (plots.get(r).get(c).getCrop().equals("soil")){
-                    g.drawImage(plotLand, 100+(50*c), 300+(50*r), null);
+        int spriteWidth = 48;
+        int spriteHeight = 48;
+        for (int r = 0; r < farmPlots.getPlots().size(); r++){
+            for (int c = 0; c < farmPlots.getPlots().get(r).size(); c++){
+                g.drawImage(plotLand, 100+(64*c), 300+(64*r), null);
+                if (farmPlots.getPlots().get(r).get(c).getCrop().equals("Rice")) {
+                    int sx1 = 10 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel()*48;
+                    int sy1 = 3 * spriteHeight;
+                    int dx1 = 100 + (50 * c);
+                    int dy1 = 300 + (50 * r) - 15;
+                    g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
+                } else if (farmPlots.getPlots().get(r).get(c).getCrop().equals("Potatoes")) {
+                    int sx1 = 5 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel()*48;
+                    int sy1 = 7 * spriteHeight;
+                    int dx1 = 100 + (50 * c);
+                    int dy1 = 300 + (50 * r) - 15;
+                    g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
+                }else if (farmPlots.getPlots().get(r).get(c).getCrop().equals("Wheat")) {
+                    int sx1 = 5 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel()*48;
+                    int sy1 = 5 * spriteHeight;
+                    int dx1 = 100 + (50 * c);
+                    int dy1 = 300 + (50 * r) - 15;
+                    g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
+                } else if (farmPlots.getPlots().get(r).get(c).getCrop().equals("Mandarin")){
+                    int sx1 = 5 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel()*48;
+                    int sy1 = 8 * spriteHeight;
+                    int dx1 = 100 + (50 * c);
+                    int dy1 = 300 + (50 * r) - 15;
+                    g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                 }
             }
         }
         g.drawImage(farmer, farmerX, farmerY, null);
-        System.out.println(farmerX);
-        System.out.println(farmerY);
     }
 
     @Override
