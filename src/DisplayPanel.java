@@ -20,21 +20,31 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
     private int farmerX;
     private int farmerY;
     private BufferedImage farmer;
+    private BufferedImage farmerIdle;
     private BufferedImage plotLand;
     private BufferedImage spriteSheet;
+    private BufferedImage background;
     private FarmLand farmPlots;
+    private int direction;
+    private boolean moving;
+    private final int FRAMELENGTH = 128;
+    private int currentFrame;
 
     public DisplayPanel() {
-        farmerX = 0;
-        farmerY = 0;
+        moving = false;
+        currentFrame = 0;
+        farmerX = 50;
+        farmerY = 20;
+        direction = 0;
         farmPlots = new FarmLand();
 
-        // UPDATE timer to be 10ms, which will now trigger 100 times per second
-        Timer timer = new Timer(10, this);
+        Timer timer = new Timer(150, this);
         timer.start();
 
         try {
+            background = ImageIO.read(new File("src\\background.png"));
             farmer = ImageIO.read(new File("src\\farmer.png"));
+            farmerIdle = ImageIO.read(new File("src\\farmer_idle.png"));
             plotLand = ImageIO.read(new File("src\\plotLand.png"));
             spriteSheet = ImageIO.read(new File("src\\crop_spritesheet-1.png-2.png"));
 
@@ -51,6 +61,9 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.drawImage(background, 0, 0, null);
+
+
         int spriteWidth = 48;
         int spriteHeight = 48;
         for (int r = 0; r < farmPlots.getPlots().size(); r++){
@@ -83,7 +96,22 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
                 }
             }
         }
-        g.drawImage(farmer, farmerX, farmerY, null);
+
+        int fx1 = direction * FRAMELENGTH;
+        int fy1 = currentFrame * FRAMELENGTH;
+        int fx2 = fx1 + FRAMELENGTH;
+        int fy2 = fy1 + FRAMELENGTH;
+        if (moving){
+            g.drawImage(farmer, farmerX, farmerY, farmerX + FRAMELENGTH, farmerY + FRAMELENGTH, fx1, fy1, fx2, fy2, this);
+        } else {
+            g.drawImage(farmerIdle, farmerX, farmerY, farmerX + FRAMELENGTH, farmerY + FRAMELENGTH, fx1, fy1, fx2, fy2, this);
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        currentFrame = (currentFrame + 1) % 4;
+        repaint();
     }
 
     @Override
@@ -91,22 +119,32 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
 
     @Override
     public void keyPressed(KeyEvent e) {
-
-        int key = e.getKeyCode();
-        if (key == 38) {  // up key
-            farmerY -= 5;
-        } else if (key == 40) { // down key
-            farmerY += 5;
-        } else if (key == 37) { // left key
-            farmerX -= 5;
-        } else if (key == 39) {  // right key
-            farmerX += 5;
+        moving = true;
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                farmerY -= 10;
+                direction = 0;   // Up
+                break;
+            case KeyEvent.VK_DOWN:
+                farmerY += 10;
+                direction = 2;   // Down
+                break;
+            case KeyEvent.VK_LEFT:
+                farmerX -= 10;
+                direction = 3;   // Left
+                break;
+            case KeyEvent.VK_RIGHT:
+                farmerX += 10;
+                direction = 1;   // Right
+                break;
         }
         repaint();
     }
 
     @Override
-    public void keyReleased(KeyEvent e) { }
+    public void keyReleased(KeyEvent e) {
+        moving = false;
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) { }
@@ -123,8 +161,4 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
 
     @Override
     public void mouseExited(MouseEvent e) { }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-    }
 }
