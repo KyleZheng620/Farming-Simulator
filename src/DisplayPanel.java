@@ -24,17 +24,17 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
     private BufferedImage plotLand;
     private BufferedImage spriteSheet;
     private BufferedImage background;
+    private BufferedImage barn;
     private FarmLand farmPlots;
     private int direction;
     private boolean moving;
-    private final int FRAMELENGTH = 128;
     private int currentFrame;
 
     public DisplayPanel() {
         moving = false;
         currentFrame = 0;
-        farmerX = 50;
-        farmerY = 20;
+        farmerX = 900;
+        farmerY = 500;
         direction = 0;
         farmPlots = new FarmLand();
 
@@ -43,6 +43,7 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
 
         try {
             background = ImageIO.read(new File("src\\background.png"));
+            barn = ImageIO.read(new File("src\\Barn.png"));
             farmer = ImageIO.read(new File("src\\farmer.png"));
             farmerIdle = ImageIO.read(new File("src\\farmer_idle.png"));
             plotLand = ImageIO.read(new File("src\\plotLand.png"));
@@ -62,13 +63,13 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(background, 0, 0, null);
-
+        g.drawImage(barn, 30,30,null);
 
         int spriteWidth = 48;
         int spriteHeight = 48;
         for (int r = 0; r < farmPlots.getPlots().size(); r++){
             for (int c = 0; c < farmPlots.getPlots().get(r).size(); c++){
-                g.drawImage(plotLand, 100+(64*c), 300+(64*r), null);
+                g.drawImage(plotLand, 80+(64*c), 450+(64*r), null);
                 if (farmPlots.getPlots().get(r).get(c).getCrop().equals("Rice")) {
                     int sx1 = 10 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel()*48;
                     int sy1 = 3 * spriteHeight;
@@ -97,15 +98,16 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
             }
         }
 
-        int fx1 = direction * FRAMELENGTH;
-        int fy1 = currentFrame * FRAMELENGTH;
-        int fx2 = fx1 + FRAMELENGTH;
-        int fy2 = fy1 + FRAMELENGTH;
+        int fx1 = direction * 128;
+        int fy1 = currentFrame * 128;
+        int fx2 = fx1 + 128;
+        int fy2 = fy1 + 128;
         if (moving){
-            g.drawImage(farmer, farmerX, farmerY, farmerX + FRAMELENGTH, farmerY + FRAMELENGTH, fx1, fy1, fx2, fy2, this);
+            g.drawImage(farmer, farmerX, farmerY, farmerX + 128, farmerY + 128, fx1, fy1, fx2, fy2, this);
         } else {
-            g.drawImage(farmerIdle, farmerX, farmerY, farmerX + FRAMELENGTH, farmerY + FRAMELENGTH, fx1, fy1, fx2, fy2, this);
+            g.drawImage(farmerIdle, farmerX, farmerY, farmerX + 128, farmerY + 128, fx1, fy1, fx2, fy2, this);
         }
+
     }
 
     @Override
