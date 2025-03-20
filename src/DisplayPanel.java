@@ -25,6 +25,7 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
     private BufferedImage spriteSheet;
     private BufferedImage background;
     private BufferedImage barn;
+    private BufferedImage shop;
     private FarmLand farmPlots;
     private Farmer player;
     private int direction;
@@ -50,6 +51,7 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
             farmerIdle = ImageIO.read(new File("src\\farmer_idle.png"));
             plotLand = ImageIO.read(new File("src\\plotLand.png"));
             spriteSheet = ImageIO.read(new File("src\\crop_spritesheet-1.png-2.png"));
+            shop = ImageIO.read(new File("src/ShopOutside.jpg"));
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
