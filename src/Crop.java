@@ -48,12 +48,16 @@ public class Crop {
         return true;
     }
 
-    public Boolean dayPass(){
+    public Boolean dayPass(boolean sunny){
         if (crop.equals("Soil")){
             return null;
         }
         double chance = Math.random();
-        if (chance>0.8){
+        if (sunny){
+            if (chance<0.9){
+                growthTimeLeft--;
+            }
+        } else if (chance<0.8){
             growthTimeLeft--;
         }
         waterLevel--;

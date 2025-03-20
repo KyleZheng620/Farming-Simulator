@@ -26,18 +26,23 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
     private BufferedImage background;
     private BufferedImage barn;
     private BufferedImage shop;
+    private FarmGame farmGame;
+    private Rectangle barnRectangle;
     private FarmLand farmPlots;
     private Farmer player;
     private int direction;
     private boolean moving;
     private int currentFrame;
 
-    public DisplayPanel() {
+    public DisplayPanel(FarmGame farmGame) {
+        this.farmGame = farmGame;
+        barnRectangle = new Rectangle(30, 30, 300,240);
         moving = false;
         currentFrame = 0;
         farmerX = 900;
         farmerY = 500;
         direction = 0;
+
         player = new Farmer();
         farmPlots = new FarmLand(player);
 
@@ -113,6 +118,14 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
 
     }
 
+    private boolean collidesWithBarn(int x, int y){
+        Rectangle player = new Rectangle(x,y,128,128);
+        if (player.intersects(barnRectangle)){
+            moving = false;
+        }
+        return(player.intersects(barnRectangle));
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         currentFrame = (currentFrame + 1) % 4;
@@ -128,20 +141,23 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 farmerY -= 10;
-                direction = 0;   // Up
+                direction = 0;
                 break;
             case KeyEvent.VK_DOWN:
                 farmerY += 10;
-                direction = 2;   // Down
+                direction = 2;
                 break;
             case KeyEvent.VK_LEFT:
                 farmerX -= 10;
-                direction = 3;   // Left
+                direction = 3;
                 break;
             case KeyEvent.VK_RIGHT:
                 farmerX += 10;
-                direction = 1;   // Right
+                direction = 1;
                 break;
+        }
+        if (collidesWithBarn(farmerX, farmerY)){
+            farmGame.showBarn();
         }
         repaint();
     }
