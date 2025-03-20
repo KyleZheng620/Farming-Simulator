@@ -26,6 +26,7 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
     private BufferedImage background;
     private BufferedImage barn;
     private FarmLand farmPlots;
+    private Farmer player;
     private int direction;
     private boolean moving;
     private int currentFrame;
@@ -36,7 +37,8 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
         farmerX = 900;
         farmerY = 500;
         direction = 0;
-        farmPlots = new FarmLand();
+        player = new Farmer();
+        farmPlots = new FarmLand(player);
 
         Timer timer = new Timer(150, this);
         timer.start();
@@ -64,7 +66,6 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
         super.paintComponent(g);
         g.drawImage(background, 0, 0, null);
         g.drawImage(barn, 30,30,null);
-
         int spriteWidth = 48;
         int spriteHeight = 48;
         for (int r = 0; r < farmPlots.getPlots().size(); r++){
@@ -73,26 +74,26 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
                 if (farmPlots.getPlots().get(r).get(c).getCrop().equals("Rice")) {
                     int sx1 = 10 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel()*48;
                     int sy1 = 3 * spriteHeight;
-                    int dx1 = 100 + (50 * c);
-                    int dy1 = 300 + (50 * r) - 15;
+                    int dx1 = 90 + (64 * c);
+                    int dy1 = 450 + (64 * r);
                     g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                 } else if (farmPlots.getPlots().get(r).get(c).getCrop().equals("Potatoes")) {
                     int sx1 = 5 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel()*48;
                     int sy1 = 7 * spriteHeight;
-                    int dx1 = 100 + (50 * c);
-                    int dy1 = 300 + (50 * r) - 15;
+                    int dx1 = 90 + (64 * c);
+                    int dy1 = 450 + (64 * r);
                     g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                 }else if (farmPlots.getPlots().get(r).get(c).getCrop().equals("Wheat")) {
                     int sx1 = 5 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel()*48;
                     int sy1 = 5 * spriteHeight;
-                    int dx1 = 100 + (50 * c);
-                    int dy1 = 300 + (50 * r) - 15;
+                    int dx1 = 90 + (64 * c);
+                    int dy1 = 450 + (64 * r);
                     g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
-                } else if (farmPlots.getPlots().get(r).get(c).getCrop().equals("Mandarin")){
-                    int sx1 = 5 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel()*48;
+                }else if (farmPlots.getPlots().get(r).get(c).getCrop().equals("Mandarin")) {
+                    int sx1 = 5 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel() * 48;
                     int sy1 = 8 * spriteHeight;
-                    int dx1 = 100 + (50 * c);
-                    int dy1 = 300 + (50 * r) - 15;
+                    int dx1 = 85 + (64 * c);
+                    int dy1 = 450 + (64 * r);
                     g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                 }
             }
@@ -155,12 +156,13 @@ public class DisplayPanel extends JPanel implements KeyListener, MouseListener, 
     public void mousePressed(MouseEvent e) { }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-    }
+    public void mouseReleased(MouseEvent e) { }
 
     @Override
     public void mouseEntered(MouseEvent e) { }
 
     @Override
-    public void mouseExited(MouseEvent e) { }
+    public void mouseExited(MouseEvent e) {
+        moving = false;
+    }
 }
