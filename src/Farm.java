@@ -129,6 +129,10 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         return(player.intersects(barnRectangle));
     }
 
+    private boolean collidesWithShop(int x, int y){
+        Rectangle player = new Rectangle(x,y,128,128);
+        return(player.intersects(shopRectangle));
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -139,26 +143,37 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     @Override
     public void keyTyped(KeyEvent e) { }
 
+    private boolean WithinTheBarn(int x, int y) {
+        return box.contains(x,y);
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         moving = true;
+        int Xchange = 0;
+        int Ychange = 0;
+
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
-                farmerY -= 10;
+                Ychange -= 10;
                 direction = 0;
                 break;
             case KeyEvent.VK_DOWN:
-                farmerY += 10;
+                Ychange += 10;
                 direction = 2;
                 break;
             case KeyEvent.VK_LEFT:
-                farmerX -= 10;
+                Xchange -= 10;
                 direction = 3;
                 break;
             case KeyEvent.VK_RIGHT:
-                farmerX += 10;
+                Xchange += 10;
                 direction = 1;
                 break;
+        };
+        if (WithinTheBarn(farmerX + Xchange, farmerY + Ychange)) {
+            farmerY += Ychange;
+            farmerX += Xchange;
         }
         repaint();
         if (collidesWithBarn(farmerX, farmerY)){
@@ -167,8 +182,13 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
             farmerY = 300;
             direction = 2;
         }
+        if (collidesWithShop(farmerX, farmerY)){
+            farmGame.showShop();
+            farmerX = 1000;
+            farmerY = 300;
+            direction = 2;
+        }
     }
-
     @Override
     public void keyReleased(KeyEvent e) {
         moving = false;
