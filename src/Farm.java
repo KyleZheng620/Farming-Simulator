@@ -33,10 +33,13 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private int direction;
     private boolean moving;
     private int currentFrame;
+    private Rectangle box;
+
 
     public Farm(FarmGame farmGame) {
         this.farmGame = farmGame;
         barnRectangle = new Rectangle(100, 50, 300,240);
+        box = new Rectangle(-40, 150, 1320,450);
         moving = false;
         currentFrame = 0;
         farmerX = 170;
@@ -134,27 +137,46 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     @Override
     public void keyTyped(KeyEvent e) { }
 
+    private boolean WithinTheBarn(int x, int y) {
+        return box.contains(x,y);
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         moving = true;
+        int Xchange = 0;
+        int Ychange = 0;
+
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
-                farmerY -= 10;
+                Ychange -= 10;
+                System.out.println("X: " + farmerX + " Y: " + farmerY);
                 direction = 0;
                 break;
             case KeyEvent.VK_DOWN:
-                farmerY += 10;
+                Ychange += 10;
+                System.out.println("X: " + farmerX + " Y: " + farmerY);
                 direction = 2;
                 break;
             case KeyEvent.VK_LEFT:
-                farmerX -= 10;
+                Xchange -= 10;
+                System.out.println("X: " + farmerX + " Y: " + farmerY);
                 direction = 3;
                 break;
             case KeyEvent.VK_RIGHT:
-                farmerX += 10;
+                Xchange += 10;
+                System.out.println("X: " + farmerX + " Y: " + farmerY);
                 direction = 1;
                 break;
         }
+        System.out.println(WithinTheBarn(farmerX + Xchange, farmerY + Ychange));
+        if (WithinTheBarn(farmerX + Xchange, farmerY + Ychange)) {
+            farmerY += Ychange;
+            farmerX += Xchange;
+        } else {
+            System.out.println("out of bounds");
+        }
+
         repaint();
         if (collidesWithBarn(farmerX, farmerY)){
             farmGame.showBarn();
