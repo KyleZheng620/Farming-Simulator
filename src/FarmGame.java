@@ -8,6 +8,7 @@ public class FarmGame extends JFrame{
     private JPanel mainPanel;
     private Farm farmPanel;
     private Barn barnPanel;
+    private Shop shopPanel;
 
     public FarmGame() {
         cardLayout = new CardLayout();
@@ -15,9 +16,11 @@ public class FarmGame extends JFrame{
 
         farmPanel = new Farm(this);
         barnPanel = new Barn(this);
+        shopPanel = new Shop(this);
 
         mainPanel.add(farmPanel, "Farm");
         mainPanel.add(barnPanel, "Barn");
+        mainPanel.add(barnPanel, "Shop");
 
         add(mainPanel);
         setTitle("Farming Simulator");
@@ -34,5 +37,10 @@ public class FarmGame extends JFrame{
     public void showFarm(){
         cardLayout.show(mainPanel, "Farm");
         farmPanel.requestFocusInWindow();
+    }
+
+    public void showShop(){
+        cardLayout.show(mainPanel, "Shop");
+        shopPanel.requestFocusInWindow();
     }
 }

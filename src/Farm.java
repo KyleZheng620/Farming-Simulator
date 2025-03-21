@@ -36,7 +36,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
 
     public Farm(FarmGame farmGame) {
         this.farmGame = farmGame;
-        barnRectangle = new Rectangle(30, 50, 300,240);
+        barnRectangle = new Rectangle(100, 50, 300,240);
         moving = false;
         currentFrame = 0;
         farmerX = 170;
@@ -123,6 +123,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         Rectangle player = new Rectangle(x,y,128,128);
         return(player.intersects(barnRectangle));
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
