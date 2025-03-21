@@ -28,6 +28,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private BufferedImage shop;
     private FarmGame farmGame;
     private Rectangle barnRectangle;
+    private Rectangle shopRectangle;
     private FarmLand farmPlots;
     private Farmer player;
     private int direction;
@@ -37,6 +38,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     public Farm(FarmGame farmGame) {
         this.farmGame = farmGame;
         barnRectangle = new Rectangle(100, 50, 300,240);
+        shopRectangle = new Rectangle(1000,-80,300,300);
         moving = false;
         currentFrame = 0;
         farmerX = 170;
@@ -124,6 +126,10 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         return(player.intersects(barnRectangle));
     }
 
+    private boolean collidesWithShop(int x, int y){
+        Rectangle player = new Rectangle(x,y,128,128);
+        return(player.intersects(shopRectangle));
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -159,6 +165,12 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         if (collidesWithBarn(farmerX, farmerY)){
             farmGame.showBarn();
             farmerX = 170;
+            farmerY = 300;
+            direction = 2;
+        }
+        if (collidesWithShop(farmerX, farmerY)){
+            farmGame.showShop();
+            farmerX = 150;
             farmerY = 300;
             direction = 2;
         }

@@ -20,7 +20,7 @@ public class FarmGame extends JFrame{
 
         mainPanel.add(farmPanel, "Farm");
         mainPanel.add(barnPanel, "Barn");
-        mainPanel.add(barnPanel, "Shop");
+        mainPanel.add(shopPanel, "Shop");
 
         add(mainPanel);
         setTitle("Farming Simulator");
