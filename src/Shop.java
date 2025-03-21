@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class Shop extends JPanel implements KeyListener, MouseListener, ActionListener {
     private BufferedImage shopInside;
+    private BufferedImage shopInside2;
     private FarmGame farmGame;
     private BufferedImage farmer;
     private BufferedImage farmerIdle;
@@ -20,12 +21,12 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
 
     public Shop(FarmGame farmGame) {
         this.farmGame = farmGame;
-        doorRectangle = new Rectangle(830, 1100, 50,30);
+        doorRectangle = new Rectangle(900, 950, 50,30);
 
         moving = false;
         currentFrame = 0;
-        farmerX = 850;
-        farmerY = 900;
+        farmerX = 890;
+        farmerY = 820;
         direction = 0;
 
         Timer timer = new Timer(150, this);
@@ -33,6 +34,7 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
 
         try {
             shopInside = ImageIO.read(new File("src/ShopInside.png"));
+            shopInside2 = ImageIO.read(new File("src/ShopInside 2.png"));
             farmer = ImageIO.read(new File("src\\farmer.png"));
             farmerIdle = ImageIO.read(new File("src\\farmer_idle.png"));
         } catch (IOException e) {
@@ -56,6 +58,7 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
         } else {
             g.drawImage(farmerIdle, farmerX, farmerY, farmerX + 128, farmerY + 128, fx1, fy1, fx2, fy2, this);
         }
+        g.drawImage(shopInside2, 0, 0, null);
     }
 
 
@@ -74,21 +77,24 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
 
     @Override
     public void keyPressed(KeyEvent e) {
-        moving = true;
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
+                moving = true;
                 farmerY -= 10;
                 direction = 0;
                 break;
             case KeyEvent.VK_DOWN:
+                moving = true;
                 farmerY += 10;
                 direction = 2;
                 break;
             case KeyEvent.VK_LEFT:
+                moving = true;
                 farmerX -= 10;
                 direction = 3;
                 break;
             case KeyEvent.VK_RIGHT:
+                moving = true;
                 farmerX += 10;
                 direction = 1;
                 break;
@@ -96,6 +102,15 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
         repaint();
         if (collidesWithDoor(farmerX, farmerY)){
             farmGame.showFarm();
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException x) {
+                x.printStackTrace();
+            }
+            moving = false;
+            farmerX = 890;
+            farmerY = 820;
+            direction = 0;
         }
     }
 
@@ -111,17 +126,11 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
     public void mousePressed(MouseEvent e) {}
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
+    public void mouseReleased(MouseEvent e) {}
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
+    public void mouseEntered(MouseEvent e) {}
 
     @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
+    public void mouseExited(MouseEvent e) {}
 }

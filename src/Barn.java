@@ -20,12 +20,12 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
 
     public Barn(FarmGame farmGame) {
         this.farmGame = farmGame;
-        doorRectangle = new Rectangle(830, 1100, 50,30);
+        doorRectangle = new Rectangle(830, 1050, 50,30);
 
         moving = false;
         currentFrame = 0;
-        farmerX = 850;
-        farmerY = 900;
+        farmerX = 840;
+        farmerY = 920;
         direction = 0;
 
         Timer timer = new Timer(150, this);
@@ -74,31 +74,40 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
 
     @Override
     public void keyPressed(KeyEvent e) {
-        moving = true;
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
+                moving = true;
                 farmerY -= 10;
                 direction = 0;
                 break;
             case KeyEvent.VK_DOWN:
+                moving = true;
                 farmerY += 10;
                 direction = 2;
                 break;
             case KeyEvent.VK_LEFT:
+                moving = true;
                 farmerX -= 10;
                 direction = 3;
                 break;
             case KeyEvent.VK_RIGHT:
+                moving = true;
                 farmerX += 10;
                 direction = 1;
                 break;
         }
         repaint();
         if (collidesWithDoor(farmerX, farmerY)){
-            farmerX = 850;
-            farmerY = 900;
-            direction = 0;
             farmGame.showFarm();
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException x) {
+                x.printStackTrace();
+            }
+            farmerX = 840;
+            farmerY = 920;
+            direction = 0;
+            moving = false;
         }
     }
 

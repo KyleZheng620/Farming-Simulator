@@ -40,7 +40,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     public Farm(FarmGame farmGame) {
         this.farmGame = farmGame;
         barnRectangle = new Rectangle(100, 50, 300,240);
-        shopRectangle = new Rectangle(1000,-80,300,300);
+        shopRectangle = new Rectangle(1050,-10,200,300);
         box = new Rectangle(-40, 150, 1320,450);
         moving = false;
         currentFrame = 0;
@@ -84,30 +84,35 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         for (int r = 0; r < farmPlots.getPlots().size(); r++){
             for (int c = 0; c < farmPlots.getPlots().get(r).size(); c++){
                 g.drawImage(plotLand, 80+(64*c), 450+(64*r), null);
-                if (farmPlots.getPlots().get(r).get(c).getCrop().equals("Rice")) {
-                    int sx1 = 10 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel()*48;
-                    int sy1 = 3 * spriteHeight;
-                    int dx1 = 90 + (64 * c);
-                    int dy1 = 450 + (64 * r);
-                    g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
-                } else if (farmPlots.getPlots().get(r).get(c).getCrop().equals("Potatoes")) {
-                    int sx1 = 5 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel()*48;
-                    int sy1 = 7 * spriteHeight;
-                    int dx1 = 90 + (64 * c);
-                    int dy1 = 450 + (64 * r);
-                    g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
-                }else if (farmPlots.getPlots().get(r).get(c).getCrop().equals("Wheat")) {
-                    int sx1 = 5 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel()*48;
-                    int sy1 = 5 * spriteHeight;
-                    int dx1 = 90 + (64 * c);
-                    int dy1 = 450 + (64 * r);
-                    g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
-                }else if (farmPlots.getPlots().get(r).get(c).getCrop().equals("Mandarin")) {
-                    int sx1 = 5 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel() * 48;
-                    int sy1 = 8 * spriteHeight;
-                    int dx1 = 85 + (64 * c);
-                    int dy1 = 450 + (64 * r);
-                    g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
+                switch (farmPlots.getPlots().get(r).get(c).getCrop()) {
+                    case "Rice" -> {
+                        int sx1 = 10 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel() * 48;
+                        int sy1 = 3 * spriteHeight;
+                        int dx1 = 90 + (64 * c);
+                        int dy1 = 450 + (64 * r);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
+                    }
+                    case "Potatoes" -> {
+                        int sx1 = 5 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel() * 48;
+                        int sy1 = 7 * spriteHeight;
+                        int dx1 = 90 + (64 * c);
+                        int dy1 = 450 + (64 * r);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
+                    }
+                    case "Wheat" -> {
+                        int sx1 = 5 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel() * 48;
+                        int sy1 = 5 * spriteHeight;
+                        int dx1 = 90 + (64 * c);
+                        int dy1 = 450 + (64 * r);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
+                    }
+                    case "Mandarin" -> {
+                        int sx1 = 5 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel() * 48;
+                        int sy1 = 8 * spriteHeight;
+                        int dx1 = 85 + (64 * c);
+                        int dy1 = 450 + (64 * r);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
+                    }
                 }
             }
         }
@@ -149,24 +154,27 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
 
     @Override
     public void keyPressed(KeyEvent e) {
-        moving = true;
         int Xchange = 0;
         int Ychange = 0;
 
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
+                moving = true;
                 Ychange -= 10;
                 direction = 0;
                 break;
             case KeyEvent.VK_DOWN:
+                moving = true;
                 Ychange += 10;
                 direction = 2;
                 break;
             case KeyEvent.VK_LEFT:
+                moving = true;
                 Xchange -= 10;
                 direction = 3;
                 break;
             case KeyEvent.VK_RIGHT:
+                moving = true;
                 Xchange += 10;
                 direction = 1;
                 break;
@@ -178,15 +186,27 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         repaint();
         if (collidesWithBarn(farmerX, farmerY)){
             farmGame.showBarn();
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException x) {
+                x.printStackTrace();
+            }
             farmerX = 170;
             farmerY = 300;
             direction = 2;
+            moving = false;
         }
         if (collidesWithShop(farmerX, farmerY)){
             farmGame.showShop();
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException x) {
+                x.printStackTrace();
+            }
             farmerX = 1000;
             farmerY = 300;
             direction = 2;
+            moving = false;
         }
     }
     @Override
@@ -209,5 +229,15 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     @Override
     public void mouseExited(MouseEvent e) {
         moving = false;
+    }
+    public ArrayList<ArrayList<Crop>> getPlots() {
+        return farmPlots.getPlots();
+    }
+
+    public int getFarmerX(){
+        return farmerX;
+    }
+    public int getFarmerY(){
+        return farmerY;
     }
 }
