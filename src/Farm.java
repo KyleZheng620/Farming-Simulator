@@ -28,6 +28,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private BufferedImage shop;
     private FarmGame farmGame;
     private Rectangle barnRectangle;
+    private Rectangle shopRectangle;
     private FarmLand farmPlots;
     private Farmer player;
     private int direction;
@@ -39,6 +40,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     public Farm(FarmGame farmGame) {
         this.farmGame = farmGame;
         barnRectangle = new Rectangle(100, 50, 300,240);
+        shopRectangle = new Rectangle(1000,-80,300,300);
         box = new Rectangle(-40, 150, 1320,450);
         moving = false;
         currentFrame = 0;
@@ -137,46 +139,27 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     @Override
     public void keyTyped(KeyEvent e) { }
 
-    private boolean WithinTheBarn(int x, int y) {
-        return box.contains(x,y);
-    }
-
     @Override
     public void keyPressed(KeyEvent e) {
         moving = true;
-        int Xchange = 0;
-        int Ychange = 0;
-
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
-                Ychange -= 10;
-                System.out.println("X: " + farmerX + " Y: " + farmerY);
+                farmerY -= 10;
                 direction = 0;
                 break;
             case KeyEvent.VK_DOWN:
-                Ychange += 10;
-                System.out.println("X: " + farmerX + " Y: " + farmerY);
+                farmerY += 10;
                 direction = 2;
                 break;
             case KeyEvent.VK_LEFT:
-                Xchange -= 10;
-                System.out.println("X: " + farmerX + " Y: " + farmerY);
+                farmerX -= 10;
                 direction = 3;
                 break;
             case KeyEvent.VK_RIGHT:
-                Xchange += 10;
-                System.out.println("X: " + farmerX + " Y: " + farmerY);
+                farmerX += 10;
                 direction = 1;
                 break;
         }
-        System.out.println(WithinTheBarn(farmerX + Xchange, farmerY + Ychange));
-        if (WithinTheBarn(farmerX + Xchange, farmerY + Ychange)) {
-            farmerY += Ychange;
-            farmerX += Xchange;
-        } else {
-            System.out.println("out of bounds");
-        }
-
         repaint();
         if (collidesWithBarn(farmerX, farmerY)){
             farmGame.showBarn();
