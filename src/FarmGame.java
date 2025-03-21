@@ -24,7 +24,6 @@ public class FarmGame extends JFrame{
         mainPanel.add(transitionPanel, "TRANSITION");
 
         add(mainPanel);
-        gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
         setTitle("Farming Simulator");
         setSize(1920, 1080);
