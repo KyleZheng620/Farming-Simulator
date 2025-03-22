@@ -21,7 +21,6 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private int farmerY;
     private BufferedImage farmer;
     private BufferedImage farmerIdle;
-    private BufferedImage plotLand;
     private BufferedImage spriteSheet;
     private BufferedImage background;
     private BufferedImage barn;
@@ -59,7 +58,6 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
             barn = ImageIO.read(new File("src\\Barn.png"));
             farmer = ImageIO.read(new File("src\\farmer.png"));
             farmerIdle = ImageIO.read(new File("src\\farmer_idle.png"));
-            plotLand = ImageIO.read(new File("src\\plotLand.png"));
             spriteSheet = ImageIO.read(new File("src\\crop_spritesheet-1.png-2.png"));
             shop = ImageIO.read(new File("src/ShopOutside.png"));
 
@@ -83,34 +81,33 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         int spriteHeight = 48;
         for (int r = 0; r < farmPlots.getPlots().size(); r++){
             for (int c = 0; c < farmPlots.getPlots().get(r).size(); c++){
-                g.drawImage(plotLand, 80+(64*c), 450+(64*r), null);
                 switch (farmPlots.getPlots().get(r).get(c).getCrop()) {
                     case "Rice" -> {
-                        int sx1 = 10 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel() * 48;
-                        int sy1 = 3 * spriteHeight;
-                        int dx1 = 90 + (64 * c);
+                        int sx1 = 11 * spriteWidth - (4- farmPlots.getPlots().get(r).get(c).getGrowthTime()) * 48;
+                        int sy1 = 4 * spriteHeight;
+                        int dx1 = 30 + (64 * c);
                         int dy1 = 450 + (64 * r);
                         g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                     }
                     case "Potatoes" -> {
-                        int sx1 = 5 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel() * 48;
+                        int sx1 = 5 * spriteWidth - (4- farmPlots.getPlots().get(r).get(c).getGrowthTime()) * 48;
                         int sy1 = 7 * spriteHeight;
-                        int dx1 = 90 + (64 * c);
+                        int dx1 = 20 + (64 * c);
                         int dy1 = 450 + (64 * r);
                         g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                     }
                     case "Wheat" -> {
-                        int sx1 = 5 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel() * 48;
+                        int sx1 = 5 * spriteWidth - (4- farmPlots.getPlots().get(r).get(c).getGrowthTime()) * 48;
                         int sy1 = 5 * spriteHeight;
-                        int dx1 = 90 + (64 * c);
+                        int dx1 = 20 + (64 * c);
                         int dy1 = 450 + (64 * r);
                         g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                     }
                     case "Mandarin" -> {
-                        int sx1 = 5 * spriteWidth - farmPlots.getPlots().get(r).get(c).getWaterLevel() * 48;
+                        int sx1 = 5 * spriteWidth - (4- farmPlots.getPlots().get(r).get(c).getGrowthTime()) * 48;
                         int sy1 = 8 * spriteHeight;
-                        int dx1 = 85 + (64 * c);
-                        int dy1 = 450 + (64 * r);
+                        int dx1 = 30 + (64 * c);
+                        int dy1 = 455 + (64 * r);
                         g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                     }
                 }
@@ -158,22 +155,22 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         int Ychange = 0;
 
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP:
+            case KeyEvent.VK_W:
                 moving = true;
                 Ychange -= 10;
                 direction = 0;
                 break;
-            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
                 moving = true;
                 Ychange += 10;
                 direction = 2;
                 break;
-            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_A:
                 moving = true;
                 Xchange -= 10;
                 direction = 3;
                 break;
-            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
                 moving = true;
                 Xchange += 10;
                 direction = 1;

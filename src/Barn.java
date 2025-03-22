@@ -74,28 +74,33 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
 
     @Override
     public void keyPressed(KeyEvent e) {
+        int Xchange = 0;
+        int Ychange = 0;
+
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP:
+            case KeyEvent.VK_W:
                 moving = true;
-                farmerY -= 10;
+                Ychange -= 10;
                 direction = 0;
                 break;
-            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
                 moving = true;
-                farmerY += 10;
+                Ychange += 10;
                 direction = 2;
                 break;
-            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_A:
                 moving = true;
-                farmerX -= 10;
+                Xchange -= 10;
                 direction = 3;
                 break;
-            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
                 moving = true;
-                farmerX += 10;
+                Xchange += 10;
                 direction = 1;
                 break;
-        }
+        };
+        farmerY += Ychange;
+        farmerX += Xchange;
         repaint();
         if (collidesWithDoor(farmerX, farmerY)){
             farmGame.showFarm();

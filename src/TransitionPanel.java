@@ -15,7 +15,6 @@ public class TransitionPanel extends JPanel {
     private BufferedImage farmerIdle;
     private BufferedImage shopInside;
     private BufferedImage shopInside2;
-    private BufferedImage plotLand;
     private BufferedImage spriteSheet;
     private BufferedImage farm;
     private BufferedImage barn;
@@ -33,7 +32,6 @@ public class TransitionPanel extends JPanel {
             shopInside2 = ImageIO.read(new File("src/ShopInside 2.png"));
             barnInside = ImageIO.read(new File("src\\BarnInside.png"));
             farmerIdle = ImageIO.read(new File("src\\farmer_idle.png"));
-            plotLand = ImageIO.read(new File("src\\plotLand.png"));
             spriteSheet = ImageIO.read(new File("src\\crop_spritesheet-1.png-2.png"));
             shop = ImageIO.read(new File("src/ShopOutside.png"));
 
@@ -51,7 +49,6 @@ public class TransitionPanel extends JPanel {
             farm = ImageIO.read(new File("src\\background.png"));
             barn = ImageIO.read(new File("src\\Barn.png"));
             farmerIdle = ImageIO.read(new File("src\\farmer_idle.png"));
-            plotLand = ImageIO.read(new File("src\\plotLand.png"));
             spriteSheet = ImageIO.read(new File("src\\crop_spritesheet-1.png-2.png"));
             shop = ImageIO.read(new File("src/ShopOutside.png"));
 
@@ -71,33 +68,32 @@ public class TransitionPanel extends JPanel {
             int spriteHeight = 48;
             for (int r = 0; r < farmPlots.size(); r++){
                 for (int c = 0; c < farmPlots.get(r).size(); c++){
-                    g.drawImage(plotLand, 80+(64*c), 450+(64*r), null);
                     switch (farmPlots.get(r).get(c).getCrop()) {
                         case "Rice" -> {
-                            int sx1 = 10 * spriteWidth - farmPlots.get(r).get(c).getWaterLevel() * 48;
-                            int sy1 = 3 * spriteHeight;
-                            int dx1 = 90 + (64 * c);
+                            int sx1 = 10 * spriteWidth - (4- farmPlots.get(r).get(c).getGrowthTime()) * 48;
+                            int sy1 = 4 * spriteHeight;
+                            int dx1 = 30 + (64 * c);
                             int dy1 = 450 + (64 * r);
                             g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                         }
                         case "Potatoes" -> {
-                            int sx1 = 5 * spriteWidth - farmPlots.get(r).get(c).getWaterLevel() * 48;
+                            int sx1 = 5 * spriteWidth - (4- farmPlots.get(r).get(c).getGrowthTime()) * 48;
                             int sy1 = 7 * spriteHeight;
-                            int dx1 = 90 + (64 * c);
+                            int dx1 = 20 + (64 * c);
                             int dy1 = 450 + (64 * r);
                             g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                         }
                         case "Wheat" -> {
-                            int sx1 = 5 * spriteWidth - farmPlots.get(r).get(c).getWaterLevel() * 48;
+                            int sx1 = 5 * spriteWidth - (4- farmPlots.get(r).get(c).getGrowthTime()) * 48;
                             int sy1 = 5 * spriteHeight;
-                            int dx1 = 90 + (64 * c);
-                            int dy1 = 450 + (64 * r);
+                            int dx1 = 20 + (64 * c);
+                            int dy1 = 455 + (64 * r);
                             g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                         }
                         case "Mandarin" -> {
-                            int sx1 = 5 * spriteWidth - farmPlots.get(r).get(c).getWaterLevel() * 48;
+                            int sx1 = 5 * spriteWidth - (4- farmPlots.get(r).get(c).getGrowthTime()) * 48;
                             int sy1 = 8 * spriteHeight;
-                            int dx1 = 85 + (64 * c);
+                            int dx1 = 30 + (64 * c);
                             int dy1 = 450 + (64 * r);
                             g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                         }
