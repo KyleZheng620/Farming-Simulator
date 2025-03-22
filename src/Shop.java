@@ -12,6 +12,9 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
     private FarmGame farmGame;
     private BufferedImage farmer;
     private BufferedImage farmerIdle;
+    private BufferedImage sign;
+    private Font customFont;
+    private Farmer player;
     private boolean moving;
     private int direction;
     private int farmerX;
@@ -19,10 +22,12 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
     private int currentFrame;
     private Rectangle doorRectangle;
 
-    public Shop(FarmGame farmGame) {
+    public Shop(FarmGame farmGame, Farmer player) {
         this.farmGame = farmGame;
+        this.player = player;
         doorRectangle = new Rectangle(900, 950, 50,30);
 
+        customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 30f);
         moving = false;
         currentFrame = 0;
         farmerX = 890;
@@ -33,10 +38,11 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
         timer.start();
 
         try {
-            shopInside = ImageIO.read(new File("src/ShopInside.png"));
-            shopInside2 = ImageIO.read(new File("src/ShopInside 2.png"));
-            farmer = ImageIO.read(new File("src\\farmer.png"));
-            farmerIdle = ImageIO.read(new File("src\\farmer_idle.png"));
+            sign = ImageIO.read(new File("src/Sprites/Sign.png"));
+            shopInside = ImageIO.read(new File("src/Sprites/ShopInside.png"));
+            shopInside2 = ImageIO.read(new File("src/Sprites/ShopInside 2.png"));
+            farmer = ImageIO.read(new File("src/Sprites/farmer.png"));
+            farmerIdle = ImageIO.read(new File("src/Sprites/farmer_idle.png"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -48,7 +54,12 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setFont(customFont);
+        g2d.setColor(new Color(56, 23,0));
         g.drawImage(shopInside, 0, 0, null);
+        g.drawImage(sign, 1650,10,null);
+        g2d.drawString("DAY  " + player.getDay(), 1700, 60);
         int fx1 = direction * 128;
         int fy1 = currentFrame * 128;
         int fx2 = fx1 + 128;

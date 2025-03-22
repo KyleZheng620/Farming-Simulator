@@ -19,12 +19,14 @@ import java.util.ArrayList;
 public class Farm extends JPanel implements KeyListener, MouseListener, ActionListener {
     private int farmerX;
     private int farmerY;
+    private Font customFont;
     private BufferedImage farmer;
     private BufferedImage farmerIdle;
     private BufferedImage spriteSheet;
     private BufferedImage background;
     private BufferedImage barn;
     private BufferedImage shop;
+    private BufferedImage sign;
     private FarmGame farmGame;
     private Rectangle barnRectangle;
     private Rectangle shopRectangle;
@@ -36,8 +38,9 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private Rectangle box;
 
 
-    public Farm(FarmGame farmGame) {
+    public Farm(FarmGame farmGame, Farmer player) {
         this.farmGame = farmGame;
+        customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 30f);
         barnRectangle = new Rectangle(100, 50, 300,240);
         shopRectangle = new Rectangle(1050,-10,200,300);
         box = new Rectangle(-40, 150, 1320,450);
@@ -47,19 +50,20 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         farmerY = 300;
         direction = 0;
 
-        player = new Farmer();
+        this.player = player;
         farmPlots = new FarmLand(player);
 
         Timer timer = new Timer(150, this);
         timer.start();
 
         try {
-            background = ImageIO.read(new File("src\\background.png"));
-            barn = ImageIO.read(new File("src\\Barn.png"));
-            farmer = ImageIO.read(new File("src\\farmer.png"));
-            farmerIdle = ImageIO.read(new File("src\\farmer_idle.png"));
-            spriteSheet = ImageIO.read(new File("src\\crop_spritesheet-1.png-2.png"));
-            shop = ImageIO.read(new File("src/ShopOutside.png"));
+            sign = ImageIO.read(new File("src/Sprites/Sign.png"));
+            background = ImageIO.read(new File("src/Sprites/background.png"));
+            barn = ImageIO.read(new File("src/Sprites/Barn.png"));
+            farmer = ImageIO.read(new File("src/Sprites/farmer.png"));
+            farmerIdle = ImageIO.read(new File("src/Sprites/farmer_idle.png"));
+            spriteSheet = ImageIO.read(new File("src/Sprites/crop_spritesheet-1.png-2.png"));
+            shop = ImageIO.read(new File("src/Sprites/ShopOutside.png"));
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -74,6 +78,9 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setFont(customFont);
+        g2d.setColor(new Color(56, 23,0));
         g.drawImage(background, 0, 0, null);
         g.drawImage(barn, 30,50,null);
         g.drawImage(shop, 900,-80, null);
@@ -113,6 +120,9 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
                 }
             }
         }
+
+        g.drawImage(sign, 1650,10,null);
+        g2d.drawString("DAY  " + player.getDay(), 1700, 60);
 
         int fx1 = direction * 128;
         int fy1 = currentFrame * 128;
@@ -182,7 +192,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         }
         repaint();
         if (collidesWithBarn(farmerX, farmerY)){
-            farmGame.showBarn();
+            farmGame.showBarn(false);
             try {
                 Thread.sleep(20);
             } catch (InterruptedException x) {
