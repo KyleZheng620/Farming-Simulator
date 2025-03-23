@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.ArrayList;
 
 
@@ -43,6 +42,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     ArrayList<int[]> SnowFlakesList;
     SnowFlake e;
 
+
     public Farm(FarmGame farmGame, Farmer player) {
         this.farmGame = farmGame;
         customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 30f);
@@ -61,7 +61,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         this.player = player;
         farmPlots = new FarmLand(player);
 
-        Timer timer = new Timer(100, this);
+        Timer timer = new Timer(150, this);
         timer.start();
 
         try {
@@ -208,6 +208,9 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         int Xchange = 0;
         int Ychange = 0;
 
+        if (e.getKeyCode() == KeyEvent.VK_E){
+            farmGame.toggleInventory("Farm");
+        }
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
                 moving = true;

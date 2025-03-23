@@ -9,11 +9,20 @@ public class FarmGame extends JFrame{
     private Shop shopPanel;
     private Farmer player;
     private TransitionPanel transitionPanel;
+    private Inventory inventory;
+    private InventoryPanel inventoryPanel;
 
     public FarmGame() {
-        player = new Farmer();
+        inventory = new Inventory();
+
+        player = new Farmer(inventory);
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
+        inventoryPanel = new InventoryPanel(inventory, this, player);
+        inventory.addItem("Rice seeds", 10);
+        inventory.addItem("Wheat seeds", 5);
+        inventory.addItem("Potato seeds", 3);
+        inventory.addItem("Mandarin seeds", 3);
 
         farmPanel = new Farm(this, player);
         barnPanel = new Barn(this, player);
@@ -23,6 +32,7 @@ public class FarmGame extends JFrame{
         mainPanel.add(farmPanel, "Farm");
         mainPanel.add(barnPanel, "Barn");
         mainPanel.add(shopPanel, "Shop");
+        mainPanel.add(inventoryPanel, "Inventory");
         mainPanel.add(transitionPanel, "TRANSITION");
 
         add(mainPanel);
@@ -30,11 +40,24 @@ public class FarmGame extends JFrame{
         setTitle("Farming Simulator");
         setSize(1920, 1080);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
         setVisible(true);
     }
 
 
-
+    public void showBarn(int a){
+        cardLayout.show(mainPanel, "Barn");
+        barnPanel.requestFocusInWindow();
+    }
+    public void showFarm(int a){
+        cardLayout.show(mainPanel, "Farm");
+        farmPanel.requestFocusInWindow();
+    }
+    public void showShop(int a){
+        cardLayout.show(mainPanel, "Shop");
+        shopPanel.requestFocusInWindow();
+    }
 
     public void showBarn(boolean sleeping){
         new Thread(() -> {
@@ -114,4 +137,8 @@ public class FarmGame extends JFrame{
         }).start();
     }
 
+    public void toggleInventory(String panel){
+        cardLayout.show(mainPanel, "Inventory");
+        inventoryPanel.panel(panel);
+    }
 }

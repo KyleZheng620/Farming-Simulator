@@ -88,6 +88,9 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_E){
+            farmGame.toggleInventory("Shop");
+        }
         int Xchange = 0;
         int Ychange = 0;
 
