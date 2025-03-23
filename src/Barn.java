@@ -131,10 +131,10 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
             } catch (InterruptedException x) {
                 x.printStackTrace();
             }
+            moving = false;
             farmerX = 840;
             farmerY = 920;
             direction = 0;
-            moving = false;
         }
         if (collidesWithBed(farmerX, farmerY)){
             farmGame.showBarn(true);

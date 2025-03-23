@@ -17,6 +17,7 @@ public class TransitionPanel extends JPanel {
     private BufferedImage shopInside;
     private BufferedImage shopInside2;
     private BufferedImage spriteSheet;
+    private BufferedImage snowbackground;
     private BufferedImage farm;
     private BufferedImage barn;
     private BufferedImage shop;
@@ -39,6 +40,7 @@ public class TransitionPanel extends JPanel {
             sign = ImageIO.read(new File("src/Sprites/Sign.png"));
             farm = ImageIO.read(new File("src/Sprites/background.png"));
             barn = ImageIO.read(new File("src/Sprites/Barn.png"));
+            snowbackground = ImageIO.read(new File("src/Sprites/SnowBackGround.png"));
             shopInside = ImageIO.read(new File("src/Sprites/ShopInside.png"));
             shopInside2 = ImageIO.read(new File("src/Sprites/ShopInside 2.png"));
             barnInside = ImageIO.read(new File("src/Sprites/BarnInside.png"));
@@ -60,6 +62,7 @@ public class TransitionPanel extends JPanel {
             sign = ImageIO.read(new File("src/Sprites/Sign.png"));
             farm = ImageIO.read(new File("src/Sprites/background.png"));
             barn = ImageIO.read(new File("src/Sprites/Barn.png"));
+            snowbackground = ImageIO.read(new File("src/Sprites/SnowBackGround.png"));
             shopInside = ImageIO.read(new File("src/Sprites/ShopInside.png"));
             shopInside2 = ImageIO.read(new File("src/Sprites/ShopInside 2.png"));
             barnInside = ImageIO.read(new File("src/Sprites/BarnInside.png"));
@@ -81,6 +84,7 @@ public class TransitionPanel extends JPanel {
         try {
             farm = ImageIO.read(new File("src/Sprites/background.png"));
             barn = ImageIO.read(new File("src/Sprites/Barn.png"));
+            snowbackground = ImageIO.read(new File("src/Sprites/SnowBackGround.png"));
             farmerIdle = ImageIO.read(new File("src/Sprites/farmer_idle.png"));
             spriteSheet = ImageIO.read(new File("src/Sprites/crop_spritesheet-1.png-2.png"));
             shop = ImageIO.read(new File("src/Sprites/ShopOutside.png"));
@@ -98,7 +102,11 @@ public class TransitionPanel extends JPanel {
         g2d.setFont(customFont);
         g2d.setColor(new Color(56, 23,0));
         if (card.equals("Farm")){
-            g.drawImage(farm, 0, 0, null);
+            if (player.getCurrentWeather().equals("Snowy")) {
+                g.drawImage(snowbackground,0,0,null);
+            } else {
+                g.drawImage(farm, 0, 0, null);
+            }
             g.drawImage(barn, 30,50,null);
             g.drawImage(shop, 900,-80, null);
             int spriteWidth = 48;
