@@ -30,6 +30,8 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private BufferedImage barn;
     private BufferedImage shop;
     private BufferedImage sign;
+    private BufferedImage farmerRain;
+    private BufferedImage farmerRainIdle;
     private FarmGame farmGame;
     private Rectangle barnRectangle;
     private Rectangle shopRectangle;
@@ -78,6 +80,8 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
             barn = ImageIO.read(new File("src/Sprites/Barn.png"));
             farmer = ImageIO.read(new File("src/Sprites/farmer.png"));
             farmerIdle = ImageIO.read(new File("src/Sprites/farmer_idle.png"));
+            farmerRain = ImageIO.read(new File("src/Sprites/farmerRain.png"));
+            farmerRainIdle = ImageIO.read(new File("src/Sprites/farmerRainIdle.png"));
             spriteSheet = ImageIO.read(new File("src/Sprites/crop_spritesheet-1.png-2.png"));
             shop = ImageIO.read(new File("src/Sprites/ShopOutside.png"));
 
@@ -138,7 +142,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
                 int locationX = (int)rain.getX();
                 int locationY = (int)rain.getY();
                 g2d.setStroke(new BasicStroke(2));
-                g2d.setColor(Color.blue);
+                g2d.setColor(new Color(101,123,180));
                 g2d.fill(rain);
                 g2d.draw(rain);
                 rain.setBounds(locationX,locationY + 10, 3, 20);
@@ -196,12 +200,19 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         int fy1 = currentFrame * 128;
         int fx2 = fx1 + 128;
         int fy2 = fy1 + 128;
-        if (moving){
-            g.drawImage(farmer, farmerX, farmerY, farmerX + 128, farmerY + 128, fx1, fy1, fx2, fy2, this);
+        if (!player.getCurrentWeather().equals("Rain")){
+            if (moving){
+                g.drawImage(farmer, farmerX, farmerY, farmerX + 128, farmerY + 128, fx1, fy1, fx2, fy2, this);
+            } else {
+                g.drawImage(farmerIdle, farmerX, farmerY, farmerX + 128, farmerY + 128, fx1, fy1, fx2, fy2, this);
+            }
         } else {
-            g.drawImage(farmerIdle, farmerX, farmerY, farmerX + 128, farmerY + 128, fx1, fy1, fx2, fy2, this);
+            if (moving) {
+                g.drawImage(farmerRain, farmerX, farmerY, farmerX + 128, farmerY + 128, fx1, fy1, fx2, fy2, this);
+            } else {
+                g.drawImage(farmerRainIdle, farmerX, farmerY, farmerX + 128, farmerY + 128, fx1, fy1, fx2, fy2, this);
+            }
         }
-
     }
 
     private boolean collidesWithBarn(int x, int y){
@@ -261,7 +272,6 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
             farmerY += Ychange;
             farmerX += Xchange;
         }
-        System.out.println("X: " + farmerX  + " Y: " + farmerY);
         repaint();
         if (collidesWithBarn(farmerX, farmerY)){
             farmGame.showBarn(false);

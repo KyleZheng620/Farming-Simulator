@@ -140,7 +140,6 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
             farmerY += Ychange;
             farmerX += Xchange;
         }
-        System.out.println("X: " + farmerX  + " Y: " + farmerY);
 
         repaint();
         if (collidesWithDoor(farmerX, farmerY)){
