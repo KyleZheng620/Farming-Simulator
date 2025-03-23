@@ -140,7 +140,6 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
             farmerX += Xchange;
         }
 
-        System.out.println("X: " + farmerX  + " Y: " + farmerY);
         repaint();
         if (collidesWithDoor(farmerX, farmerY)){
             farmGame.showFarm();
