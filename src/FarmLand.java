@@ -23,6 +23,14 @@ public class FarmLand {
         plots.get(3).add(soil);
     }
 
+    public void DayPass() {
+        for (ArrayList<Crop> row: plots) {
+            for (Crop e : row) {
+                e.dayPass(player.getCurrentWeather());
+            }
+        }
+    }
+
     public boolean buyPlot(){
         if (player.getMoney() < plotPrice){
             return false;

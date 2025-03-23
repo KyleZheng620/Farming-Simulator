@@ -36,7 +36,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private boolean moving;
     private int currentFrame;
     private Rectangle box;
-
+    private int day = 1;
 
     public Farm(FarmGame farmGame, Farmer player) {
         this.farmGame = farmGame;
@@ -81,7 +81,12 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         Graphics2D g2d = (Graphics2D) g;
         g2d.setFont(customFont);
         g2d.setColor(new Color(56, 23,0));
-        g.drawImage(background, 0, 0, null);
+        if (player.getCurrentWeather().equals("Snowy")) {
+
+        } else {
+            g.drawImage(background, 0, 0, null);
+        }
+
         g.drawImage(barn, 30,50,null);
         g.drawImage(shop, 900,-80, null);
         int spriteWidth = 48;
