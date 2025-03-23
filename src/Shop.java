@@ -1,3 +1,5 @@
+import org.w3c.dom.css.Rect;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -21,11 +23,24 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
     private int farmerY;
     private int currentFrame;
     private Rectangle doorRectangle;
+    private Rectangle box;
+    private Rectangle box2;
+    private Rectangle C_box;
+    private Rectangle C_box2;
+    private Rectangle C_box3;
+    private Rectangle C_box4;
 
     public Shop(FarmGame farmGame, Farmer player) {
         this.farmGame = farmGame;
         this.player = player;
         doorRectangle = new Rectangle(900, 950, 50,30);
+        box = new Rectangle(860, 690, 60,150);
+        box2 = new Rectangle(530,510,670,180);
+
+        C_box = new Rectangle(1060,540,110, 120);
+        C_box2 = new Rectangle(910,540,110,120);
+        C_box3 = new Rectangle(530,460,190,  90);
+        C_box4 = new Rectangle(750,600,160,70);
 
         customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 30f);
         moving = false;
@@ -72,6 +87,9 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
         g.drawImage(shopInside2, 0, 0, null);
     }
 
+    private boolean WithinShop (int x, int y) {
+        return (box.contains(x,y) || box2.contains(x,y) && !C_box.contains(x,y) && !C_box2.contains(x,y) && !C_box3.contains(x,y) && !C_box4.contains(x,y));
+    }
 
     private boolean collidesWithDoor(int x, int y){
         Rectangle player = new Rectangle(x,y,128,128);
@@ -116,8 +134,11 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
                 direction = 1;
                 break;
         };
-        farmerY += Ychange;
-        farmerX += Xchange;
+        if (WithinShop(farmerX + Xchange, farmerY + Ychange)) {
+            farmerY += Ychange;
+            farmerX += Xchange;
+        }
+
         repaint();
         if (collidesWithDoor(farmerX, farmerY)){
             farmGame.showFarm();
