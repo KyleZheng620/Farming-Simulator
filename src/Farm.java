@@ -108,7 +108,6 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
                 if (Math.random() < 0.1) {
                     SnowFlakesList.add(e.getXandY((int)(Math.random()*10)));
                 }
-
             }
             for (int i = 0; i < SnowFlakesList.size(); i++) {
                 int[] list = SnowFlakesList.get(i);
@@ -125,6 +124,8 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
                     i--;
                 }
             }
+        } else if (player.getCurrentWeather().equals("Rain")) {
+            
         }
 
 

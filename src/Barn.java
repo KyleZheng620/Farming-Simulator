@@ -21,18 +21,29 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
     private int currentFrame;
     private Rectangle doorRectangle;
     private Rectangle bedRectangle;
+    private Rectangle box;
+    private Rectangle box2;
+    private Rectangle box3;
+    private Rectangle box4;
 
     public Barn(FarmGame farmGame, Farmer player) {
         this.farmGame = farmGame;
         this.player = player;
         doorRectangle = new Rectangle(830, 1050, 50,30);
         bedRectangle = new Rectangle(940, 140, 30,40);
+        box = new Rectangle(810,630,70,310);
+        box2 = new Rectangle(870,620,240,220);
+        box3 = new Rectangle(1060,80,50,560);
+        box4 = new Rectangle(740,90,370,200);
+
         customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 30f);
         moving = false;
         currentFrame = 0;
         farmerX = 840;
         farmerY = 920;
         direction = 0;
+
+
 
         Timer timer = new Timer(150, this);
         timer.start();
@@ -70,6 +81,10 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
         }
 
 
+    }
+
+    private boolean WithinBarn (int x, int y) {
+        return (box.contains(x,y) || box2.contains(x,y) ||box3.contains(x,y) ||box4.contains(x,y));
     }
 
     private boolean collidesWithBed(int x, int y){
@@ -120,9 +135,12 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
                 direction = 1;
                 break;
         };
+        if (WithinBarn(farmerX + Xchange, farmerY + Ychange)) {
+            farmerY += Ychange;
+            farmerX += Xchange;
+        }
 
-        farmerY += Ychange;
-        farmerX += Xchange;
+        System.out.println("X: " + farmerX  + " Y: " + farmerY);
         repaint();
         if (collidesWithDoor(farmerX, farmerY)){
             farmGame.showFarm();

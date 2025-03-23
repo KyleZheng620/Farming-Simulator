@@ -25,6 +25,7 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
     private Rectangle doorRectangle;
     private Rectangle box;
     private Rectangle box2;
+    private Rectangle box3;
     private Rectangle C_box;
     private Rectangle C_box2;
     private Rectangle C_box3;
@@ -36,6 +37,7 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
         doorRectangle = new Rectangle(900, 950, 50,30);
         box = new Rectangle(860, 690, 60,150);
         box2 = new Rectangle(530,510,670,180);
+        box3 = new Rectangle(740,680,120,70);
 
         C_box = new Rectangle(1060,540,110, 120);
         C_box2 = new Rectangle(910,540,110,120);
@@ -88,7 +90,7 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
     }
 
     private boolean WithinShop (int x, int y) {
-        return (box.contains(x,y) || box2.contains(x,y) && !C_box.contains(x,y) && !C_box2.contains(x,y) && !C_box3.contains(x,y) && !C_box4.contains(x,y));
+        return (box.contains(x,y) || box2.contains(x,y) || box3.contains(x,y) && !C_box.contains(x,y) && !C_box2.contains(x,y) && !C_box3.contains(x,y) && !C_box4.contains(x,y));
     }
 
     private boolean collidesWithDoor(int x, int y){
@@ -138,6 +140,7 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
             farmerY += Ychange;
             farmerX += Xchange;
         }
+        System.out.println("X: " + farmerX  + " Y: " + farmerY);
 
         repaint();
         if (collidesWithDoor(farmerX, farmerY)){
