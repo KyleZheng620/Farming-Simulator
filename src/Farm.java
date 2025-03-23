@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.util.ArrayList;
 
 
@@ -38,8 +39,10 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private boolean moving;
     private int currentFrame;
     private Rectangle box;
+    private Rectangle C_box;
     private int day = 1;
     ArrayList<int[]> SnowFlakesList;
+    ArrayList<Rectangle> RainDropList;
     SnowFlake e;
 
 
@@ -49,6 +52,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         barnRectangle = new Rectangle(100, 50, 300,240);
         shopRectangle = new Rectangle(1050,-10,200,300);
         box = new Rectangle(-40, 150, 1320,450);
+        C_box = new Rectangle(-40,360,1180,230);
         moving = false;
         currentFrame = 0;
         farmerX = 170;
@@ -57,6 +61,8 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
 
         SnowFlakesList = new ArrayList<>();
         e = new SnowFlake();
+
+        RainDropList = new ArrayList<>();
 
         this.player = player;
         farmPlots = new FarmLand(player);
@@ -89,8 +95,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setFont(customFont);
-        g2d.setColor(new Color(56, 23,0));
+
 
         if (player.getCurrentWeather().equals("Snowy")) {
             g.drawImage(snowbackground,0,0,null);
@@ -102,9 +107,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         g.drawImage(shop, 900,-80, null);
 
         if (player.getCurrentWeather().equals("Snowy")) {
-            if (SnowFlakesList.size() >= 20) {
-
-            } else {
+            if (!(SnowFlakesList.size() >= 20)) {
                 if (Math.random() < 0.1) {
                     SnowFlakesList.add(e.getXandY((int)(Math.random()*10)));
                 }
@@ -125,7 +128,26 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
                 }
             }
         } else if (player.getCurrentWeather().equals("Rain")) {
-            
+            if (!(RainDropList.size() >= 60)) {
+                if (Math.random() < 0.3) {
+                    RainDropList.add(new Rectangle((int)(Math.random() * 1920),0,3,20));
+                }
+            }
+            for (int i = 0; i < RainDropList.size(); i++) {
+                Rectangle rain = RainDropList.get(i);
+                int locationX = (int)rain.getX();
+                int locationY = (int)rain.getY();
+                g2d.setStroke(new BasicStroke(2));
+                g2d.setColor(Color.blue);
+                g2d.fill(rain);
+                g2d.draw(rain);
+                rain.setBounds(locationX,locationY + 10, 3, 20);
+                if (rain.getY() >= 1080) {
+                    RainDropList.remove(rain);
+                    i--;
+                }
+            }
+
         }
 
 
@@ -165,7 +187,8 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
                 }
             }
         }
-
+        g2d.setFont(customFont);
+        g2d.setColor(new Color(56, 23,0));
         g.drawImage(sign, 1650,10,null);
         g2d.drawString("DAY  " + player.getDay(), 1700, 60);
 
@@ -201,7 +224,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     public void keyTyped(KeyEvent e) { }
 
     private boolean WithinTheBarn(int x, int y) {
-        return box.contains(x,y);
+        return box.contains(x,y) && !C_box.contains(x,y);
     }
 
     @Override
@@ -238,6 +261,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
             farmerY += Ychange;
             farmerX += Xchange;
         }
+        System.out.println("X: " + farmerX  + " Y: " + farmerY);
         repaint();
         if (collidesWithBarn(farmerX, farmerY)){
             farmGame.showBarn(false);

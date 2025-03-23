@@ -3,12 +3,10 @@ public class Weather {
     }
     public String changeWeather(){
         double chance = Math.random();
-        if (chance < 0.55){
-            return "Snowy";
-        }else if (chance <0.07){
-            return "ThunderStorm";
-        } else if (chance < 0.1){
+        if (chance < 0.30){
             return "Rain";
+        } else if (chance < 0.1){
+            return "Snowy";
         } else {
             return "Sunny";
         }
