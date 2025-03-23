@@ -30,6 +30,7 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
     private Rectangle C_box2;
     private Rectangle C_box3;
     private Rectangle C_box4;
+    private Rectangle registerRectangle;
 
     public Shop(FarmGame farmGame, Farmer player) {
         this.farmGame = farmGame;
@@ -43,6 +44,8 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
         C_box2 = new Rectangle(910,540,110,120);
         C_box3 = new Rectangle(530,460,190,  90);
         C_box4 = new Rectangle(750,600,160,70);
+
+        registerRectangle = new Rectangle(1050,-10,200,300);
 
         customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 30f);
         moving = false;
@@ -103,6 +106,11 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
         repaint();
     }
 
+    private boolean collidesWithRegister(int x, int y){
+        Rectangle player = new Rectangle(x,y,128,128);
+        return(player.intersects(registerRectangle));
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {}
 
@@ -153,6 +161,15 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
             farmerX = 890;
             farmerY = 820;
             direction = 0;
+        }
+        while (collidesWithRegister(farmerX, farmerY)){
+            farmGame.showShop();
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException x) {
+                x.printStackTrace();
+            }
+            moving = true;
         }
     }
 
