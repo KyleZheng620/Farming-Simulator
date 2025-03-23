@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.util.ArrayList;
 
 
@@ -24,6 +25,8 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private BufferedImage farmerIdle;
     private BufferedImage spriteSheet;
     private BufferedImage background;
+    private BufferedImage snowbackground;
+    private BufferedImage snow;
     private BufferedImage barn;
     private BufferedImage shop;
     private BufferedImage sign;
@@ -37,6 +40,8 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private int currentFrame;
     private Rectangle box;
     private int day = 1;
+    ArrayList<int[]> SnowFlakesList;
+    SnowFlake e;
 
     public Farm(FarmGame farmGame, Farmer player) {
         this.farmGame = farmGame;
@@ -50,15 +55,20 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         farmerY = 300;
         direction = 0;
 
+        SnowFlakesList = new ArrayList<>();
+        e = new SnowFlake();
+
         this.player = player;
         farmPlots = new FarmLand(player);
 
-        Timer timer = new Timer(150, this);
+        Timer timer = new Timer(100, this);
         timer.start();
 
         try {
             sign = ImageIO.read(new File("src/Sprites/Sign.png"));
             background = ImageIO.read(new File("src/Sprites/background.png"));
+            snowbackground = ImageIO.read(new File("src/Sprites/SnowBackGround.png"));
+            snow = ImageIO.read(new File("src/Sprites/Snow.png"));
             barn = ImageIO.read(new File("src/Sprites/Barn.png"));
             farmer = ImageIO.read(new File("src/Sprites/farmer.png"));
             farmerIdle = ImageIO.read(new File("src/Sprites/farmer_idle.png"));
@@ -81,14 +91,43 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         Graphics2D g2d = (Graphics2D) g;
         g2d.setFont(customFont);
         g2d.setColor(new Color(56, 23,0));
-        if (player.getCurrentWeather().equals("Snowy")) {
 
+        if (player.getCurrentWeather().equals("Snowy")) {
+            g.drawImage(snowbackground,0,0,null);
         } else {
             g.drawImage(background, 0, 0, null);
         }
 
         g.drawImage(barn, 30,50,null);
         g.drawImage(shop, 900,-80, null);
+
+        if (player.getCurrentWeather().equals("Snowy")) {
+            if (SnowFlakesList.size() >= 20) {
+
+            } else {
+                if (Math.random() < 0.1) {
+                    SnowFlakesList.add(e.getXandY((int)(Math.random()*10)));
+                }
+
+            }
+            for (int i = 0; i < SnowFlakesList.size(); i++) {
+                int[] list = SnowFlakesList.get(i);
+                int x = list[0];
+                int y = list[1];
+                int xLength = list[2];
+                int yLength = list[3];
+                int locationX = list[4];
+                int locationY = list[5];
+                g.drawImage(snow,locationX,locationY,locationX+100,locationY+100,x,y,x +xLength,y +yLength,null);
+                SnowFlakesList.get(i)[5] += 10;
+                if (list[5] >= 1080) {
+                    SnowFlakesList.remove(list);
+                    i--;
+                }
+            }
+        }
+
+
         int spriteWidth = 48;
         int spriteHeight = 48;
         for (int r = 0; r < farmPlots.getPlots().size(); r++){
