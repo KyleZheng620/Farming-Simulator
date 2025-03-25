@@ -18,6 +18,7 @@ public class TransitionPanel extends JPanel {
     private BufferedImage shopInside2;
     private BufferedImage spriteSheet;
     private BufferedImage snowbackground;
+    private BufferedImage farmerRainIdle;
     private BufferedImage farm;
     private BufferedImage barn;
     private BufferedImage shop;
@@ -45,6 +46,7 @@ public class TransitionPanel extends JPanel {
             shopInside2 = ImageIO.read(new File("src/Sprites/ShopInside 2.png"));
             barnInside = ImageIO.read(new File("src/Sprites/BarnInside.png"));
             farmerIdle = ImageIO.read(new File("src/Sprites/farmer_idle.png"));
+            farmerRainIdle = ImageIO.read(new File("src/Sprites/farmerRainIdle.png"));
             spriteSheet = ImageIO.read(new File("src/Sprites/crop_spritesheet-1.png-2.png"));
             shop = ImageIO.read(new File("src/Sprites/ShopOutside.png"));
             sleep = ImageIO.read(new File("src/Sprites/Sleep.png"));
@@ -67,6 +69,7 @@ public class TransitionPanel extends JPanel {
             shopInside2 = ImageIO.read(new File("src/Sprites/ShopInside 2.png"));
             barnInside = ImageIO.read(new File("src/Sprites/BarnInside.png"));
             farmerIdle = ImageIO.read(new File("src/Sprites/farmer_idle.png"));
+            farmerRainIdle = ImageIO.read(new File("src/Sprites/farmerRainIdle.png"));
             spriteSheet = ImageIO.read(new File("src/Sprites/crop_spritesheet-1.png-2.png"));
             shop = ImageIO.read(new File("src/Sprites/ShopOutside.png"));
             sleep = ImageIO.read(new File("src/Sprites/Sleep.png"));
@@ -86,6 +89,7 @@ public class TransitionPanel extends JPanel {
             barn = ImageIO.read(new File("src/Sprites/Barn.png"));
             snowbackground = ImageIO.read(new File("src/Sprites/SnowBackGround.png"));
             farmerIdle = ImageIO.read(new File("src/Sprites/farmer_idle.png"));
+            farmerRainIdle = ImageIO.read(new File("src/Sprites/farmerRainIdle.png"));
             spriteSheet = ImageIO.read(new File("src/Sprites/crop_spritesheet-1.png-2.png"));
             shop = ImageIO.read(new File("src/Sprites/ShopOutside.png"));
             sleep = ImageIO.read(new File("src/Sprites/Sleep.png"));
@@ -147,7 +151,11 @@ public class TransitionPanel extends JPanel {
                     }
                 }
             }
-            g.drawImage(farmerIdle, farmerX, farmerY, farmerX + 128, farmerY + 128, 256,0,256+128,128, this);
+            if (player.getCurrentWeather().equals("Rain")){
+                g.drawImage(farmerRainIdle, farmerX, farmerY, farmerX + 128, farmerY + 128, 256,0,256+128,128, this);
+            } else {
+                g.drawImage(farmerIdle, farmerX, farmerY, farmerX + 128, farmerY + 128, 256,0,256+128,128, this);
+            }
         } else if (card.equals("Barn")){
             if (!sleeping){
                 g.drawImage(barnInside,0,0,null);

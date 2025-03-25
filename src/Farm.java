@@ -32,6 +32,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private BufferedImage sign;
     private BufferedImage farmerRain;
     private BufferedImage farmerRainIdle;
+    private BufferedImage health;
     private FarmGame farmGame;
     private Rectangle barnRectangle;
     private Rectangle shopRectangle;
@@ -42,10 +43,11 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private int currentFrame;
     private Rectangle box;
     private Rectangle C_box;
-    private int day = 1;
-    ArrayList<int[]> SnowFlakesList;
-    ArrayList<Rectangle> RainDropList;
-    SnowFlake e;
+    private int day;
+    private Timer timer;
+    private ArrayList<int[]> SnowFlakesList;
+    private ArrayList<Rectangle> RainDropList;
+    private SnowFlake e;
 
 
     public Farm(FarmGame farmGame, Farmer player) {
@@ -69,10 +71,11 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         this.player = player;
         farmPlots = new FarmLand(player);
 
-        Timer timer = new Timer(150, this);
+        timer = new Timer(150, this);
         timer.start();
 
         try {
+            health = ImageIO.read(new File("src/Sprites/health.png"));
             sign = ImageIO.read(new File("src/Sprites/Sign.png"));
             background = ImageIO.read(new File("src/Sprites/background.png"));
             snowbackground = ImageIO.read(new File("src/Sprites/SnowBackGround.png"));
@@ -109,6 +112,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
 
         g.drawImage(barn, 30,50,null);
         g.drawImage(shop, 900,-80, null);
+
 
         if (player.getCurrentWeather().equals("Snowy")) {
             if (!(SnowFlakesList.size() >= 20)) {
@@ -154,7 +158,6 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
 
         }
 
-
         int spriteWidth = 48;
         int spriteHeight = 48;
         for (int r = 0; r < farmPlots.getPlots().size(); r++){
@@ -195,6 +198,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         g2d.setColor(new Color(56, 23,0));
         g.drawImage(sign, 1650,10,null);
         g2d.drawString("DAY  " + player.getDay(), 1700, 60);
+
 
         int fx1 = direction * 128;
         int fy1 = currentFrame * 128;
