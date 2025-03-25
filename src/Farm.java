@@ -199,6 +199,45 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         g.drawImage(sign, 1650,10,null);
         g2d.drawString("DAY  " + player.getDay(), 1700, 60);
 
+        int playerHunger = player.getHunger();
+        int playerThirst = player.getThirst();
+        for (int i = 0; i < 5; i++){
+            g.drawImage(health,1600 + 60*i, 918, 1672 + 60*i,990, 649, 0, 720,72, null);
+            g.drawImage(health,1600 + 60*i, 848, 1672 + 60*i,920, 577, 0, 648,72, null);
+            if (playerHunger>=1){
+                if (player.isFoodPoison()){
+                    if (playerHunger%2==0){
+                        g.drawImage(health,1600 + 60*i, 918, 1672 + 60*i,990, 505, 0, 576,72, null);
+                    } else {
+                        g.drawImage(health,1600 + 60*i, 918, 1672 + 60*i,990, 577, 0, 648,72, null);
+                    }
+                } else {
+                    if (playerHunger%2==0){
+                        g.drawImage(health,1600 + 60*i, 918, 1672 + 60*i,990, 289, 0, 360,72, null);
+                    } else {
+                        g.drawImage(health,1600 + 60*i, 918, 1672 + 60*i,990, 361, 0, 432,72, null);
+                    }
+                }
+            }
+
+            if (playerThirst>=1){
+                if (player.isWaterPoison()){
+                    if (playerThirst>=2){
+                        g.drawImage(health,1599 + 60*i, 847, 1672 + 60*i,919, 145, 0, 216,72, null);
+                    } else {
+                        g.drawImage(health,1599 + 60*i, 847, 1672 + 60*i,919, 217, 0, 288,72, null);
+                    }
+                } else {
+                    if (playerThirst>=2){
+                        g.drawImage(health,1599 + 60*i, 847, 1672 + 60*i,919, 0, 0, 72,72, null);
+                    } else {
+                        g.drawImage(health,1599 + 60*i, 847, 1672 + 60*i,919, 73, 0, 144,72, null);
+                    }
+                }
+            }
+            playerHunger-=2;
+            playerThirst-=2;
+        }
 
         int fx1 = direction * 128;
         int fy1 = currentFrame * 128;
