@@ -49,14 +49,8 @@ public class Farmer {
     public void sleep(){
         day++;
         CurrentWeather = weather.changeWeather();
-        double waterChance = Math.random();
-        double foodChance = Math.random();
-        if (waterChance<0.9){
-            thirst--;
-        }
-        if (foodChance<0.9){
-            hunger--;
-        }
+        thirst--;
+        hunger--;
     }
     public int getDay(){
         return day;
