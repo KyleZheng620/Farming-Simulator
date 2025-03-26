@@ -50,26 +50,25 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private SnowFlake e;
 
 
-    public Farm(FarmGame farmGame, Farmer player) {
+    public Farm(FarmGame farmGame, Farmer player, FarmLand farmPlots) {
         this.farmGame = farmGame;
         customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 30f);
         barnRectangle = new Rectangle(100, 50, 300,240);
         shopRectangle = new Rectangle(1050,-10,200,300);
         box = new Rectangle(-40, 150, 1320,450);
-        C_box = new Rectangle(-40,360,1180,230);
+        C_box = new Rectangle(-40,360,1180,240);
         moving = false;
         currentFrame = 0;
         farmerX = 170;
         farmerY = 300;
         direction = 0;
-
+        this.farmPlots = farmPlots;
         SnowFlakesList = new ArrayList<>();
         e = new SnowFlake();
 
         RainDropList = new ArrayList<>();
 
         this.player = player;
-        farmPlots = new FarmLand(player);
 
         timer = new Timer(150, this);
         timer.start();

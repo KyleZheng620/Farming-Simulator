@@ -23,7 +23,7 @@ public class FarmLand {
         plots.get(3).add(soil);
     }
 
-    public void DayPass() {
+    public void dayPass() {
         for (ArrayList<Crop> row: plots) {
             for (Crop e : row) {
                 e.dayPass(player.getCurrentWeather());
