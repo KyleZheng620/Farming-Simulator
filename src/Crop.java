@@ -29,17 +29,11 @@ public class Crop {
         waterLevel = 3;
     }
 
-    public Boolean waterCrop(boolean rain, boolean player) {
+    public Boolean waterCrop(boolean player) {
         if (crop.equals("Soil")){
             return null;
         }
-        if (rain && player){
-            waterLevel+=5;
-        } else if (rain){
-            waterLevel+=2;
-        } else {
-            waterLevel++;
-        }
+        waterLevel++;
         if (waterLevel>15){
             return false;
         }
@@ -55,13 +49,21 @@ public class Crop {
             if (chance<0.9){
                 growthTime--;
             }
-        } else if (chance<0.8){
-            growthTime--;
         }
 
         if (weather.equals("Snowy")) {
-
+            if (chance < 0.2) {
+                growthTime--;
+            }
         }
+
+        if (weather.equals("Rain")) {
+            if (chance<0.9){
+                growthTime--;
+            }
+            waterLevel+=3;
+        }
+
         waterLevel--;
         return waterLevel >= 0;
     }

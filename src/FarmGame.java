@@ -7,6 +7,7 @@ public class FarmGame extends JFrame{
     private Farm farmPanel;
     private Barn barnPanel;
     private Shop shopPanel;
+    private FarmLand farmPlots;
     private Farmer player;
     private TransitionPanel transitionPanel;
     private Inventory inventory;
@@ -14,8 +15,9 @@ public class FarmGame extends JFrame{
 
     public FarmGame() {
         inventory = new Inventory();
+        farmPlots = new FarmLand(player);
 
-        player = new Farmer(inventory);
+        player = new Farmer(inventory, farmPlots);
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
         inventoryPanel = new InventoryPanel(inventory, this, player);
@@ -24,7 +26,7 @@ public class FarmGame extends JFrame{
         inventory.addItem("Potato seeds", 3);
         inventory.addItem("Mandarin seeds", 3);
 
-        farmPanel = new Farm(this, player);
+        farmPanel = new Farm(this, player, farmPlots);
         barnPanel = new Barn(this, player);
         shopPanel = new Shop(this, player);
         transitionPanel = new TransitionPanel(player);

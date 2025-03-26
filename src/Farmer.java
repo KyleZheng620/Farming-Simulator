@@ -8,8 +8,9 @@ public class Farmer {
     private boolean waterPoison;
     private Weather weather;
     private String CurrentWeather;
+    private FarmLand crops;
 
-    public Farmer(Inventory inventory){
+    public Farmer(Inventory inventory, FarmLand crops){
         foodPoison = false;
         waterPoison = false;
         money = 0;
@@ -48,6 +49,7 @@ public class Farmer {
 
     public void sleep(){
         day++;
+        crops.dayPass();
         CurrentWeather = weather.changeWeather();
         double waterChance = Math.random();
         double foodChance = Math.random();
