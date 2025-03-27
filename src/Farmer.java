@@ -8,9 +8,10 @@ public class Farmer {
     private boolean waterPoison;
     private Weather weather;
     private String CurrentWeather;
-    private FarmLand crops;
+    private FarmLand farmPlots;
 
-    public Farmer(Inventory inventory, FarmLand crops){
+    public Farmer(Inventory inventory){
+        farmPlots = new FarmLand(this);
         foodPoison = false;
         waterPoison = false;
         money = 0;
@@ -18,7 +19,6 @@ public class Farmer {
         thirst = 10;
         day = 1;
         this.inventory = inventory;
-
         weather = new Weather();
         CurrentWeather = "Sunny";
     }
@@ -46,10 +46,12 @@ public class Farmer {
     public boolean isWaterPoison(){
         return waterPoison;
     }
+    public FarmLand getFarmPlots(){
+        return farmPlots;
+    }
 
     public void sleep(){
         day++;
-        crops.dayPass();
         CurrentWeather = weather.changeWeather();
         thirst--;
         hunger--;

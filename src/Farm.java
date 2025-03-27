@@ -36,7 +36,6 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private FarmGame farmGame;
     private Rectangle barnRectangle;
     private Rectangle shopRectangle;
-    private FarmLand farmPlots;
     private Farmer player;
     private int direction;
     private boolean moving;
@@ -50,7 +49,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private SnowFlake e;
 
 
-    public Farm(FarmGame farmGame, Farmer player, FarmLand farmPlots) {
+    public Farm(FarmGame farmGame, Farmer player) {
         this.farmGame = farmGame;
         customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 30f);
         barnRectangle = new Rectangle(100, 50, 300,240);
@@ -62,7 +61,6 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         farmerX = 170;
         farmerY = 300;
         direction = 0;
-        this.farmPlots = farmPlots;
         SnowFlakesList = new ArrayList<>();
         e = new SnowFlake();
 
@@ -159,32 +157,32 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
 
         int spriteWidth = 48;
         int spriteHeight = 48;
-        for (int r = 0; r < farmPlots.getPlots().size(); r++){
-            for (int c = 0; c < farmPlots.getPlots().get(r).size(); c++){
-                switch (farmPlots.getPlots().get(r).get(c).getCrop()) {
+        for (int r = 0; r < player.getFarmPlots().getPlots().size(); r++){
+            for (int c = 0; c < player.getFarmPlots().getPlots().get(r).size(); c++){
+                switch (player.getFarmPlots().getPlots().get(r).get(c).getCrop()) {
                     case "Rice" -> {
-                        int sx1 = 11 * spriteWidth - (4- farmPlots.getPlots().get(r).get(c).getGrowthTime()) * 48;
+                        int sx1 = 11 * spriteWidth - (4- player.getFarmPlots().getPlots().get(r).get(c).getGrowthTime()) * 48;
                         int sy1 = 4 * spriteHeight;
                         int dx1 = 30 + (64 * c);
                         int dy1 = 450 + (64 * r);
                         g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                     }
                     case "Potatoes" -> {
-                        int sx1 = 5 * spriteWidth - (4- farmPlots.getPlots().get(r).get(c).getGrowthTime()) * 48;
+                        int sx1 = 5 * spriteWidth - (4- player.getFarmPlots().getPlots().get(r).get(c).getGrowthTime()) * 48;
                         int sy1 = 7 * spriteHeight;
                         int dx1 = 20 + (64 * c);
                         int dy1 = 450 + (64 * r);
                         g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                     }
                     case "Wheat" -> {
-                        int sx1 = 5 * spriteWidth - (4- farmPlots.getPlots().get(r).get(c).getGrowthTime()) * 48;
+                        int sx1 = 5 * spriteWidth - (4- player.getFarmPlots().getPlots().get(r).get(c).getGrowthTime()) * 48;
                         int sy1 = 5 * spriteHeight;
                         int dx1 = 20 + (64 * c);
                         int dy1 = 450 + (64 * r);
                         g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                     }
                     case "Mandarin" -> {
-                        int sx1 = 5 * spriteWidth - (4- farmPlots.getPlots().get(r).get(c).getGrowthTime()) * 48;
+                        int sx1 = 5 * spriteWidth - (4- player.getFarmPlots().getPlots().get(r).get(c).getGrowthTime()) * 48;
                         int sy1 = 8 * spriteHeight;
                         int dx1 = 30 + (64 * c);
                         int dy1 = 455 + (64 * r);
@@ -362,7 +360,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         moving = false;
     }
     public ArrayList<ArrayList<Crop>> getPlots() {
-        return farmPlots.getPlots();
+        return player.getFarmPlots().getPlots();
     }
 
     public int getFarmerX(){
