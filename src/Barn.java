@@ -44,8 +44,6 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
         farmerY = 920;
         direction = 0;
 
-
-
         Timer timer = new Timer(150, this);
         timer.start();
 

@@ -7,6 +7,7 @@ public class FarmGame extends JFrame{
     private Farm farmPanel;
     private Barn barnPanel;
     private Shop shopPanel;
+    private Cooking cookPanel;
     private Farmer player;
     private TransitionPanel transitionPanel;
     private Inventory inventory;
@@ -26,11 +27,13 @@ public class FarmGame extends JFrame{
         farmPanel = new Farm(this, player);
         barnPanel = new Barn(this, player);
         shopPanel = new Shop(this, player);
+        cookPanel = new Cooking(this,player);
         transitionPanel = new TransitionPanel(player);
 
         mainPanel.add(farmPanel, "Farm");
         mainPanel.add(barnPanel, "Barn");
         mainPanel.add(shopPanel, "Shop");
+        mainPanel.add(cookPanel,"Cooking");
         mainPanel.add(inventoryPanel, "Inventory");
         mainPanel.add(transitionPanel, "TRANSITION");
 
@@ -56,6 +59,10 @@ public class FarmGame extends JFrame{
     public void showShop(int a){
         cardLayout.show(mainPanel, "Shop");
         shopPanel.requestFocusInWindow();
+    }
+    public void showCooking() {
+        cardLayout.show(mainPanel, "Cooking");
+        cookPanel.requestFocusInWindow();
     }
 
     public void showBarn(boolean sleeping){
