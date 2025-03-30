@@ -1,21 +1,17 @@
 public class CropItem extends Item {
-    private int cropBuyPrice;
     private int cropSellPrice;
 
-    public CropItem(String crop, int item) {
-        super(crop,item);
+    public CropItem(String crop, int quantity) {
+        super(crop, quantity);
         if (crop.equals("Rice")) {
-            cropBuyPrice = 8;
-            cropSellPrice = 4;
+            cropSellPrice = 15;
         } else if (crop.equals("Potatoes")) {
-            cropBuyPrice = 6;
-            cropSellPrice = 3;
+            cropSellPrice = 10;
         } else if (crop.equals("Wheat")) {
-            cropBuyPrice = 5;
-            cropSellPrice = 2;
+            cropSellPrice = 9;
         } else if (crop.equals("Mandarin")) {
-            cropBuyPrice = 3;
-            cropSellPrice = 1;
+            cropSellPrice = 5;
         }
     }
+
 }

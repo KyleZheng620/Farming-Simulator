@@ -53,6 +53,7 @@ public class Farmer {
     public void sleep(){
         day++;
         CurrentWeather = weather.changeWeather();
+        farmPlots.dayPass();
         thirst--;
         hunger--;
     }

@@ -16,7 +16,7 @@ public class FarmLand {
         soil = new Crop ("Soil");
         Crop rice = new Crop ("Rice");
         Crop mandarin = new Crop ("Mandarin");
-        Crop potatoes = new Crop ("Potatoes");
+        Crop potato = new Crop ("Potato");
         Crop wheat = new Crop ("Wheat");
         for (int i = 0; i < 4; i++) {
             plots[i][0] = rice;
@@ -25,7 +25,7 @@ public class FarmLand {
             plots[i][1] = mandarin;
         }
         for (int i = 0; i < 4; i++) {
-            plots[i][2] = potatoes;
+            plots[i][2] = potato;
         }
         for (int i = 0; i < 4; i++) {
             plots[i][3] = wheat;
@@ -35,7 +35,9 @@ public class FarmLand {
     public void dayPass() {
         for (Crop[] row: plots) {
             for (Crop e : row) {
-                e.dayPass(player.getCurrentWeather());
+                if (e!=null){
+                    e.dayPass(player.getCurrentWeather());
+                }
             }
         }
     }

@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Inventory {
@@ -17,6 +16,15 @@ public class Inventory {
             }
         }
         items.add(new Item(name, amount));
+    }
+    public void addItem(Item i) {
+        for (Item item : items) {
+            if (item.getName().equals(i.getName())) {
+                item.addQuantity(i.getQuantity());
+                return;
+            }
+        }
+        items.add(i);
     }
 
     public void removeItem(String name, int amount) {

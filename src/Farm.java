@@ -179,7 +179,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
                     int dx1 = 35 + (53 * c);
                     int dy1 = 460 + (55 * r);
                     g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
-                } else if (player.getFarmPlots().getPlots()[r][c].getCrop().equals("Potatoes")){
+                } else if (player.getFarmPlots().getPlots()[r][c].getCrop().equals("Potato")){
                     int sx1 = 5 * spriteWidth - (4- player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
                     int sy1 = 7 * spriteHeight;
                     int dx1 = 40 + (53 * c);
@@ -304,7 +304,6 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     public void keyPressed(KeyEvent e) {
         int Xchange = 0;
         int Ychange = 0;
-
         if (e.getKeyCode() == KeyEvent.VK_E){
             farmGame.toggleInventory("Farm");
         }
@@ -333,11 +332,10 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         if (selected){
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_1:
-                    selected = false;
                     int row = (mouseY - 465) / 55;
                     int col = (mouseX - 35) / 54;
                     Crop[][] plots = player.getFarmPlots().getPlots();
-                    if (plots[row][col].waterCrop(player)){
+                    if (plots[row][col] != null && plots[row][col].waterCrop(player)){
                         watering = true;
                     }
                     break;
@@ -348,11 +346,13 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
             };
         }
         if (WithinTheBarn(farmerX + Xchange, farmerY + Ychange)) {
+            selected = false;
             farmerY += Ychange;
             farmerX += Xchange;
         }
 
         if (collidesWithBarn(farmerX, farmerY)){
+            selected = false;
             farmGame.showBarn(false);
             try {
                 Thread.sleep(20);
