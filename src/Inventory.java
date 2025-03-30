@@ -20,10 +20,12 @@ public class Inventory {
     }
 
     public void removeItem(String name, int amount) {
-        items.removeIf(item -> {
-            item.removeQuantity(amount);
-            return item.getQuantity() <= 0;
-        });
+        for (Item item : items) {
+            if (item.getName().equals(name)) {
+                ;
+                item.removeQuantity(amount);
+            }
+        }
     }
     public int itemAmount(String name) {
         for (Item item : items) {
