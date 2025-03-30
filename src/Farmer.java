@@ -63,4 +63,8 @@ public class Farmer {
     public String getCurrentWeather() {
         return CurrentWeather;
     }
+
+    public Inventory getInventory(){
+        return inventory;
+    }
 }

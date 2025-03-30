@@ -1,8 +1,7 @@
-public class Crop {
+public class Crop{
     private String crop;
 
     private int waterLevel;
-    private int CropPrice;
     private int growthTime;
 
     private String[] AllPlants = {"Rice","Potatoes","Wheat","Mandarin","Soil"};
@@ -10,32 +9,29 @@ public class Crop {
     public Crop(String crop){
         this.crop = crop;
         if (crop.equals("Rice")) {
-            CropPrice = 10;
             growthTime = 6;
         } else if (crop.equals("Potatoes")) {
-            CropPrice = 10;
             growthTime = 6;
         } else if (crop.equals("Wheat")) {
-            CropPrice = 10;
             growthTime = 6;
         } else if (crop.equals("Mandarin")) {
-            CropPrice = 10;
             growthTime = 6;
         } else if (crop.equals("Soil")) {
-            CropPrice = 0;
-            growthTime = 6;
+            growthTime = 0;
         }
 
         waterLevel = 3;
     }
 
-    public Boolean waterCrop(boolean player) {
-        if (crop.equals("Soil")){
-            return null;
+    public boolean waterCrop(Farmer player) {
+        int waterAmount = player.getInventory().itemAmount("Water");
+        if (crop.equals("Soil") || waterAmount <= 0){
+            return false;
         }
         waterLevel++;
-        if (waterLevel>15){
-            return false;
+        player.getInventory().removeItem("Water", 1);
+        if (waterLevel>=15){
+            crop = "Soil";
         }
         return true;
     }
@@ -76,8 +72,6 @@ public class Crop {
     public String getCrop(){
         return crop;
     }
-
-    public int getCropPrice() { return CropPrice;}
 
     public int getWaterLevel(){
         return waterLevel;

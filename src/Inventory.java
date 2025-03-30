@@ -25,6 +25,14 @@ public class Inventory {
             return item.getQuantity() <= 0;
         });
     }
+    public int itemAmount(String name) {
+        for (Item item : items) {
+            if (item.getName().equals(name)) {;
+                return item.getQuantity();
+            }
+        }
+        return 0;
+    }
 
     public ArrayList<Item> getItems() {
         return items;
