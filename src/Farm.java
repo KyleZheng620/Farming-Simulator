@@ -34,7 +34,6 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private BufferedImage farmerRainIdle;
     private BufferedImage health;
     private BufferedImage select;
-    private BufferedImage wateringCan;
     private FarmGame farmGame;
     private Rectangle barnRectangle;
     private Rectangle shopRectangle;
@@ -52,6 +51,8 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private SnowFlake e;
     private boolean selected;
     private boolean watering;
+    private boolean harvesting;
+    private boolean planting;
 
 
     public Farm(FarmGame farmGame, Farmer player) {
@@ -72,6 +73,8 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         e = new SnowFlake();
         selected = false;
         watering = false;
+        harvesting = false;
+        planting = false;
 
         RainDropList = new ArrayList<>();
 
@@ -81,7 +84,6 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         timer.start();
 
         try {
-            wateringCan = ImageIO.read(new File("src/Sprites/Watering.png"));
             select = ImageIO.read(new File("src/Sprites/select.png"));
             health = ImageIO.read(new File("src/Sprites/health.png"));
             sign = ImageIO.read(new File("src/Sprites/Sign.png"));
@@ -272,8 +274,12 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
             }
         }
         if (watering){
-            farmGame.showAnimations(row, col);
+            farmGame.showAnimations(row, col, 1, farmerX, farmerY, direction);
             watering = false;
+        }
+        if (harvesting){
+            farmGame.showAnimations(row, col, 2, farmerX, farmerY, direction);
+            harvesting = false;
         }
     }
 
@@ -330,16 +336,19 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
                 break;
         };
         if (selected){
+            int row = (mouseY - 465) / 55;
+            int col = (mouseX - 35) / 54;
+            Crop[][] plots = player.getFarmPlots().getPlots();
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_1:
-                    int row = (mouseY - 465) / 55;
-                    int col = (mouseX - 35) / 54;
-                    Crop[][] plots = player.getFarmPlots().getPlots();
                     if (plots[row][col] != null && plots[row][col].waterCrop(player)){
                         watering = true;
                     }
                     break;
                 case KeyEvent.VK_2:
+                    if (plots[row][col] != null && plots[row][col].harvestCrop(player)){
+                        harvesting = true;
+                    }
                     break;
                 case KeyEvent.VK_3:
                     break;

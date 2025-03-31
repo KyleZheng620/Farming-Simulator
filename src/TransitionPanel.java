@@ -127,7 +127,7 @@ public class TransitionPanel extends JPanel {
                         int dx1 = 35 + (53 * c);
                         int dy1 = 460 + (55 * r);
                         g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
-                    } else if (player.getFarmPlots().getPlots()[r][c].getCrop().equals("Potatoes")){
+                    } else if (player.getFarmPlots().getPlots()[r][c].getCrop().equals("Potato")){
                         int sx1 = 5 * spriteWidth - (4- player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
                         int sy1 = 7 * spriteHeight;
                         int dx1 = 40 + (53 * c);

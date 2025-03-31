@@ -5,7 +5,7 @@ public class CropItem extends Item {
         super(crop, quantity);
         if (crop.equals("Rice")) {
             cropSellPrice = 15;
-        } else if (crop.equals("Potatoes")) {
+        } else if (crop.equals("Potato")) {
             cropSellPrice = 10;
         } else if (crop.equals("Wheat")) {
             cropSellPrice = 9;

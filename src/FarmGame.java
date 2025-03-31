@@ -31,7 +31,7 @@ public class FarmGame extends JFrame{
         shopPanel = new Shop(this, player);
         cookPanel = new Cooking(this,player);
         transitionPanel = new TransitionPanel(player);
-        animationsPanel = new Animations(this);
+        animationsPanel = new Animations(this, player);
 
         mainPanel.add(farmPanel, "Farm");
         mainPanel.add(barnPanel, "Barn");
@@ -147,11 +147,18 @@ public class FarmGame extends JFrame{
         }).start();
     }
 
-    public void showAnimations(double col, double row){
+    public void showAnimations(double col, double row, int n, int x, int y, int d){
         cardLayout.show(mainPanel, "Animations");
-        animationsPanel.watering(col, row);
+        if (n == 1) {
+            animationsPanel.watering(col, row, x, y, d);
+        } else if (n == 2){
+            animationsPanel.harvesting(col, row, x, y, d);
+        } else if (n == 3){
+            animationsPanel.watering(col, row, x, y, d);
+        }
         animationsPanel.requestFocusInWindow();
     }
+
 
 
     public void toggleInventory(String panel){

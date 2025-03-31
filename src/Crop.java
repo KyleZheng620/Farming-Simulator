@@ -11,17 +11,17 @@ public class Crop{
     public Crop(String crop){
         this.crop = crop;
         if (crop.equals("Rice")) {
-            growthTime = 6;
-            cropItem = new CropItem("Rice", 0);
-        } else if (crop.equals("Potatoes")) {
-            growthTime = 6;
-            cropItem = new CropItem("Potato", 0);
+            growthTime = 0;
+            cropItem = new CropItem("Rice", 1);
+        } else if (crop.equals("Potato")) {
+            growthTime = 0;
+            cropItem = new CropItem("Potato", 1);
         } else if (crop.equals("Wheat")) {
-            growthTime = 6;
-            cropItem = new CropItem("Wheat", 0);
+            growthTime = 0;
+            cropItem = new CropItem("Wheat", 1);
         } else if (crop.equals("Mandarin")) {
-            growthTime = 6;
-            cropItem = new CropItem("Mandarin", 0);
+            growthTime = 0;
+            cropItem = new CropItem("Mandarin", 1);
         } else if (crop.equals("Soil")) {
             growthTime = 0;
         }
@@ -84,8 +84,9 @@ public class Crop{
 
     public boolean harvestCrop(Farmer player){
         if (growthTime == 0 && !crop.equals("Soil")){
-            player.getInventory().addItem(cropItem);
             crop = "Soil";
+            player.getInventory().addItem(cropItem);
+            return true;
         }
         return false;
     }
