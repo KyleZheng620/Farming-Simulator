@@ -1,0 +1,342 @@
+<html>
+<head>
+<title>Farm.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+.s4 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Farm.java</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">imageio</span><span class="s2">.</span><span class="s1">ImageIO</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">swing</span><span class="s2">.*;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">awt</span><span class="s2">.</span><span class="s1">Rectangle</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">awt</span><span class="s2">.</span><span class="s1">Graphics</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">awt</span><span class="s2">.</span><span class="s1">Graphics2D</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">awt</span><span class="s2">.</span><span class="s1">BasicStroke</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">awt</span><span class="s2">.</span><span class="s1">Color</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">awt</span><span class="s2">.</span><span class="s1">event</span><span class="s2">.*;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">awt</span><span class="s2">.</span><span class="s1">Font</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">awt</span><span class="s2">.</span><span class="s1">Point</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">awt</span><span class="s2">.</span><span class="s1">event</span><span class="s2">.</span><span class="s1">ActionEvent</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">awt</span><span class="s2">.</span><span class="s1">event</span><span class="s2">.</span><span class="s1">ActionListener</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">awt</span><span class="s2">.</span><span class="s1">image</span><span class="s2">.</span><span class="s1">BufferedImage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">File</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">IOException</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">nio</span><span class="s2">.</span><span class="s1">Buffer</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">ArrayList</span><span class="s2">;</span>
+
+
+<span class="s0">public class </span><span class="s1">Farm </span><span class="s0">extends </span><span class="s1">JPanel </span><span class="s0">implements </span><span class="s1">KeyListener</span><span class="s2">, </span><span class="s1">MouseListener</span><span class="s2">, </span><span class="s1">ActionListener </span><span class="s2">{</span>
+    <span class="s0">private int </span><span class="s1">farmerX</span><span class="s2">;</span>
+    <span class="s0">private int </span><span class="s1">farmerY</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">Font customFont</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">BufferedImage farmer</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">BufferedImage farmerIdle</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">BufferedImage spriteSheet</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">BufferedImage background</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">BufferedImage snowbackground</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">BufferedImage snow</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">BufferedImage barn</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">BufferedImage shop</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">BufferedImage sign</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">FarmGame farmGame</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">Rectangle barnRectangle</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">Rectangle shopRectangle</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">FarmLand farmPlots</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">Farmer player</span><span class="s2">;</span>
+    <span class="s0">private int </span><span class="s1">direction</span><span class="s2">;</span>
+    <span class="s0">private boolean </span><span class="s1">moving</span><span class="s2">;</span>
+    <span class="s0">private int </span><span class="s1">currentFrame</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">Rectangle box</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">Rectangle C_box</span><span class="s2">;</span>
+    <span class="s0">private int </span><span class="s1">day </span><span class="s2">= </span><span class="s3">1</span><span class="s2">;</span>
+    <span class="s1">ArrayList</span><span class="s2">&lt;</span><span class="s0">int</span><span class="s2">[]&gt; </span><span class="s1">SnowFlakesList</span><span class="s2">;</span>
+    <span class="s1">ArrayList</span><span class="s2">&lt;</span><span class="s1">Rectangle</span><span class="s2">&gt; </span><span class="s1">RainDropList</span><span class="s2">;</span>
+    <span class="s1">SnowFlake e</span><span class="s2">;</span>
+
+
+    <span class="s0">public </span><span class="s1">Farm</span><span class="s2">(</span><span class="s1">FarmGame farmGame</span><span class="s2">, </span><span class="s1">Farmer player</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">farmGame </span><span class="s2">= </span><span class="s1">farmGame</span><span class="s2">;</span>
+        <span class="s1">customFont </span><span class="s2">= </span><span class="s1">FontLoader</span><span class="s2">.</span><span class="s1">loadFont</span><span class="s2">(</span><span class="s4">&quot;src/Fonts/Daydream.ttf&quot;</span><span class="s2">, </span><span class="s3">30f</span><span class="s2">);</span>
+        <span class="s1">barnRectangle </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Rectangle</span><span class="s2">(</span><span class="s3">100</span><span class="s2">, </span><span class="s3">50</span><span class="s2">, </span><span class="s3">300</span><span class="s2">,</span><span class="s3">240</span><span class="s2">);</span>
+        <span class="s1">shopRectangle </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Rectangle</span><span class="s2">(</span><span class="s3">1050</span><span class="s2">,-</span><span class="s3">10</span><span class="s2">,</span><span class="s3">200</span><span class="s2">,</span><span class="s3">300</span><span class="s2">);</span>
+        <span class="s1">box </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Rectangle</span><span class="s2">(-</span><span class="s3">40</span><span class="s2">, </span><span class="s3">150</span><span class="s2">, </span><span class="s3">1320</span><span class="s2">,</span><span class="s3">450</span><span class="s2">);</span>
+        <span class="s1">C_box </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Rectangle</span><span class="s2">(-</span><span class="s3">40</span><span class="s2">,</span><span class="s3">360</span><span class="s2">,</span><span class="s3">1180</span><span class="s2">,</span><span class="s3">230</span><span class="s2">);</span>
+        <span class="s1">moving </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+        <span class="s1">currentFrame </span><span class="s2">= </span><span class="s3">0</span><span class="s2">;</span>
+        <span class="s1">farmerX </span><span class="s2">= </span><span class="s3">170</span><span class="s2">;</span>
+        <span class="s1">farmerY </span><span class="s2">= </span><span class="s3">300</span><span class="s2">;</span>
+        <span class="s1">direction </span><span class="s2">= </span><span class="s3">0</span><span class="s2">;</span>
+
+        <span class="s1">SnowFlakesList </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+        <span class="s1">e </span><span class="s2">= </span><span class="s0">new </span><span class="s1">SnowFlake</span><span class="s2">();</span>
+
+        <span class="s1">RainDropList </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">player </span><span class="s2">= </span><span class="s1">player</span><span class="s2">;</span>
+        <span class="s1">farmPlots </span><span class="s2">= </span><span class="s0">new </span><span class="s1">FarmLand</span><span class="s2">(</span><span class="s1">player</span><span class="s2">);</span>
+
+        <span class="s1">Timer timer </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Timer</span><span class="s2">(</span><span class="s3">150</span><span class="s2">, </span><span class="s0">this</span><span class="s2">);</span>
+        <span class="s1">timer</span><span class="s2">.</span><span class="s1">start</span><span class="s2">();</span>
+
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">sign </span><span class="s2">= </span><span class="s1">ImageIO</span><span class="s2">.</span><span class="s1">read</span><span class="s2">(</span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s4">&quot;src/Sprites/Sign.png&quot;</span><span class="s2">));</span>
+            <span class="s1">background </span><span class="s2">= </span><span class="s1">ImageIO</span><span class="s2">.</span><span class="s1">read</span><span class="s2">(</span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s4">&quot;src/Sprites/background.png&quot;</span><span class="s2">));</span>
+            <span class="s1">snowbackground </span><span class="s2">= </span><span class="s1">ImageIO</span><span class="s2">.</span><span class="s1">read</span><span class="s2">(</span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s4">&quot;src/Sprites/SnowBackGround.png&quot;</span><span class="s2">));</span>
+            <span class="s1">snow </span><span class="s2">= </span><span class="s1">ImageIO</span><span class="s2">.</span><span class="s1">read</span><span class="s2">(</span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s4">&quot;src/Sprites/Snow.png&quot;</span><span class="s2">));</span>
+            <span class="s1">barn </span><span class="s2">= </span><span class="s1">ImageIO</span><span class="s2">.</span><span class="s1">read</span><span class="s2">(</span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s4">&quot;src/Sprites/Barn.png&quot;</span><span class="s2">));</span>
+            <span class="s1">farmer </span><span class="s2">= </span><span class="s1">ImageIO</span><span class="s2">.</span><span class="s1">read</span><span class="s2">(</span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s4">&quot;src/Sprites/farmer.png&quot;</span><span class="s2">));</span>
+            <span class="s1">farmerIdle </span><span class="s2">= </span><span class="s1">ImageIO</span><span class="s2">.</span><span class="s1">read</span><span class="s2">(</span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s4">&quot;src/Sprites/farmer_idle.png&quot;</span><span class="s2">));</span>
+            <span class="s1">spriteSheet </span><span class="s2">= </span><span class="s1">ImageIO</span><span class="s2">.</span><span class="s1">read</span><span class="s2">(</span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s4">&quot;src/Sprites/crop_spritesheet-1.png-2.png&quot;</span><span class="s2">));</span>
+            <span class="s1">shop </span><span class="s2">= </span><span class="s1">ImageIO</span><span class="s2">.</span><span class="s1">read</span><span class="s2">(</span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s4">&quot;src/Sprites/ShopOutside.png&quot;</span><span class="s2">));</span>
+
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">IOException e</span><span class="s2">) {</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s1">e</span><span class="s2">.</span><span class="s1">getMessage</span><span class="s2">());</span>
+        <span class="s2">}</span>
+        <span class="s1">addMouseListener</span><span class="s2">(</span><span class="s0">this</span><span class="s2">);</span>
+        <span class="s1">addKeyListener</span><span class="s2">(</span><span class="s0">this</span><span class="s2">);</span>
+        <span class="s1">setFocusable</span><span class="s2">(</span><span class="s0">true</span><span class="s2">);</span>
+        <span class="s1">requestFocusInWindow</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">paintComponent</span><span class="s2">(</span><span class="s1">Graphics g</span><span class="s2">) {</span>
+        <span class="s0">super</span><span class="s2">.</span><span class="s1">paintComponent</span><span class="s2">(</span><span class="s1">g</span><span class="s2">);</span>
+        <span class="s1">Graphics2D g2d </span><span class="s2">= (</span><span class="s1">Graphics2D</span><span class="s2">) </span><span class="s1">g</span><span class="s2">;</span>
+
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">player</span><span class="s2">.</span><span class="s1">getCurrentWeather</span><span class="s2">().</span><span class="s1">equals</span><span class="s2">(</span><span class="s4">&quot;Snowy&quot;</span><span class="s2">)) {</span>
+            <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">snowbackground</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">background</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">barn</span><span class="s2">, </span><span class="s3">30</span><span class="s2">,</span><span class="s3">50</span><span class="s2">,</span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">shop</span><span class="s2">, </span><span class="s3">900</span><span class="s2">,-</span><span class="s3">80</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">player</span><span class="s2">.</span><span class="s1">getCurrentWeather</span><span class="s2">().</span><span class="s1">equals</span><span class="s2">(</span><span class="s4">&quot;Snowy&quot;</span><span class="s2">)) {</span>
+            <span class="s0">if </span><span class="s2">(!(</span><span class="s1">SnowFlakesList</span><span class="s2">.</span><span class="s1">size</span><span class="s2">() &gt;= </span><span class="s3">20</span><span class="s2">)) {</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">Math</span><span class="s2">.</span><span class="s1">random</span><span class="s2">() &lt; </span><span class="s3">0.1</span><span class="s2">) {</span>
+                    <span class="s1">SnowFlakesList</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">e</span><span class="s2">.</span><span class="s1">getXandY</span><span class="s2">((</span><span class="s0">int</span><span class="s2">)(</span><span class="s1">Math</span><span class="s2">.</span><span class="s1">random</span><span class="s2">()*</span><span class="s3">10</span><span class="s2">)));</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+            <span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">i </span><span class="s2">= </span><span class="s3">0</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&lt; </span><span class="s1">SnowFlakesList</span><span class="s2">.</span><span class="s1">size</span><span class="s2">(); </span><span class="s1">i</span><span class="s2">++) {</span>
+                <span class="s0">int</span><span class="s2">[] </span><span class="s1">list </span><span class="s2">= </span><span class="s1">SnowFlakesList</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">i</span><span class="s2">);</span>
+                <span class="s0">int </span><span class="s1">x </span><span class="s2">= </span><span class="s1">list</span><span class="s2">[</span><span class="s3">0</span><span class="s2">];</span>
+                <span class="s0">int </span><span class="s1">y </span><span class="s2">= </span><span class="s1">list</span><span class="s2">[</span><span class="s3">1</span><span class="s2">];</span>
+                <span class="s0">int </span><span class="s1">xLength </span><span class="s2">= </span><span class="s1">list</span><span class="s2">[</span><span class="s3">2</span><span class="s2">];</span>
+                <span class="s0">int </span><span class="s1">yLength </span><span class="s2">= </span><span class="s1">list</span><span class="s2">[</span><span class="s3">3</span><span class="s2">];</span>
+                <span class="s0">int </span><span class="s1">locationX </span><span class="s2">= </span><span class="s1">list</span><span class="s2">[</span><span class="s3">4</span><span class="s2">];</span>
+                <span class="s0">int </span><span class="s1">locationY </span><span class="s2">= </span><span class="s1">list</span><span class="s2">[</span><span class="s3">5</span><span class="s2">];</span>
+                <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">snow</span><span class="s2">,</span><span class="s1">locationX</span><span class="s2">,</span><span class="s1">locationY</span><span class="s2">,</span><span class="s1">locationX</span><span class="s2">+</span><span class="s3">100</span><span class="s2">,</span><span class="s1">locationY</span><span class="s2">+</span><span class="s3">100</span><span class="s2">,</span><span class="s1">x</span><span class="s2">,</span><span class="s1">y</span><span class="s2">,</span><span class="s1">x </span><span class="s2">+</span><span class="s1">xLength</span><span class="s2">,</span><span class="s1">y </span><span class="s2">+</span><span class="s1">yLength</span><span class="s2">,</span><span class="s0">null</span><span class="s2">);</span>
+                <span class="s1">SnowFlakesList</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">i</span><span class="s2">)[</span><span class="s3">5</span><span class="s2">] += </span><span class="s3">10</span><span class="s2">;</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">list</span><span class="s2">[</span><span class="s3">5</span><span class="s2">] &gt;= </span><span class="s3">1080</span><span class="s2">) {</span>
+                    <span class="s1">SnowFlakesList</span><span class="s2">.</span><span class="s1">remove</span><span class="s2">(</span><span class="s1">list</span><span class="s2">);</span>
+                    <span class="s1">i</span><span class="s2">--;</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+        <span class="s2">} </span><span class="s0">else if </span><span class="s2">(</span><span class="s1">player</span><span class="s2">.</span><span class="s1">getCurrentWeather</span><span class="s2">().</span><span class="s1">equals</span><span class="s2">(</span><span class="s4">&quot;Rain&quot;</span><span class="s2">)) {</span>
+            <span class="s0">if </span><span class="s2">(!(</span><span class="s1">RainDropList</span><span class="s2">.</span><span class="s1">size</span><span class="s2">() &gt;= </span><span class="s3">60</span><span class="s2">)) {</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">Math</span><span class="s2">.</span><span class="s1">random</span><span class="s2">() &lt; </span><span class="s3">0.3</span><span class="s2">) {</span>
+                    <span class="s1">RainDropList</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Rectangle</span><span class="s2">((</span><span class="s0">int</span><span class="s2">)(</span><span class="s1">Math</span><span class="s2">.</span><span class="s1">random</span><span class="s2">() * </span><span class="s3">1920</span><span class="s2">),</span><span class="s3">0</span><span class="s2">,</span><span class="s3">3</span><span class="s2">,</span><span class="s3">20</span><span class="s2">));</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+            <span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">i </span><span class="s2">= </span><span class="s3">0</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&lt; </span><span class="s1">RainDropList</span><span class="s2">.</span><span class="s1">size</span><span class="s2">(); </span><span class="s1">i</span><span class="s2">++) {</span>
+                <span class="s1">Rectangle rain </span><span class="s2">= </span><span class="s1">RainDropList</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">i</span><span class="s2">);</span>
+                <span class="s0">int </span><span class="s1">locationX </span><span class="s2">= (</span><span class="s0">int</span><span class="s2">)</span><span class="s1">rain</span><span class="s2">.</span><span class="s1">getX</span><span class="s2">();</span>
+                <span class="s0">int </span><span class="s1">locationY </span><span class="s2">= (</span><span class="s0">int</span><span class="s2">)</span><span class="s1">rain</span><span class="s2">.</span><span class="s1">getY</span><span class="s2">();</span>
+                <span class="s1">g2d</span><span class="s2">.</span><span class="s1">setStroke</span><span class="s2">(</span><span class="s0">new </span><span class="s1">BasicStroke</span><span class="s2">(</span><span class="s3">2</span><span class="s2">));</span>
+                <span class="s1">g2d</span><span class="s2">.</span><span class="s1">setColor</span><span class="s2">(</span><span class="s1">Color</span><span class="s2">.</span><span class="s1">blue</span><span class="s2">);</span>
+                <span class="s1">g2d</span><span class="s2">.</span><span class="s1">fill</span><span class="s2">(</span><span class="s1">rain</span><span class="s2">);</span>
+                <span class="s1">g2d</span><span class="s2">.</span><span class="s1">draw</span><span class="s2">(</span><span class="s1">rain</span><span class="s2">);</span>
+                <span class="s1">rain</span><span class="s2">.</span><span class="s1">setBounds</span><span class="s2">(</span><span class="s1">locationX</span><span class="s2">,</span><span class="s1">locationY </span><span class="s2">+ </span><span class="s3">10</span><span class="s2">, </span><span class="s3">3</span><span class="s2">, </span><span class="s3">20</span><span class="s2">);</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">rain</span><span class="s2">.</span><span class="s1">getY</span><span class="s2">() &gt;= </span><span class="s3">1080</span><span class="s2">) {</span>
+                    <span class="s1">RainDropList</span><span class="s2">.</span><span class="s1">remove</span><span class="s2">(</span><span class="s1">rain</span><span class="s2">);</span>
+                    <span class="s1">i</span><span class="s2">--;</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+
+        <span class="s2">}</span>
+
+
+        <span class="s0">int </span><span class="s1">spriteWidth </span><span class="s2">= </span><span class="s3">48</span><span class="s2">;</span>
+        <span class="s0">int </span><span class="s1">spriteHeight </span><span class="s2">= </span><span class="s3">48</span><span class="s2">;</span>
+        <span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">r </span><span class="s2">= </span><span class="s3">0</span><span class="s2">; </span><span class="s1">r </span><span class="s2">&lt; </span><span class="s1">farmPlots</span><span class="s2">.</span><span class="s1">getPlots</span><span class="s2">().</span><span class="s1">size</span><span class="s2">(); </span><span class="s1">r</span><span class="s2">++){</span>
+            <span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">c </span><span class="s2">= </span><span class="s3">0</span><span class="s2">; </span><span class="s1">c </span><span class="s2">&lt; </span><span class="s1">farmPlots</span><span class="s2">.</span><span class="s1">getPlots</span><span class="s2">().</span><span class="s1">get</span><span class="s2">(</span><span class="s1">r</span><span class="s2">).</span><span class="s1">size</span><span class="s2">(); </span><span class="s1">c</span><span class="s2">++){</span>
+                <span class="s0">switch </span><span class="s2">(</span><span class="s1">farmPlots</span><span class="s2">.</span><span class="s1">getPlots</span><span class="s2">().</span><span class="s1">get</span><span class="s2">(</span><span class="s1">r</span><span class="s2">).</span><span class="s1">get</span><span class="s2">(</span><span class="s1">c</span><span class="s2">).</span><span class="s1">getCrop</span><span class="s2">()) {</span>
+                    <span class="s0">case </span><span class="s4">&quot;Rice&quot; </span><span class="s1">-&gt; </span><span class="s2">{</span>
+                        <span class="s0">int </span><span class="s1">sx1 </span><span class="s2">= </span><span class="s3">11 </span><span class="s2">* </span><span class="s1">spriteWidth </span><span class="s2">- (</span><span class="s3">4</span><span class="s2">- </span><span class="s1">farmPlots</span><span class="s2">.</span><span class="s1">getPlots</span><span class="s2">().</span><span class="s1">get</span><span class="s2">(</span><span class="s1">r</span><span class="s2">).</span><span class="s1">get</span><span class="s2">(</span><span class="s1">c</span><span class="s2">).</span><span class="s1">getGrowthTime</span><span class="s2">()) * </span><span class="s3">48</span><span class="s2">;</span>
+                        <span class="s0">int </span><span class="s1">sy1 </span><span class="s2">= </span><span class="s3">4 </span><span class="s2">* </span><span class="s1">spriteHeight</span><span class="s2">;</span>
+                        <span class="s0">int </span><span class="s1">dx1 </span><span class="s2">= </span><span class="s3">30 </span><span class="s2">+ (</span><span class="s3">64 </span><span class="s2">* </span><span class="s1">c</span><span class="s2">);</span>
+                        <span class="s0">int </span><span class="s1">dy1 </span><span class="s2">= </span><span class="s3">450 </span><span class="s2">+ (</span><span class="s3">64 </span><span class="s2">* </span><span class="s1">r</span><span class="s2">);</span>
+                        <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">spriteSheet</span><span class="s2">, </span><span class="s1">dx1</span><span class="s2">, </span><span class="s1">dy1</span><span class="s2">, </span><span class="s1">dx1 </span><span class="s2">+ </span><span class="s1">spriteWidth</span><span class="s2">, </span><span class="s1">dy1 </span><span class="s2">+ </span><span class="s1">spriteHeight</span><span class="s2">, </span><span class="s1">sx1</span><span class="s2">, </span><span class="s1">sy1</span><span class="s2">, </span><span class="s1">sx1 </span><span class="s2">+ </span><span class="s1">spriteWidth</span><span class="s2">, </span><span class="s1">sy1 </span><span class="s2">+ </span><span class="s1">spriteHeight</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+                    <span class="s2">}</span>
+                    <span class="s0">case </span><span class="s4">&quot;Potatoes&quot; </span><span class="s1">-&gt; </span><span class="s2">{</span>
+                        <span class="s0">int </span><span class="s1">sx1 </span><span class="s2">= </span><span class="s3">5 </span><span class="s2">* </span><span class="s1">spriteWidth </span><span class="s2">- (</span><span class="s3">4</span><span class="s2">- </span><span class="s1">farmPlots</span><span class="s2">.</span><span class="s1">getPlots</span><span class="s2">().</span><span class="s1">get</span><span class="s2">(</span><span class="s1">r</span><span class="s2">).</span><span class="s1">get</span><span class="s2">(</span><span class="s1">c</span><span class="s2">).</span><span class="s1">getGrowthTime</span><span class="s2">()) * </span><span class="s3">48</span><span class="s2">;</span>
+                        <span class="s0">int </span><span class="s1">sy1 </span><span class="s2">= </span><span class="s3">7 </span><span class="s2">* </span><span class="s1">spriteHeight</span><span class="s2">;</span>
+                        <span class="s0">int </span><span class="s1">dx1 </span><span class="s2">= </span><span class="s3">20 </span><span class="s2">+ (</span><span class="s3">64 </span><span class="s2">* </span><span class="s1">c</span><span class="s2">);</span>
+                        <span class="s0">int </span><span class="s1">dy1 </span><span class="s2">= </span><span class="s3">450 </span><span class="s2">+ (</span><span class="s3">64 </span><span class="s2">* </span><span class="s1">r</span><span class="s2">);</span>
+                        <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">spriteSheet</span><span class="s2">, </span><span class="s1">dx1</span><span class="s2">, </span><span class="s1">dy1</span><span class="s2">, </span><span class="s1">dx1 </span><span class="s2">+ </span><span class="s1">spriteWidth</span><span class="s2">, </span><span class="s1">dy1 </span><span class="s2">+ </span><span class="s1">spriteHeight</span><span class="s2">, </span><span class="s1">sx1</span><span class="s2">, </span><span class="s1">sy1</span><span class="s2">, </span><span class="s1">sx1 </span><span class="s2">+ </span><span class="s1">spriteWidth</span><span class="s2">, </span><span class="s1">sy1 </span><span class="s2">+ </span><span class="s1">spriteHeight</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+                    <span class="s2">}</span>
+                    <span class="s0">case </span><span class="s4">&quot;Wheat&quot; </span><span class="s1">-&gt; </span><span class="s2">{</span>
+                        <span class="s0">int </span><span class="s1">sx1 </span><span class="s2">= </span><span class="s3">5 </span><span class="s2">* </span><span class="s1">spriteWidth </span><span class="s2">- (</span><span class="s3">4</span><span class="s2">- </span><span class="s1">farmPlots</span><span class="s2">.</span><span class="s1">getPlots</span><span class="s2">().</span><span class="s1">get</span><span class="s2">(</span><span class="s1">r</span><span class="s2">).</span><span class="s1">get</span><span class="s2">(</span><span class="s1">c</span><span class="s2">).</span><span class="s1">getGrowthTime</span><span class="s2">()) * </span><span class="s3">48</span><span class="s2">;</span>
+                        <span class="s0">int </span><span class="s1">sy1 </span><span class="s2">= </span><span class="s3">5 </span><span class="s2">* </span><span class="s1">spriteHeight</span><span class="s2">;</span>
+                        <span class="s0">int </span><span class="s1">dx1 </span><span class="s2">= </span><span class="s3">20 </span><span class="s2">+ (</span><span class="s3">64 </span><span class="s2">* </span><span class="s1">c</span><span class="s2">);</span>
+                        <span class="s0">int </span><span class="s1">dy1 </span><span class="s2">= </span><span class="s3">450 </span><span class="s2">+ (</span><span class="s3">64 </span><span class="s2">* </span><span class="s1">r</span><span class="s2">);</span>
+                        <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">spriteSheet</span><span class="s2">, </span><span class="s1">dx1</span><span class="s2">, </span><span class="s1">dy1</span><span class="s2">, </span><span class="s1">dx1 </span><span class="s2">+ </span><span class="s1">spriteWidth</span><span class="s2">, </span><span class="s1">dy1 </span><span class="s2">+ </span><span class="s1">spriteHeight</span><span class="s2">, </span><span class="s1">sx1</span><span class="s2">, </span><span class="s1">sy1</span><span class="s2">, </span><span class="s1">sx1 </span><span class="s2">+ </span><span class="s1">spriteWidth</span><span class="s2">, </span><span class="s1">sy1 </span><span class="s2">+ </span><span class="s1">spriteHeight</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+                    <span class="s2">}</span>
+                    <span class="s0">case </span><span class="s4">&quot;Mandarin&quot; </span><span class="s1">-&gt; </span><span class="s2">{</span>
+                        <span class="s0">int </span><span class="s1">sx1 </span><span class="s2">= </span><span class="s3">5 </span><span class="s2">* </span><span class="s1">spriteWidth </span><span class="s2">- (</span><span class="s3">4</span><span class="s2">- </span><span class="s1">farmPlots</span><span class="s2">.</span><span class="s1">getPlots</span><span class="s2">().</span><span class="s1">get</span><span class="s2">(</span><span class="s1">r</span><span class="s2">).</span><span class="s1">get</span><span class="s2">(</span><span class="s1">c</span><span class="s2">).</span><span class="s1">getGrowthTime</span><span class="s2">()) * </span><span class="s3">48</span><span class="s2">;</span>
+                        <span class="s0">int </span><span class="s1">sy1 </span><span class="s2">= </span><span class="s3">8 </span><span class="s2">* </span><span class="s1">spriteHeight</span><span class="s2">;</span>
+                        <span class="s0">int </span><span class="s1">dx1 </span><span class="s2">= </span><span class="s3">30 </span><span class="s2">+ (</span><span class="s3">64 </span><span class="s2">* </span><span class="s1">c</span><span class="s2">);</span>
+                        <span class="s0">int </span><span class="s1">dy1 </span><span class="s2">= </span><span class="s3">455 </span><span class="s2">+ (</span><span class="s3">64 </span><span class="s2">* </span><span class="s1">r</span><span class="s2">);</span>
+                        <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">spriteSheet</span><span class="s2">, </span><span class="s1">dx1</span><span class="s2">, </span><span class="s1">dy1</span><span class="s2">, </span><span class="s1">dx1 </span><span class="s2">+ </span><span class="s1">spriteWidth</span><span class="s2">, </span><span class="s1">dy1 </span><span class="s2">+ </span><span class="s1">spriteHeight</span><span class="s2">, </span><span class="s1">sx1</span><span class="s2">, </span><span class="s1">sy1</span><span class="s2">, </span><span class="s1">sx1 </span><span class="s2">+ </span><span class="s1">spriteWidth</span><span class="s2">, </span><span class="s1">sy1 </span><span class="s2">+ </span><span class="s1">spriteHeight</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+                    <span class="s2">}</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+        <span class="s1">g2d</span><span class="s2">.</span><span class="s1">setFont</span><span class="s2">(</span><span class="s1">customFont</span><span class="s2">);</span>
+        <span class="s1">g2d</span><span class="s2">.</span><span class="s1">setColor</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Color</span><span class="s2">(</span><span class="s3">56</span><span class="s2">, </span><span class="s3">23</span><span class="s2">,</span><span class="s3">0</span><span class="s2">));</span>
+        <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">sign</span><span class="s2">, </span><span class="s3">1650</span><span class="s2">,</span><span class="s3">10</span><span class="s2">,</span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s1">g2d</span><span class="s2">.</span><span class="s1">drawString</span><span class="s2">(</span><span class="s4">&quot;DAY  &quot; </span><span class="s2">+ </span><span class="s1">player</span><span class="s2">.</span><span class="s1">getDay</span><span class="s2">(), </span><span class="s3">1700</span><span class="s2">, </span><span class="s3">60</span><span class="s2">);</span>
+
+        <span class="s0">int </span><span class="s1">fx1 </span><span class="s2">= </span><span class="s1">direction </span><span class="s2">* </span><span class="s3">128</span><span class="s2">;</span>
+        <span class="s0">int </span><span class="s1">fy1 </span><span class="s2">= </span><span class="s1">currentFrame </span><span class="s2">* </span><span class="s3">128</span><span class="s2">;</span>
+        <span class="s0">int </span><span class="s1">fx2 </span><span class="s2">= </span><span class="s1">fx1 </span><span class="s2">+ </span><span class="s3">128</span><span class="s2">;</span>
+        <span class="s0">int </span><span class="s1">fy2 </span><span class="s2">= </span><span class="s1">fy1 </span><span class="s2">+ </span><span class="s3">128</span><span class="s2">;</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">moving</span><span class="s2">){</span>
+            <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">farmer</span><span class="s2">, </span><span class="s1">farmerX</span><span class="s2">, </span><span class="s1">farmerY</span><span class="s2">, </span><span class="s1">farmerX </span><span class="s2">+ </span><span class="s3">128</span><span class="s2">, </span><span class="s1">farmerY </span><span class="s2">+ </span><span class="s3">128</span><span class="s2">, </span><span class="s1">fx1</span><span class="s2">, </span><span class="s1">fy1</span><span class="s2">, </span><span class="s1">fx2</span><span class="s2">, </span><span class="s1">fy2</span><span class="s2">, </span><span class="s0">this</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">farmerIdle</span><span class="s2">, </span><span class="s1">farmerX</span><span class="s2">, </span><span class="s1">farmerY</span><span class="s2">, </span><span class="s1">farmerX </span><span class="s2">+ </span><span class="s3">128</span><span class="s2">, </span><span class="s1">farmerY </span><span class="s2">+ </span><span class="s3">128</span><span class="s2">, </span><span class="s1">fx1</span><span class="s2">, </span><span class="s1">fy1</span><span class="s2">, </span><span class="s1">fx2</span><span class="s2">, </span><span class="s1">fy2</span><span class="s2">, </span><span class="s0">this</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+    <span class="s2">}</span>
+
+    <span class="s0">private boolean </span><span class="s1">collidesWithBarn</span><span class="s2">(</span><span class="s0">int </span><span class="s1">x</span><span class="s2">, </span><span class="s0">int </span><span class="s1">y</span><span class="s2">){</span>
+        <span class="s1">Rectangle player </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Rectangle</span><span class="s2">(</span><span class="s1">x</span><span class="s2">,</span><span class="s1">y</span><span class="s2">,</span><span class="s3">128</span><span class="s2">,</span><span class="s3">128</span><span class="s2">);</span>
+        <span class="s0">return</span><span class="s2">(</span><span class="s1">player</span><span class="s2">.</span><span class="s1">intersects</span><span class="s2">(</span><span class="s1">barnRectangle</span><span class="s2">));</span>
+    <span class="s2">}</span>
+
+    <span class="s0">private boolean </span><span class="s1">collidesWithShop</span><span class="s2">(</span><span class="s0">int </span><span class="s1">x</span><span class="s2">, </span><span class="s0">int </span><span class="s1">y</span><span class="s2">){</span>
+        <span class="s1">Rectangle player </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Rectangle</span><span class="s2">(</span><span class="s1">x</span><span class="s2">,</span><span class="s1">y</span><span class="s2">,</span><span class="s3">128</span><span class="s2">,</span><span class="s3">128</span><span class="s2">);</span>
+        <span class="s0">return</span><span class="s2">(</span><span class="s1">player</span><span class="s2">.</span><span class="s1">intersects</span><span class="s2">(</span><span class="s1">shopRectangle</span><span class="s2">));</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">actionPerformed</span><span class="s2">(</span><span class="s1">ActionEvent e</span><span class="s2">) {</span>
+        <span class="s1">currentFrame </span><span class="s2">= (</span><span class="s1">currentFrame </span><span class="s2">+ </span><span class="s3">1</span><span class="s2">) % </span><span class="s3">4</span><span class="s2">;</span>
+        <span class="s1">repaint</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">keyTyped</span><span class="s2">(</span><span class="s1">KeyEvent e</span><span class="s2">) { }</span>
+
+    <span class="s0">private boolean </span><span class="s1">WithinTheBarn</span><span class="s2">(</span><span class="s0">int </span><span class="s1">x</span><span class="s2">, </span><span class="s0">int </span><span class="s1">y</span><span class="s2">) {</span>
+        <span class="s0">return </span><span class="s1">box</span><span class="s2">.</span><span class="s1">contains</span><span class="s2">(</span><span class="s1">x</span><span class="s2">,</span><span class="s1">y</span><span class="s2">) &amp;&amp; !</span><span class="s1">C_box</span><span class="s2">.</span><span class="s1">contains</span><span class="s2">(</span><span class="s1">x</span><span class="s2">,</span><span class="s1">y</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">keyPressed</span><span class="s2">(</span><span class="s1">KeyEvent e</span><span class="s2">) {</span>
+        <span class="s0">int </span><span class="s1">Xchange </span><span class="s2">= </span><span class="s3">0</span><span class="s2">;</span>
+        <span class="s0">int </span><span class="s1">Ychange </span><span class="s2">= </span><span class="s3">0</span><span class="s2">;</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">e</span><span class="s2">.</span><span class="s1">getKeyCode</span><span class="s2">() == </span><span class="s1">KeyEvent</span><span class="s2">.</span><span class="s1">VK_E</span><span class="s2">){</span>
+            <span class="s1">farmGame</span><span class="s2">.</span><span class="s1">toggleInventory</span><span class="s2">(</span><span class="s4">&quot;Farm&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+        <span class="s0">switch </span><span class="s2">(</span><span class="s1">e</span><span class="s2">.</span><span class="s1">getKeyCode</span><span class="s2">()) {</span>
+            <span class="s0">case </span><span class="s1">KeyEvent</span><span class="s2">.</span><span class="s1">VK_W</span><span class="s2">:</span>
+                <span class="s1">moving </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+                <span class="s1">Ychange </span><span class="s2">-= </span><span class="s3">10</span><span class="s2">;</span>
+                <span class="s1">direction </span><span class="s2">= </span><span class="s3">0</span><span class="s2">;</span>
+                <span class="s0">break</span><span class="s2">;</span>
+            <span class="s0">case </span><span class="s1">KeyEvent</span><span class="s2">.</span><span class="s1">VK_S</span><span class="s2">:</span>
+                <span class="s1">moving </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+                <span class="s1">Ychange </span><span class="s2">+= </span><span class="s3">10</span><span class="s2">;</span>
+                <span class="s1">direction </span><span class="s2">= </span><span class="s3">2</span><span class="s2">;</span>
+                <span class="s0">break</span><span class="s2">;</span>
+            <span class="s0">case </span><span class="s1">KeyEvent</span><span class="s2">.</span><span class="s1">VK_A</span><span class="s2">:</span>
+                <span class="s1">moving </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+                <span class="s1">Xchange </span><span class="s2">-= </span><span class="s3">10</span><span class="s2">;</span>
+                <span class="s1">direction </span><span class="s2">= </span><span class="s3">3</span><span class="s2">;</span>
+                <span class="s0">break</span><span class="s2">;</span>
+            <span class="s0">case </span><span class="s1">KeyEvent</span><span class="s2">.</span><span class="s1">VK_D</span><span class="s2">:</span>
+                <span class="s1">moving </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+                <span class="s1">Xchange </span><span class="s2">+= </span><span class="s3">10</span><span class="s2">;</span>
+                <span class="s1">direction </span><span class="s2">= </span><span class="s3">1</span><span class="s2">;</span>
+                <span class="s0">break</span><span class="s2">;</span>
+        <span class="s2">};</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">WithinTheBarn</span><span class="s2">(</span><span class="s1">farmerX </span><span class="s2">+ </span><span class="s1">Xchange</span><span class="s2">, </span><span class="s1">farmerY </span><span class="s2">+ </span><span class="s1">Ychange</span><span class="s2">)) {</span>
+            <span class="s1">farmerY </span><span class="s2">+= </span><span class="s1">Ychange</span><span class="s2">;</span>
+            <span class="s1">farmerX </span><span class="s2">+= </span><span class="s1">Xchange</span><span class="s2">;</span>
+        <span class="s2">}</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;X: &quot; </span><span class="s2">+ </span><span class="s1">farmerX  </span><span class="s2">+ </span><span class="s4">&quot; Y: &quot; </span><span class="s2">+ </span><span class="s1">farmerY</span><span class="s2">);</span>
+        <span class="s1">repaint</span><span class="s2">();</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">collidesWithBarn</span><span class="s2">(</span><span class="s1">farmerX</span><span class="s2">, </span><span class="s1">farmerY</span><span class="s2">)){</span>
+            <span class="s1">farmGame</span><span class="s2">.</span><span class="s1">showBarn</span><span class="s2">(</span><span class="s0">false</span><span class="s2">);</span>
+            <span class="s0">try </span><span class="s2">{</span>
+                <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">20</span><span class="s2">);</span>
+            <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">InterruptedException x</span><span class="s2">) {</span>
+                <span class="s1">x</span><span class="s2">.</span><span class="s1">printStackTrace</span><span class="s2">();</span>
+            <span class="s2">}</span>
+            <span class="s1">farmerX </span><span class="s2">= </span><span class="s3">170</span><span class="s2">;</span>
+            <span class="s1">farmerY </span><span class="s2">= </span><span class="s3">300</span><span class="s2">;</span>
+            <span class="s1">direction </span><span class="s2">= </span><span class="s3">2</span><span class="s2">;</span>
+            <span class="s1">moving </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+        <span class="s2">}</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">collidesWithShop</span><span class="s2">(</span><span class="s1">farmerX</span><span class="s2">, </span><span class="s1">farmerY</span><span class="s2">)){</span>
+            <span class="s1">farmGame</span><span class="s2">.</span><span class="s1">showShop</span><span class="s2">();</span>
+            <span class="s0">try </span><span class="s2">{</span>
+                <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">20</span><span class="s2">);</span>
+            <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">InterruptedException x</span><span class="s2">) {</span>
+                <span class="s1">x</span><span class="s2">.</span><span class="s1">printStackTrace</span><span class="s2">();</span>
+            <span class="s2">}</span>
+            <span class="s1">farmerX </span><span class="s2">= </span><span class="s3">1000</span><span class="s2">;</span>
+            <span class="s1">farmerY </span><span class="s2">= </span><span class="s3">300</span><span class="s2">;</span>
+            <span class="s1">direction </span><span class="s2">= </span><span class="s3">2</span><span class="s2">;</span>
+            <span class="s1">moving </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">keyReleased</span><span class="s2">(</span><span class="s1">KeyEvent e</span><span class="s2">) {</span>
+        <span class="s1">moving </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">mouseClicked</span><span class="s2">(</span><span class="s1">MouseEvent e</span><span class="s2">) { }</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">mousePressed</span><span class="s2">(</span><span class="s1">MouseEvent e</span><span class="s2">) { }</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">mouseReleased</span><span class="s2">(</span><span class="s1">MouseEvent e</span><span class="s2">) { }</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">mouseEntered</span><span class="s2">(</span><span class="s1">MouseEvent e</span><span class="s2">) { }</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">mouseExited</span><span class="s2">(</span><span class="s1">MouseEvent e</span><span class="s2">) {</span>
+        <span class="s1">moving </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+    <span class="s2">}</span>
+    <span class="s0">public </span><span class="s1">ArrayList</span><span class="s2">&lt;</span><span class="s1">ArrayList</span><span class="s2">&lt;</span><span class="s1">Crop</span><span class="s2">&gt;&gt; </span><span class="s1">getPlots</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">farmPlots</span><span class="s2">.</span><span class="s1">getPlots</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public int </span><span class="s1">getFarmerX</span><span class="s2">(){</span>
+        <span class="s0">return </span><span class="s1">farmerX</span><span class="s2">;</span>
+    <span class="s2">}</span>
+    <span class="s0">public int </span><span class="s1">getFarmerY</span><span class="s2">(){</span>
+        <span class="s0">return </span><span class="s1">farmerY</span><span class="s2">;</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

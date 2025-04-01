@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>Item.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Item.java</font>
+</center></td></tr></table>
+<pre><span class="s0">public class </span><span class="s1">Item </span><span class="s2">{</span>
+    <span class="s0">private </span><span class="s1">String name</span><span class="s2">;</span>
+    <span class="s0">private int </span><span class="s1">quantity</span><span class="s2">;</span>
+
+    <span class="s0">public </span><span class="s1">Item</span><span class="s2">(</span><span class="s1">String name</span><span class="s2">, </span><span class="s0">int </span><span class="s1">quantity</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">name </span><span class="s2">= </span><span class="s1">name</span><span class="s2">;</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">quantity </span><span class="s2">= </span><span class="s1">quantity</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">String getName</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">name</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public int </span><span class="s1">getQuantity</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">quantity</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">addQuantity</span><span class="s2">(</span><span class="s0">int </span><span class="s1">amount</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">quantity </span><span class="s2">+= </span><span class="s1">amount</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">removeQuantity</span><span class="s2">(</span><span class="s0">int </span><span class="s1">amount</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">quantity </span><span class="s2">= </span><span class="s1">Math</span><span class="s2">.</span><span class="s1">max</span><span class="s2">(</span><span class="s0">this</span><span class="s2">.</span><span class="s1">quantity </span><span class="s2">- </span><span class="s1">amount</span><span class="s2">, </span><span class="s3">0</span><span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

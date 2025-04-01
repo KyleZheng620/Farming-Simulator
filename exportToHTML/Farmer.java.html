@@ -1,0 +1,66 @@
+<html>
+<head>
+<title>Farmer.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Farmer.java</font>
+</center></td></tr></table>
+<pre><span class="s0">public class </span><span class="s1">Farmer </span><span class="s2">{</span>
+    <span class="s0">private </span><span class="s1">Inventory inventory</span><span class="s2">;</span>
+    <span class="s0">private int </span><span class="s1">money</span><span class="s2">;</span>
+    <span class="s0">private int </span><span class="s1">hunger</span><span class="s2">;</span>
+    <span class="s0">private int </span><span class="s1">thirst</span><span class="s2">;</span>
+    <span class="s0">private int </span><span class="s1">day</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">Weather weather</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">String CurrentWeather</span><span class="s2">;</span>
+
+    <span class="s0">public </span><span class="s1">Farmer</span><span class="s2">(</span><span class="s1">Inventory inventory</span><span class="s2">){</span>
+        <span class="s1">money </span><span class="s2">= </span><span class="s3">0</span><span class="s2">;</span>
+        <span class="s1">hunger </span><span class="s2">= </span><span class="s3">10</span><span class="s2">;</span>
+        <span class="s1">thirst </span><span class="s2">= </span><span class="s3">10</span><span class="s2">;</span>
+        <span class="s1">day </span><span class="s2">= </span><span class="s3">1</span><span class="s2">;</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">inventory </span><span class="s2">= </span><span class="s1">inventory</span><span class="s2">;</span>
+
+        <span class="s1">weather </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Weather</span><span class="s2">();</span>
+        <span class="s1">CurrentWeather </span><span class="s2">= </span><span class="s1">weather</span><span class="s2">.</span><span class="s1">changeWeather</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public int </span><span class="s1">getMoney</span><span class="s2">(){</span>
+        <span class="s0">return </span><span class="s1">money</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">setMoney</span><span class="s2">(</span><span class="s0">int </span><span class="s1">newMoney</span><span class="s2">){</span>
+        <span class="s1">money </span><span class="s2">= </span><span class="s1">newMoney</span><span class="s2">;</span>
+    <span class="s2">}</span>
+    <span class="s0">public int </span><span class="s1">getThirst</span><span class="s2">(){</span>
+        <span class="s0">return </span><span class="s1">thirst</span><span class="s2">;</span>
+    <span class="s2">}</span>
+    <span class="s0">public int </span><span class="s1">getHunger</span><span class="s2">(){</span>
+        <span class="s0">return </span><span class="s1">hunger</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">sleep</span><span class="s2">(){</span>
+        <span class="s1">day</span><span class="s2">++;</span>
+        <span class="s1">CurrentWeather </span><span class="s2">= </span><span class="s1">weather</span><span class="s2">.</span><span class="s1">changeWeather</span><span class="s2">();</span>
+    <span class="s2">}</span>
+    <span class="s0">public int </span><span class="s1">getDay</span><span class="s2">(){</span>
+        <span class="s0">return </span><span class="s1">day</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">String getCurrentWeather</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">CurrentWeather</span><span class="s2">;</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>
