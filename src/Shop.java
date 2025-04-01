@@ -45,8 +45,6 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
         C_box3 = new Rectangle(530,460,190,  90);
         C_box4 = new Rectangle(750,600,160,70);
 
-        registerRectangle = new Rectangle(1050,-10,200,300);
-
         customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 30f);
         moving = false;
         currentFrame = 0;
@@ -72,6 +70,14 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
         requestFocusInWindow();
     }
 
+    public void showRegister() {
+        ShopMenu shopMenu = new ShopMenu(
+                (JFrame)SwingUtilities.getWindowAncestor(this),
+                player,
+                farmGame
+        );
+        shopMenu.setVisible(true);
+    }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
@@ -80,6 +86,7 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
         g.drawImage(shopInside, 0, 0, null);
         g.drawImage(sign, 1650,10,null);
         g2d.drawString("DAY  " + player.getDay(), 1700, 60);
+        registerRectangle = new Rectangle(600,530,100,50);
         int fx1 = direction * 128;
         int fy1 = currentFrame * 128;
         int fx2 = fx1 + 128;
@@ -147,6 +154,10 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
         if (WithinShop(farmerX + Xchange, farmerY + Ychange)) {
             farmerY += Ychange;
             farmerX += Xchange;
+            while (farmerX == 1000){
+                System.out.println(farmerX);
+                System.out.println(farmerY);
+            }
         }
         System.out.println("X: " + farmerX  + " Y: " + farmerY);
 
@@ -163,14 +174,8 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
             farmerY = 820;
             direction = 0;
         }
-        while (collidesWithRegister(farmerX, farmerY)){
-            farmGame.showShop();
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException x) {
-                x.printStackTrace();
-            }
-            moving = true;
+        if (collidesWithRegister(farmerX, farmerY)) {
+                showRegister();
         }
     }
 

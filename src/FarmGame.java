@@ -45,6 +45,9 @@ public class FarmGame extends JFrame{
         setVisible(true);
     }
 
+    public Inventory getInventory() {
+        return inventory;
+    }
 
     public void showBarn(int a){
         cardLayout.show(mainPanel, "Barn");
