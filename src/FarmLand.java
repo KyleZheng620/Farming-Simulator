@@ -1,49 +1,70 @@
-import java.util.ArrayList;
 
 public class FarmLand {
-    private ArrayList<ArrayList<Crop>> plots;
+    private Crop[][] plots;
+    private Crop soil;
     private Farmer player;
     private int plotPrice;
+    private int lastBoughtRow;
+    private int lastBoughtCol;
 
     public FarmLand(Farmer player){
         plotPrice = 20;
         this.player = player;
-        plots = new ArrayList<>();
-        Crop soil = new Crop ("Soil");
+        plots = new Crop[4][21];
+        lastBoughtRow = 3;
+        lastBoughtCol = 0;
+        soil = new Crop ("Soil");
         Crop rice = new Crop ("Rice");
         Crop mandarin = new Crop ("Mandarin");
-        Crop potatoes = new Crop ("Potatoes");
+        Crop potato = new Crop ("Potato");
         Crop wheat = new Crop ("Wheat");
         for (int i = 0; i < 4; i++) {
-            plots.add(new ArrayList<Crop>());
+            plots[i][0] = rice;
         }
-        plots.get(0).add(soil);
-        plots.get(1).add(soil);
-        plots.get(2).add(soil);
-        plots.get(3).add(soil);
+        for (int i = 0; i < 4; i++) {
+            plots[i][1] = mandarin;
+        }
+        for (int i = 0; i < 4; i++) {
+            plots[i][2] = potato;
+        }
+        for (int i = 0; i < 4; i++) {
+            plots[i][3] = wheat;
+        }
     }
 
-    public void DayPass() {
-        for (ArrayList<Crop> row: plots) {
+    public void dayPass() {
+        for (Crop[] row: plots) {
             for (Crop e : row) {
-                e.dayPass(player.getCurrentWeather());
+                if (e!=null){
+                    e.dayPass(player.getCurrentWeather());
+                }
             }
         }
     }
 
-    public boolean buyPlot(){
+    public Boolean buyPlot(){
+        if (lastBoughtCol==20 && lastBoughtRow == 3){
+            return null;
+        }
         if (player.getMoney() < plotPrice){
             return false;
         } else {
             player.setMoney(player.getMoney()-plotPrice);
             plotPrice *= 2.2;
         }
+        if (lastBoughtRow == 3){
+            lastBoughtRow = 0;
+        } else {
+            lastBoughtRow++;
+        }
+        lastBoughtCol++;
+        plots[lastBoughtRow][lastBoughtCol] = soil;
+
         return true;
     }
 
 
-
-    public ArrayList<ArrayList<Crop>> getPlots() {
+    public Crop[][] getPlots() {
         return plots;
     }
 }

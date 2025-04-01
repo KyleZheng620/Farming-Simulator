@@ -7,6 +7,8 @@ public class FarmGame extends JFrame{
     private Farm farmPanel;
     private Barn barnPanel;
     private Shop shopPanel;
+    private Cooking cookPanel;
+    private Animations animationsPanel;
     private Farmer player;
     private TransitionPanel transitionPanel;
     private Inventory inventory;
@@ -14,7 +16,6 @@ public class FarmGame extends JFrame{
 
     public FarmGame() {
         inventory = new Inventory();
-
         player = new Farmer(inventory);
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
@@ -23,15 +24,20 @@ public class FarmGame extends JFrame{
         inventory.addItem("Wheat seeds", 5);
         inventory.addItem("Potato seeds", 3);
         inventory.addItem("Mandarin seeds", 3);
+        inventory.addItem("Water", 10);
 
         farmPanel = new Farm(this, player);
         barnPanel = new Barn(this, player);
         shopPanel = new Shop(this, player);
+        cookPanel = new Cooking(this,player);
         transitionPanel = new TransitionPanel(player);
+        animationsPanel = new Animations(this, player);
 
         mainPanel.add(farmPanel, "Farm");
         mainPanel.add(barnPanel, "Barn");
         mainPanel.add(shopPanel, "Shop");
+        mainPanel.add(cookPanel,"Cooking");
+        mainPanel.add(animationsPanel,"Animations");
         mainPanel.add(inventoryPanel, "Inventory");
         mainPanel.add(transitionPanel, "TRANSITION");
 
@@ -60,6 +66,10 @@ public class FarmGame extends JFrame{
     public void showShop(int a){
         cardLayout.show(mainPanel, "Shop");
         shopPanel.requestFocusInWindow();
+    }
+    public void showCooking() {
+        cardLayout.show(mainPanel, "Cooking");
+        cookPanel.requestFocusInWindow();
     }
 
     public void showBarn(boolean sleeping){
@@ -138,6 +148,18 @@ public class FarmGame extends JFrame{
             cardLayout.show(mainPanel, "Shop");
             shopPanel.requestFocusInWindow();
         }).start();
+    }
+
+    public void showAnimations(double col, double row, int n, int x, int y, int d){
+        cardLayout.show(mainPanel, "Animations");
+        if (n == 1) {
+            animationsPanel.watering(col, row, x, y, d);
+        } else if (n == 2){
+            animationsPanel.harvesting(col, row, x, y, d);
+        } else if (n == 3){
+            animationsPanel.watering(col, row, x, y, d);
+        }
+        animationsPanel.requestFocusInWindow();
     }
 
 

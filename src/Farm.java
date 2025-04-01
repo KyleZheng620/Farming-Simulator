@@ -30,20 +30,29 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     private BufferedImage barn;
     private BufferedImage shop;
     private BufferedImage sign;
+    private BufferedImage farmerRain;
+    private BufferedImage farmerRainIdle;
+    private BufferedImage health;
+    private BufferedImage select;
     private FarmGame farmGame;
     private Rectangle barnRectangle;
     private Rectangle shopRectangle;
-    private FarmLand farmPlots;
     private Farmer player;
     private int direction;
     private boolean moving;
     private int currentFrame;
     private Rectangle box;
     private Rectangle C_box;
-    private int day = 1;
-    ArrayList<int[]> SnowFlakesList;
-    ArrayList<Rectangle> RainDropList;
-    SnowFlake e;
+    private int mouseX;
+    private int mouseY;
+    private Timer timer;
+    private ArrayList<int[]> SnowFlakesList;
+    private ArrayList<Rectangle> RainDropList;
+    private SnowFlake e;
+    private boolean selected;
+    private boolean watering;
+    private boolean harvesting;
+    private boolean planting;
 
 
     public Farm(FarmGame farmGame, Farmer player) {
@@ -52,25 +61,31 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         barnRectangle = new Rectangle(100, 50, 300,240);
         shopRectangle = new Rectangle(1050,-10,200,300);
         box = new Rectangle(-40, 150, 1320,450);
-        C_box = new Rectangle(-40,360,1180,230);
+        C_box = new Rectangle(-40,360,1180,240);
         moving = false;
+        mouseX = -1;
+        mouseY = -1;
         currentFrame = 0;
         farmerX = 170;
         farmerY = 300;
         direction = 0;
-
         SnowFlakesList = new ArrayList<>();
         e = new SnowFlake();
+        selected = false;
+        watering = false;
+        harvesting = false;
+        planting = false;
 
         RainDropList = new ArrayList<>();
 
         this.player = player;
-        farmPlots = new FarmLand(player);
 
-        Timer timer = new Timer(150, this);
+        timer = new Timer(150, this);
         timer.start();
 
         try {
+            select = ImageIO.read(new File("src/Sprites/select.png"));
+            health = ImageIO.read(new File("src/Sprites/health.png"));
             sign = ImageIO.read(new File("src/Sprites/Sign.png"));
             background = ImageIO.read(new File("src/Sprites/background.png"));
             snowbackground = ImageIO.read(new File("src/Sprites/SnowBackGround.png"));
@@ -78,6 +93,8 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
             barn = ImageIO.read(new File("src/Sprites/Barn.png"));
             farmer = ImageIO.read(new File("src/Sprites/farmer.png"));
             farmerIdle = ImageIO.read(new File("src/Sprites/farmer_idle.png"));
+            farmerRain = ImageIO.read(new File("src/Sprites/farmerRain.png"));
+            farmerRainIdle = ImageIO.read(new File("src/Sprites/farmerRainIdle.png"));
             spriteSheet = ImageIO.read(new File("src/Sprites/crop_spritesheet-1.png-2.png"));
             shop = ImageIO.read(new File("src/Sprites/ShopOutside.png"));
 
@@ -105,6 +122,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
 
         g.drawImage(barn, 30,50,null);
         g.drawImage(shop, 900,-80, null);
+
 
         if (player.getCurrentWeather().equals("Snowy")) {
             if (!(SnowFlakesList.size() >= 20)) {
@@ -138,7 +156,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
                 int locationX = (int)rain.getX();
                 int locationY = (int)rain.getY();
                 g2d.setStroke(new BasicStroke(2));
-                g2d.setColor(Color.blue);
+                g2d.setColor(new Color(101,123,180));
                 g2d.fill(rain);
                 g2d.draw(rain);
                 rain.setBounds(locationX,locationY + 10, 3, 20);
@@ -150,40 +168,37 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
 
         }
 
-
         int spriteWidth = 48;
         int spriteHeight = 48;
-        for (int r = 0; r < farmPlots.getPlots().size(); r++){
-            for (int c = 0; c < farmPlots.getPlots().get(r).size(); c++){
-                switch (farmPlots.getPlots().get(r).get(c).getCrop()) {
-                    case "Rice" -> {
-                        int sx1 = 11 * spriteWidth - (4- farmPlots.getPlots().get(r).get(c).getGrowthTime()) * 48;
-                        int sy1 = 4 * spriteHeight;
-                        int dx1 = 30 + (64 * c);
-                        int dy1 = 450 + (64 * r);
-                        g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
-                    }
-                    case "Potatoes" -> {
-                        int sx1 = 5 * spriteWidth - (4- farmPlots.getPlots().get(r).get(c).getGrowthTime()) * 48;
-                        int sy1 = 7 * spriteHeight;
-                        int dx1 = 20 + (64 * c);
-                        int dy1 = 450 + (64 * r);
-                        g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
-                    }
-                    case "Wheat" -> {
-                        int sx1 = 5 * spriteWidth - (4- farmPlots.getPlots().get(r).get(c).getGrowthTime()) * 48;
-                        int sy1 = 5 * spriteHeight;
-                        int dx1 = 20 + (64 * c);
-                        int dy1 = 450 + (64 * r);
-                        g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
-                    }
-                    case "Mandarin" -> {
-                        int sx1 = 5 * spriteWidth - (4- farmPlots.getPlots().get(r).get(c).getGrowthTime()) * 48;
-                        int sy1 = 8 * spriteHeight;
-                        int dx1 = 30 + (64 * c);
-                        int dy1 = 455 + (64 * r);
-                        g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
-                    }
+        for (int c = 0; c < player.getFarmPlots().getPlots()[0].length; c++){
+            for (int r = 0; r < player.getFarmPlots().getPlots().length; r++){
+                if (player.getFarmPlots().getPlots()[r][c] == null){
+                    break;
+                }
+                if (player.getFarmPlots().getPlots()[r][c].getCrop().equals("Rice")){
+                    int sx1 = 11 * spriteWidth - (4- player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
+                    int sy1 = 4 * spriteHeight;
+                    int dx1 = 35 + (53 * c);
+                    int dy1 = 460 + (55 * r);
+                    g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
+                } else if (player.getFarmPlots().getPlots()[r][c].getCrop().equals("Potato")){
+                    int sx1 = 5 * spriteWidth - (4- player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
+                    int sy1 = 7 * spriteHeight;
+                    int dx1 = 40 + (53 * c);
+                    int dy1 = 455 + (55 * r);
+                    g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
+                } else if (player.getFarmPlots().getPlots()[r][c].getCrop().equals("Wheat")){
+                    int sx1 = 5 * spriteWidth - (4- player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
+                    int sy1 = 5 * spriteHeight;
+                    int dx1 = 40 + (53 * c);
+                    int dy1 = 465 + (55 * r);
+                    g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
+                } else if ((player.getFarmPlots().getPlots()[r][c].getCrop().equals("Mandarin"))){
+                    int sx1 = 5 * spriteWidth - (4- player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
+                    int sy1 = 8 * spriteHeight;
+                    int dx1 = 35 + (53 * c);
+                    int dy1 = 460 + (55 * r);
+                    g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                 }
             }
         }
@@ -192,16 +207,80 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         g.drawImage(sign, 1650,10,null);
         g2d.drawString("DAY  " + player.getDay(), 1700, 60);
 
+        int playerHunger = player.getHunger();
+        int playerThirst = player.getThirst();
+        for (int i = 0; i < 5; i++){
+            g.drawImage(health,1600 + 60*i, 918, 1672 + 60*i,990, 649, 0, 720,72, null);
+            g.drawImage(health,1600 + 60*i, 848, 1672 + 60*i,920, 577, 0, 648,72, null);
+            if (playerHunger>=1){
+                if (player.isFoodPoison()){
+                    if (playerHunger>=2){
+                        g.drawImage(health,1600 + 60*i, 918, 1672 + 60*i,990, 433, 0, 504,72, null);
+                    } else {
+                        g.drawImage(health,1604 + 60*i, 918, 1672 + 60*i,990, 505, 0, 576,72, null);
+                    }
+                } else {
+                    if (playerHunger>=2){
+                        g.drawImage(health,1600 + 60*i, 918, 1672 + 60*i,990, 289, 0, 360,72, null);
+                    } else {
+                        g.drawImage(health,1603 + 60*i, 918, 1675 + 60*i,990, 361, 0, 432,72, null);
+                    }
+                }
+            }
+
+            if (playerThirst>=1){
+                if (player.isWaterPoison()){
+                    if (playerThirst>=2){
+                        g.drawImage(health,1599 + 60*i, 847, 1672 + 60*i,919, 145, 0, 216,72, null);
+                    } else {
+                        g.drawImage(health,1600 + 60*i, 847, 1672 + 60*i,919, 217, 0, 288,72, null);
+                    }
+                } else {
+                    if (playerThirst>=2){
+                        g.drawImage(health,1599 + 60*i, 847, 1672 + 60*i,919, 0, 0, 72,72, null);
+                    } else {
+                        g.drawImage(health,1600 + 60*i, 847, 1672 + 60*i,919, 73, 0, 144,72, null);
+                    }
+                }
+            }
+            playerHunger-=2;
+            playerThirst-=2;
+        }
+
         int fx1 = direction * 128;
         int fy1 = currentFrame * 128;
         int fx2 = fx1 + 128;
         int fy2 = fy1 + 128;
-        if (moving){
-            g.drawImage(farmer, farmerX, farmerY, farmerX + 128, farmerY + 128, fx1, fy1, fx2, fy2, this);
+        if (!player.getCurrentWeather().equals("Rain")){
+            if (moving){
+                g.drawImage(farmer, farmerX, farmerY, farmerX + 128, farmerY + 128, fx1, fy1, fx2, fy2, this);
+            } else {
+                g.drawImage(farmerIdle, farmerX, farmerY, farmerX + 128, farmerY + 128, fx1, fy1, fx2, fy2, this);
+            }
         } else {
-            g.drawImage(farmerIdle, farmerX, farmerY, farmerX + 128, farmerY + 128, fx1, fy1, fx2, fy2, this);
+            if (moving) {
+                g.drawImage(farmerRain, farmerX, farmerY, farmerX + 128, farmerY + 128, fx1, fy1, fx2, fy2, this);
+            } else {
+                g.drawImage(farmerRainIdle, farmerX, farmerY, farmerX + 128, farmerY + 128, fx1, fy1, fx2, fy2, this);
+            }
         }
-
+        double row = (mouseY - 465) / 55.0;
+        double col = (mouseX - 35) / 54.0;
+        if (selected){
+            if (row >= 0 && row < 4 && col >= 0 && col < 21) {
+                int x = (int) col * 54 + 32;
+                int y = (int) row * 55 + 462 - 141;
+                g.drawImage(select, x, y, null);
+            }
+        }
+        if (watering){
+            farmGame.showAnimations(row, col, 1, farmerX, farmerY, direction);
+            watering = false;
+        }
+        if (harvesting){
+            farmGame.showAnimations(row, col, 2, farmerX, farmerY, direction);
+            harvesting = false;
+        }
     }
 
     private boolean collidesWithBarn(int x, int y){
@@ -231,7 +310,6 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     public void keyPressed(KeyEvent e) {
         int Xchange = 0;
         int Ychange = 0;
-
         if (e.getKeyCode() == KeyEvent.VK_E){
             farmGame.toggleInventory("Farm");
         }
@@ -257,13 +335,33 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
                 direction = 1;
                 break;
         };
+        if (selected){
+            int row = (mouseY - 465) / 55;
+            int col = (mouseX - 35) / 54;
+            Crop[][] plots = player.getFarmPlots().getPlots();
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_1:
+                    if (plots[row][col] != null && plots[row][col].waterCrop(player)){
+                        watering = true;
+                    }
+                    break;
+                case KeyEvent.VK_2:
+                    if (plots[row][col] != null && plots[row][col].harvestCrop(player)){
+                        harvesting = true;
+                    }
+                    break;
+                case KeyEvent.VK_3:
+                    break;
+            };
+        }
         if (WithinTheBarn(farmerX + Xchange, farmerY + Ychange)) {
+            selected = false;
             farmerY += Ychange;
             farmerX += Xchange;
         }
-        System.out.println("X: " + farmerX  + " Y: " + farmerY);
-        repaint();
+
         if (collidesWithBarn(farmerX, farmerY)){
+            selected = false;
             farmGame.showBarn(false);
             try {
                 Thread.sleep(20);
@@ -287,6 +385,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
             direction = 2;
             moving = false;
         }
+        repaint();
     }
     @Override
     public void keyReleased(KeyEvent e) {
@@ -294,7 +393,20 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) { }
+    public void mouseClicked(MouseEvent e) {
+        mouseX = e.getX();
+        mouseY = e.getY();
+        double row = (mouseY - 465) / 55.0;
+        double col = (mouseX - 35) / 54.0;
+
+        if (row >= 0 && row < 4 && col >= 0 && col < 21) {
+            selected = true;
+        } else{
+            selected = false;
+        }
+
+        repaint();
+    }
 
     @Override
     public void mousePressed(MouseEvent e) { }
@@ -309,8 +421,8 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     public void mouseExited(MouseEvent e) {
         moving = false;
     }
-    public ArrayList<ArrayList<Crop>> getPlots() {
-        return farmPlots.getPlots();
+    public Crop[][] getPlots() {
+        return player.getFarmPlots().getPlots();
     }
 
     public int getFarmerX(){

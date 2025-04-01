@@ -4,20 +4,20 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class TransitionPanel extends JPanel {
 
     private int a = 0;
     private String card;
     private Font customFont;
-    private ArrayList<ArrayList<Crop>> farmPlots;
+    private Crop[][] farmPlots;
     private BufferedImage barnInside;
     private BufferedImage farmerIdle;
     private BufferedImage shopInside;
     private BufferedImage shopInside2;
     private BufferedImage spriteSheet;
     private BufferedImage snowbackground;
+    private BufferedImage farmerRainIdle;
     private BufferedImage farm;
     private BufferedImage barn;
     private BufferedImage shop;
@@ -45,6 +45,7 @@ public class TransitionPanel extends JPanel {
             shopInside2 = ImageIO.read(new File("src/Sprites/ShopInside 2.png"));
             barnInside = ImageIO.read(new File("src/Sprites/BarnInside.png"));
             farmerIdle = ImageIO.read(new File("src/Sprites/farmer_idle.png"));
+            farmerRainIdle = ImageIO.read(new File("src/Sprites/farmerRainIdle.png"));
             spriteSheet = ImageIO.read(new File("src/Sprites/crop_spritesheet-1.png-2.png"));
             shop = ImageIO.read(new File("src/Sprites/ShopOutside.png"));
             sleep = ImageIO.read(new File("src/Sprites/Sleep.png"));
@@ -67,6 +68,7 @@ public class TransitionPanel extends JPanel {
             shopInside2 = ImageIO.read(new File("src/Sprites/ShopInside 2.png"));
             barnInside = ImageIO.read(new File("src/Sprites/BarnInside.png"));
             farmerIdle = ImageIO.read(new File("src/Sprites/farmer_idle.png"));
+            farmerRainIdle = ImageIO.read(new File("src/Sprites/farmerRainIdle.png"));
             spriteSheet = ImageIO.read(new File("src/Sprites/crop_spritesheet-1.png-2.png"));
             shop = ImageIO.read(new File("src/Sprites/ShopOutside.png"));
             sleep = ImageIO.read(new File("src/Sprites/Sleep.png"));
@@ -74,7 +76,7 @@ public class TransitionPanel extends JPanel {
             System.out.println(e.getMessage());
         }
     }
-    public void setAlpha(int a, String card, ArrayList<ArrayList<Crop>> farmPlots, int farmerX, int farmerY) {
+    public void setAlpha(int a, String card, Crop[][] farmPlots, int farmerX, int farmerY) {
         customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 30f);
         this.farmPlots = farmPlots;
         this.farmerX = farmerX;
@@ -86,6 +88,7 @@ public class TransitionPanel extends JPanel {
             barn = ImageIO.read(new File("src/Sprites/Barn.png"));
             snowbackground = ImageIO.read(new File("src/Sprites/SnowBackGround.png"));
             farmerIdle = ImageIO.read(new File("src/Sprites/farmer_idle.png"));
+            farmerRainIdle = ImageIO.read(new File("src/Sprites/farmerRainIdle.png"));
             spriteSheet = ImageIO.read(new File("src/Sprites/crop_spritesheet-1.png-2.png"));
             shop = ImageIO.read(new File("src/Sprites/ShopOutside.png"));
             sleep = ImageIO.read(new File("src/Sprites/Sleep.png"));
@@ -113,41 +116,43 @@ public class TransitionPanel extends JPanel {
             int spriteHeight = 48;
             g.drawImage(sign, 1650,10,null);
             g2d.drawString("DAY  " + player.getDay(), 1700, 60);
-            for (int r = 0; r < farmPlots.size(); r++){
-                for (int c = 0; c < farmPlots.get(r).size(); c++){
-                    switch (farmPlots.get(r).get(c).getCrop()) {
-                        case "Rice" -> {
-                            int sx1 = 10 * spriteWidth - (4- farmPlots.get(r).get(c).getGrowthTime()) * 48;
-                            int sy1 = 4 * spriteHeight;
-                            int dx1 = 30 + (64 * c);
-                            int dy1 = 450 + (64 * r);
-                            g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
-                        }
-                        case "Potatoes" -> {
-                            int sx1 = 5 * spriteWidth - (4- farmPlots.get(r).get(c).getGrowthTime()) * 48;
-                            int sy1 = 7 * spriteHeight;
-                            int dx1 = 20 + (64 * c);
-                            int dy1 = 450 + (64 * r);
-                            g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
-                        }
-                        case "Wheat" -> {
-                            int sx1 = 5 * spriteWidth - (4- farmPlots.get(r).get(c).getGrowthTime()) * 48;
-                            int sy1 = 5 * spriteHeight;
-                            int dx1 = 20 + (64 * c);
-                            int dy1 = 455 + (64 * r);
-                            g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
-                        }
-                        case "Mandarin" -> {
-                            int sx1 = 5 * spriteWidth - (4- farmPlots.get(r).get(c).getGrowthTime()) * 48;
-                            int sy1 = 8 * spriteHeight;
-                            int dx1 = 30 + (64 * c);
-                            int dy1 = 450 + (64 * r);
-                            g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
-                        }
+            for (int c = 0; c < player.getFarmPlots().getPlots()[0].length; c++){
+                for (int r = 0; r < player.getFarmPlots().getPlots().length; r++){
+                    if (player.getFarmPlots().getPlots()[r][c] == null){
+                        break;
+                    }
+                    if (player.getFarmPlots().getPlots()[r][c].getCrop().equals("Rice")){
+                        int sx1 = 11 * spriteWidth - (4- player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
+                        int sy1 = 4 * spriteHeight;
+                        int dx1 = 35 + (53 * c);
+                        int dy1 = 460 + (55 * r);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
+                    } else if (player.getFarmPlots().getPlots()[r][c].getCrop().equals("Potato")){
+                        int sx1 = 5 * spriteWidth - (4- player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
+                        int sy1 = 7 * spriteHeight;
+                        int dx1 = 40 + (53 * c);
+                        int dy1 = 455 + (55 * r);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
+                    } else if (player.getFarmPlots().getPlots()[r][c].getCrop().equals("Wheat")){
+                        int sx1 = 5 * spriteWidth - (4- player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
+                        int sy1 = 5 * spriteHeight;
+                        int dx1 = 40 + (53 * c);
+                        int dy1 = 465 + (55 * r);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
+                    } else if ((player.getFarmPlots().getPlots()[r][c].getCrop().equals("Mandarin"))){
+                        int sx1 = 5 * spriteWidth - (4- player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
+                        int sy1 = 8 * spriteHeight;
+                        int dx1 = 35 + (53 * c);
+                        int dy1 = 460 + (55 * r);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                     }
                 }
             }
-            g.drawImage(farmerIdle, farmerX, farmerY, farmerX + 128, farmerY + 128, 256,0,256+128,128, this);
+            if (player.getCurrentWeather().equals("Rain")){
+                g.drawImage(farmerRainIdle, farmerX, farmerY, farmerX + 128, farmerY + 128, 256,0,256+128,128, this);
+            } else {
+                g.drawImage(farmerIdle, farmerX, farmerY, farmerX + 128, farmerY + 128, 256,0,256+128,128, this);
+            }
         } else if (card.equals("Barn")){
             if (!sleeping){
                 g.drawImage(barnInside,0,0,null);

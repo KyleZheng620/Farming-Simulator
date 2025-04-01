@@ -1,86 +1,105 @@
-public class Crop {
+public class Crop{
     private String crop;
 
     private int waterLevel;
-    private int CropPrice;
     private int growthTime;
+    private CropItem cropItem;
 
-    private String[] AllPlants = {"Rice","Potatoes","Wheat","Mandarin","Soil"};
+
+    private String[] AllPlants = {"Rice","Potato","Wheat","Mandarin","Soil"};
 
     public Crop(String crop){
         this.crop = crop;
         if (crop.equals("Rice")) {
-            CropPrice = 10;
-            growthTime = 6;
-        } else if (crop.equals("Potatoes")) {
-            CropPrice = 10;
-            growthTime = 6;
+            growthTime = 0;
+            cropItem = new CropItem("Rice", 1);
+        } else if (crop.equals("Potato")) {
+            growthTime = 0;
+            cropItem = new CropItem("Potato", 1);
         } else if (crop.equals("Wheat")) {
-            CropPrice = 10;
-            growthTime = 6;
+            growthTime = 0;
+            cropItem = new CropItem("Wheat", 1);
         } else if (crop.equals("Mandarin")) {
-            CropPrice = 10;
-            growthTime = 6;
+            growthTime = 0;
+            cropItem = new CropItem("Mandarin", 1);
         } else if (crop.equals("Soil")) {
-            CropPrice = 0;
-            growthTime = 6;
+            growthTime = 0;
         }
 
         waterLevel = 3;
     }
 
-    public Boolean waterCrop(boolean rain, boolean player) {
-        if (crop.equals("Soil")){
-            return null;
-        }
-        if (rain && player){
-            waterLevel+=5;
-        } else if (rain){
-            waterLevel+=2;
-        } else {
-            waterLevel++;
-        }
-        if (waterLevel>15){
+    public boolean waterCrop(Farmer player) {
+        int waterAmount = player.getInventory().itemAmount("Water");
+        if (crop.equals("Soil") || waterAmount <= 0){
             return false;
+        }
+        waterLevel++;
+        player.getInventory().removeItem("Water", 1);
+        if (waterLevel>=10){
+            crop = "Soil";
         }
         return true;
     }
 
-    public Boolean dayPass(String weather){
-        if (crop.equals("Soil")){
-            return null;
-        }
-        double chance = Math.random();
-        if (weather.equals("Sunny")){
-            if (chance<0.9){
-                growthTime--;
+    public void dayPass(String weather){
+        if (growthTime!=0) {
+            if (crop.equals("Soil")) {
+                return;
             }
-        } else if (chance<0.8){
-            growthTime--;
-        }
+            double chance = Math.random();
+            if (weather.equals("Sunny")) {
+                if (chance < 0.9) {
+                    growthTime--;
+                }
+            }
 
-        if (weather.equals("Snowy")) {
+            if (weather.equals("Snowy")) {
+                if (chance < 0.2) {
+                    growthTime--;
+                }
+            }
 
+            if (weather.equals("Rain")) {
+                if (chance < 0.9) {
+                    growthTime--;
+                }
+                waterLevel += 3;
+            }
         }
         waterLevel--;
-        return waterLevel >= 0;
+        if (waterLevel<0){
+            crop = "Soil";
+        }
     }
 
+    public boolean plantCrop(String newCrop, Farmer player){
+        if (!crop.equals("Soil")) {
+            crop = newCrop;
+            player.getInventory().removeItem(newCrop + " seeds",1);
+            return true;
+        }
+        return false;
+    }
 
-    public void setCrop(String newCrop){
-        crop = newCrop;
+    public boolean harvestCrop(Farmer player){
+        if (growthTime == 0 && !crop.equals("Soil")){
+            crop = "Soil";
+            player.getInventory().addItem(cropItem);
+            return true;
+        }
+        return false;
     }
 
     public String getCrop(){
         return crop;
     }
 
-    public int getCropPrice() { return CropPrice;}
 
-    public int getWaterLevel(){
-        return waterLevel;
-    }
     public int getGrowthTime(){
+        if (growthTime%2 == 1){
+            return growthTime/2 + 1;
+        }
         return growthTime/2;
     }
 }
