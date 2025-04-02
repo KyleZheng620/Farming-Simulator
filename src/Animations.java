@@ -40,7 +40,6 @@ public class Animations extends JPanel implements ActionListener {
             repaint();
         }).start();
 
-        // Fast animation (every 100ms)
         new Timer(100, e -> {
             currentFrame2 = (currentFrame2 + 1) % 7;
             repaint();

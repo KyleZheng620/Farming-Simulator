@@ -15,23 +15,38 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
     private BufferedImage spriteSheet;
     private BufferedImage inventoryImage;
     private BufferedImage spriteSheet2;
+    private BufferedImage seeds;
     private String panel;
     private boolean toggleInventory;
     private FarmGame farmGame;
     private Farmer player;
+    private boolean planting;
+    private int row;
+    private int col;
+    private String one;
+    private String two;
+    private String three;
+    private String four;
 
     public InventoryPanel(Inventory inventory, FarmGame farmGame, Farmer player) {
+        planting = false;
         this.player = player;
         this.farmGame = farmGame;
         panel = "";
         this.inventory = inventory;
+        row = -1;
+        col = -1;
+        one = "";
+        two = "";
+        three = "";
+        four = "";
         customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 18f);
         customFont2 = FontLoader.loadFont("src/Fonts/Daydream.ttf", 35f);
-        setBackground(new Color(50, 50, 50, 220));
         try {
             inventoryImage = ImageIO.read(new File("src/Sprites/inventory.png"));
             spriteSheet = ImageIO.read(new File("src/Sprites/crop_spritesheet-1.png-2.png"));
             spriteSheet2 = ImageIO.read(new File("src/Sprites/sprites2.png"));
+            seeds = ImageIO.read(new File("src/Sprites/SeedBag.png"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -40,11 +55,25 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
     }
 
     public void panel(String panel) {
+        setBackground(new Color(50, 50, 50, 220));
+        planting = false;
         this.panel = panel;
         toggleInventory = true;
         setFocusable(true);
         requestFocusInWindow();
     }
+
+    public void panel(int row, int col) {
+        setBackground(new Color(0, 0, 0, 0));
+        this.row = row;
+        this.col = col;
+        this.planting = true;
+        this.panel = "Farm";
+        toggleInventory = true;
+        setFocusable(true);
+        requestFocusInWindow();
+    }
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -61,96 +90,181 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
         g2d.setColor(Color.WHITE);
         g2d.setFont(customFont);
 
-        g.drawImage(inventoryImage, 0, 0, null);
+        if (!planting) {
+            g.drawImage(inventoryImage, 0, 0, null);
+        } else {
+            g.drawImage(seeds,800,500,null);
+        }
         ArrayList<Item> items = inventory.getItems();
 
         int r = 0;
         int c = 0;
-        for (Item item : items) {
-            c++;
-            switch (item.getName()) {
-                case "Rice seeds" -> {
-                    int sx1 = 11 * 48;
-                    int sy1 = 4 * 48;
-                    int dx1 = 475 + (87 * c);
-                    int dy1 = 450 + (88 * r);
-                    g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
-                    g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (90 * r));
+        if (!planting) {
+            for (Item item : items) {
+                c++;
+                switch (item.getName()) {
+                    case "Rice seeds" -> {
+                        int sx1 = 11 * 48;
+                        int sy1 = 4 * 48;
+                        int dx1 = 475 + (87 * c);
+                        int dy1 = 450 + (88 * r);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
+                        g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
+                    }
+                    case "Potato seeds" -> {
+                        int sx1 = 5 * 48;
+                        int sy1 = 7 * 48;
+                        int dx1 = 475 + (87 * c);
+                        int dy1 = 450 + (88 * r);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
+                        g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
+                    }
+                    case "Wheat seeds" -> {
+                        int sx1 = 5 * 48;
+                        int sy1 = 5 * 48;
+                        int dx1 = 475 + (87 * c);
+                        int dy1 = 450 + (88 * r);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
+                        g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
+                    }
+                    case "Mandarin seeds" -> {
+                        int sx1 = 5 * 48;
+                        int sy1 = 8 * 48;
+                        int dx1 = 475 + (87 * c);
+                        int dy1 = 450 + (88 * r);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
+                        g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
+                    }
+                    case "Rice" -> {
+                        int sx1 = 6 * 48;
+                        int sy1 = 4 * 48;
+                        int dx1 = 475 + (87 * c);
+                        int dy1 = 445 + (88 * r);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
+                        g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
+                    }
+                    case "Potato" -> {
+                        int sx1 = 0;
+                        int sy1 = 7 * 48;
+                        int dx1 = 475 + (87 * c);
+                        int dy1 = 445 + (88 * r);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
+                        g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
+                    }
+                    case "Wheat" -> {
+                        int sx1 = 0;
+                        int sy1 = 5 * 48;
+                        int dx1 = 475 + (87 * c);
+                        int dy1 = 445 + (88 * r);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
+                        g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
+                    }
+                    case "Mandarin" -> {
+                        int sx1 = 0;
+                        int sy1 = 8 * 48;
+                        int dx1 = 475 + (87 * c);
+                        int dy1 = 445 + (88 * r);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
+                        g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
+                    }
+                    case "Water" -> {
+                        int sx1 = 0;
+                        int sy1 = 0;
+                        int dx1 = 470 + (87 * c);
+                        int dy1 = 445 + (88 * r);
+                        g.drawImage(spriteSheet2, dx1, dy1, dx1 + 64, dy1 + 64, sx1, sy1, sx1 + 48, sy1 + 48, null);
+                        g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
+                    }
                 }
-                case "Potato seeds" -> {
-                    int sx1 = 5 * 48;
-                    int sy1 = 7 * 48;
-                    int dx1 = 475 + (87 * c);
-                    int dy1 = 450 + (88 * r);
-                    g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
-                    g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (90 * r));
-                }
-                case "Wheat seeds" -> {
-                    int sx1 = 5 * 48;
-                    int sy1 = 5 * 48;
-                    int dx1 = 475 + (87 * c);
-                    int dy1 = 450 + (88 * r);
-                    g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
-                    g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (90 * r));
-                }
-                case "Mandarin seeds" -> {
-                    int sx1 = 5 * 48;
-                    int sy1 = 8 * 48;
-                    int dx1 = 475 + (87 * c);
-                    int dy1 = 450 + (88 * r);
-                    g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
-                    g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
-                }
-                case "Rice" -> {
-                    int sx1 = 6 * 48;
-                    int sy1 = 4 * 48;
-                    int dx1 = 475 + (87 * c);
-                    int dy1 = 445 + (88 * r);
-                    g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
-                    g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
-                }
-                case "Potato" -> {
-                    int sx1 = 0;
-                    int sy1 = 7 * 48;
-                    int dx1 = 475 + (87 * c);
-                    int dy1 = 445 + (88 * r);
-                    g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
-                    g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
-                }
-                case "Wheat" -> {
-                    int sx1 = 0;
-                    int sy1 = 5 * 48;
-                    int dx1 = 475 + (87 * c);
-                    int dy1 = 445 + (88 * r);
-                    g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
-                    g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
-                }
-                case "Mandarin" -> {
-                    int sx1 = 0;
-                    int sy1 = 8 * 48;
-                    int dx1 = 475 + (87 * c);
-                    int dy1 = 445 + (88 * r);
-                    g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
-                    g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
-                }
-                case "Water" -> {
-                    int sx1 = 0;
-                    int sy1 = 0;
-                    int dx1 = 470 + (87 * c);
-                    int dy1 = 445 + (88 * r);
-                    g.drawImage(spriteSheet2, dx1, dy1, dx1 + 64, dy1 + 64, sx1, sy1, sx1 + 48, sy1 + 48, null);
-                    g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
+                if (c == 8) {
+                    c = 0;
+                    r++;
                 }
             }
-            if (c == 8) {
-                c = 0;
-                r++;
+        } else {
+            for (Item item : items) {
+                switch (item.getName()) {
+                    case "Rice seeds" -> {
+                        int sx1 = 11 * 48;
+                        int sy1 = 4 * 48;
+                        int dx1 = 850 + (87 * c);
+                        int dy1 = 450 + (88);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
+                        g2d.drawString("" + item.getQuantity(), 900 + (87 * c), 500 + (88));
+                        c++;
+                        if (c == 1) {
+                            one = item.getName();
+                        } else if (c == 2) {
+                            two = item.getName();
+                        } else if (c == 3) {
+                            three = item.getName();
+                        } else if (c == 4) {
+                            four = item.getName();
+                        }
+                    }
+                    case "Potato seeds" -> {
+                        int sx1 = 5 * 48;
+                        int sy1 = 7 * 48;
+                        int dx1 = 850 + (87 * c);
+                        int dy1 = 450 + (88);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
+                        g2d.drawString("" + item.getQuantity(), 900 + (87 * c), 500 + (88));
+                        c++;
+                        if (c == 1) {
+                            one = item.getName();
+                        } else if (c == 2) {
+                            two = item.getName();
+                        } else if (c == 3) {
+                            three = item.getName();
+                        } else if (c == 4) {
+                            four = item.getName();
+                        }
+                    }
+                    case "Wheat seeds" -> {
+                        int sx1 = 5 * 48;
+                        int sy1 = 5 * 48;
+                        int dx1 = 850 + (87 * c);
+                        int dy1 = 450 + (88);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
+                        g2d.drawString("" + item.getQuantity(), 900 + (87 * c), 500 + (88));
+                        c++;
+                        if (c == 1) {
+                            one = item.getName();
+                        } else if (c == 2) {
+                            two = item.getName();
+                        } else if (c == 3) {
+                            three = item.getName();
+                        } else if (c == 4) {
+                            four = item.getName();
+                        }
+                    }
+                    case "Mandarin seeds" -> {
+                        int sx1 = 5 * 48;
+                        int sy1 = 8 * 48;
+                        int dx1 = 850 + (87 * c);
+                        int dy1 = 450 + (88);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
+                        g2d.drawString("" + item.getQuantity(), 900 + (87 * c), 500 + (88));
+                        c++;
+                        if (c == 1) {
+                            one = item.getName();
+                        } else if (c == 2) {
+                            two = item.getName();
+                        } else if (c == 3) {
+                            three = item.getName();
+                        } else if (c == 4) {
+                            four = item.getName();
+                        }
+                    }
+                }
             }
         }
-        g2d.setColor(new Color(127,63,49));
-        g2d.setFont(customFont2);
-        g2d.drawString("Gold", 1250, 550);
-        g2d.drawString("" + player.getMoney(), 1300, 600);
+        if (!planting) {
+            g2d.setColor(new Color(127, 63, 49));
+            g2d.setFont(customFont2);
+            g2d.drawString("Gold", 1250, 550);
+            g2d.drawString("" + player.getMoney(), 1300, 600);
+        }
     }
 
     @Override
@@ -162,6 +276,33 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
             toggleInventory = false;
             repaint();
         }
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_1:
+                if (!one.isEmpty()) {
+                    player.getFarmPlots().getPlots()[row][col].plantCrop(one, player);
+                    farmGame.showFarm(0);
+                    break;
+                }
+            case KeyEvent.VK_2:
+                if (!two.isEmpty()) {
+                    player.getFarmPlots().getPlots()[row][col].plantCrop(two, player);
+                    farmGame.showFarm(0);
+                    break;
+                }
+            case KeyEvent.VK_3:
+                if (!three.isEmpty()) {
+                    player.getFarmPlots().getPlots()[row][col].plantCrop(three, player);
+                    farmGame.showFarm(0);
+                    break;
+                }
+            case KeyEvent.VK_4:
+                if (!four.isEmpty()) {
+                    player.getFarmPlots().getPlots()[row][col].plantCrop(four, player);
+
+                    farmGame.showFarm(0);
+                    break;
+                }
+        };
     }
 
     @Override

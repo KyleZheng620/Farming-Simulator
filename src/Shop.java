@@ -215,6 +215,7 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
             direction = 0;
         }
         if (collidesWithRegister(farmerX, farmerY)) {
+                moving = false;
                 showRegister();
         }
     }

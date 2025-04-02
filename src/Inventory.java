@@ -30,7 +30,6 @@ public class Inventory {
     public void removeItem(String name, int amount) {
         for (Item item : items) {
             if (item.getName().equals(name)) {
-                ;
                 item.removeQuantity(amount);
             }
         }

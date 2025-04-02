@@ -58,7 +58,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
     public Farm(FarmGame farmGame, Farmer player) {
         this.farmGame = farmGame;
         customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 30f);
-        barnRectangle = new Rectangle(100, 50, 300,240);
+        barnRectangle = new Rectangle(200, 50, 130,240);
         shopRectangle = new Rectangle(1050,-10,200,300);
         box = new Rectangle(-40, 150, 1320,450);
         C_box = new Rectangle(-40,360,1180,240);
@@ -351,6 +351,9 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
                     }
                     break;
                 case KeyEvent.VK_3:
+                    if (plots[row][col] != null && plots[row][col].getCrop().equals("Soil")){
+                        farmGame.toggleInventory(row, col);
+                    }
                     break;
             };
         }

@@ -23,6 +23,6 @@ public class Item {
     }
 
     public void removeQuantity(int amount) {
-        this.quantity = Math.max(this.quantity - amount, 0);
+        this.quantity -= amount;
     }
 }

@@ -73,13 +73,24 @@ public class Crop{
         }
     }
 
-    public boolean plantCrop(String newCrop, Farmer player){
-        if (!crop.equals("Soil")) {
-            crop = newCrop;
-            player.getInventory().removeItem(newCrop + " seeds",1);
-            return true;
+    public void plantCrop(String newCrop, Farmer player){
+        if (crop.equals("Soil")) {
+            player.getInventory().removeItem(newCrop,1);
+            crop = newCrop.substring(0,newCrop.length()-6);
+            if (crop.equals("Rice")) {
+                growthTime = 0;
+                cropItem = new CropItem("Rice", 1);
+            } else if (crop.equals("Potato")) {
+                growthTime = 0;
+                cropItem = new CropItem("Potato", 1);
+            } else if (crop.equals("Wheat")) {
+                growthTime = 0;
+                cropItem = new CropItem("Wheat", 1);
+            } else if (crop.equals("Mandarin")) {
+                growthTime = 0;
+                cropItem = new CropItem("Mandarin", 1);
+            }
         }
-        return false;
     }
 
     public boolean harvestCrop(Farmer player){

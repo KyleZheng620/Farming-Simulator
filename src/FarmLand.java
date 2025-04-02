@@ -19,16 +19,19 @@ public class FarmLand {
         Crop potato = new Crop ("Potato");
         Crop wheat = new Crop ("Wheat");
         for (int i = 0; i < 4; i++) {
-            plots[i][0] = rice;
+            plots[i][0] = new Crop ("Rice");
         }
         for (int i = 0; i < 4; i++) {
-            plots[i][1] = mandarin;
+            plots[i][1] = new Crop ("Mandarin");
         }
         for (int i = 0; i < 4; i++) {
-            plots[i][2] = potato;
+            plots[i][2] = new Crop ("Potato");
         }
         for (int i = 0; i < 4; i++) {
-            plots[i][3] = wheat;
+            plots[i][3] = new Crop ("Wheat");
+        }
+        for (int i = 0; i < 4; i++) {
+            plots[i][4] = new Crop ("Soil");
         }
     }
 

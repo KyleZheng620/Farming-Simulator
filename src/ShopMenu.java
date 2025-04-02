@@ -17,20 +17,20 @@ public class ShopMenu extends JDialog {
         this.player = player;
         this.farmGame = farmGame;
 
-        setSize(800, 600);
+        setSize(1077, 950);
         setLocationRelativeTo(parent);
         setResizable(false);
 
         customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 16f);
 
         menuContainer = new JLayeredPane();
-        menuContainer.setPreferredSize(new Dimension(800, 600));
+        menuContainer.setPreferredSize(new Dimension(1077, 950));
 
         // Load background
         try {
-            backgroundImage = ImageIO.read(new File("src/Sprites/ShopInside.png"));
+            backgroundImage = ImageIO.read(new File("src/Sprites/ShopMenu.png"));
             JLabel background = new JLabel(new ImageIcon(backgroundImage));
-            background.setBounds(0, 0, 800, 600);
+            background.setBounds(0, 0, 1077, 950);
             menuContainer.add(background, JLayeredPane.DEFAULT_LAYER);
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,7 +51,7 @@ public class ShopMenu extends JDialog {
         // Add close button
         JButton closeButton = new JButton("Close");
         closeButton.setFont(customFont);
-        closeButton.setBounds(350, 520, 100, 30);
+        closeButton.setBounds(350, 520, 130, 30);
         closeButton.addActionListener(e -> dispose());
         menuContainer.add(closeButton, JLayeredPane.POPUP_LAYER);
 
