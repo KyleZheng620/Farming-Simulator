@@ -68,4 +68,5 @@ public class Farmer {
     public Inventory getInventory(){
         return inventory;
     }
+
 }

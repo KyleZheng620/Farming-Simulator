@@ -15,6 +15,9 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
     private BufferedImage spriteSheet;
     private BufferedImage inventoryImage;
     private BufferedImage spriteSheet2;
+    private BufferedImage BakedPotato;
+    private BufferedImage Bread;
+    private BufferedImage CookedRice;
     private BufferedImage seeds;
     private String panel;
     private boolean toggleInventory;
@@ -47,6 +50,10 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
             spriteSheet = ImageIO.read(new File("src/Sprites/crop_spritesheet-1.png-2.png"));
             spriteSheet2 = ImageIO.read(new File("src/Sprites/sprites2.png"));
             seeds = ImageIO.read(new File("src/Sprites/SeedBag.png"));
+            BakedPotato = ImageIO.read(new File("src/Sprites/BakedPotato.png"));
+            CookedRice = ImageIO.read(new File("src/Sprites/CookedRice.png"));
+            Bread = ImageIO.read(new File("src/Sprites/Bread.png"));
+
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -175,6 +182,25 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
                         g.drawImage(spriteSheet2, dx1, dy1, dx1 + 64, dy1 + 64, sx1, sy1, sx1 + 48, sy1 + 48, null);
                         g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
                     }
+                    case "Bread" -> {
+                        int dx1 = 470 + (87 * c);
+                        int dy1 = 445 + (88 * r);
+                        g.drawImage(Bread, dx1 + 6, dy1 + 3, 48, 48, null);
+                        g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
+                    }
+                    case "Cooked Rice" -> {
+                        int dx1 = 470 + (87 * c);
+                        int dy1 = 445 + (88 * r);
+                        g.drawImage(CookedRice, dx1 + 6, dy1, 48, 48, null);
+                        g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
+                    }
+                    case "Cooked Potato" -> {
+                        int dx1 = 470 + (87 * c);
+                        int dy1 = 445 + (88 * r);
+                        g.drawImage(BakedPotato, dx1 + 8, dy1, 48, 48, null);
+                        g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
+                    }
+
                 }
                 if (c == 8) {
                     c = 0;

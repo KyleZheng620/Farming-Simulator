@@ -24,6 +24,9 @@ public class FarmGame extends JFrame{
         inventory.addItem("Wheat seeds", 5);
         inventory.addItem("Potato seeds", 3);
         inventory.addItem("Mandarin seeds", 3);
+        inventory.addItem("Wheat",3);
+        inventory.addItem("Rice",3);
+        inventory.addItem("Potato",3);
         inventory.addItem("Water", 10);
 
         farmPanel = new Farm(this, player);

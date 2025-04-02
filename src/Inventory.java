@@ -47,4 +47,14 @@ public class Inventory {
         return items;
     }
 
+    public int getQuanitiyOfItem(String name) {
+        // note if there is no item then it would return 0
+        for (int i = 0 ; i < items.size(); i++) {
+            if (items.get(i).getName().equals(name)) {
+                return items.get(i).getQuantity();
+            }
+        }
+        return 0;
+    }
+
 }

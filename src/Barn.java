@@ -20,6 +20,7 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
     private int farmerX;
     private int farmerY;
     private int currentFrame;
+    private Rectangle CookingPlace;
     private Rectangle doorRectangle;
     private Rectangle bedRectangle;
     private Rectangle box;
@@ -32,6 +33,7 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
         this.player = player;
         doorRectangle = new Rectangle(830, 1050, 50,30);
         bedRectangle = new Rectangle(940, 140, 30,40);
+        CookingPlace = new Rectangle(940,620,50,30);
         box = new Rectangle(810,630,70,310);
         box2 = new Rectangle(870,620,240,220);
         box3 = new Rectangle(1060,80,50,560);
@@ -123,6 +125,10 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
 
     }
 
+    private boolean collidesWithCook(int x, int y){
+        return CookingPlace.contains(x,y);
+    }
+
     private boolean WithinBarn (int x, int y) {
         return (box.contains(x,y) || box2.contains(x,y) ||box3.contains(x,y) ||box4.contains(x,y));
     }
@@ -149,7 +155,7 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_E){
             farmGame.toggleInventory("Barn");
-    }
+        }
         int Xchange = 0;
         int Ychange = 0;
 
@@ -205,6 +211,9 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
             farmerY = 100;
             direction = 2;
             moving = false;
+        }
+        if (collidesWithCook(farmerX, farmerY)){
+            farmGame.showCooking();
         }
     }
 
