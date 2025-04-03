@@ -172,8 +172,8 @@ public class FarmGame extends JFrame{
         inventoryPanel.panel(panel);
     }
 
-    public void toggleInventory(int r, int c){
+    public void toggleInventory(int r, int c, int x, int y, int d){
         cardLayout.show(mainPanel, "Inventory");
-        inventoryPanel.panel(r, c);
+        inventoryPanel.panel(r, c, x, y, d);
     }
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class InventoryPanel extends JPanel implements KeyListener, MouseListener, ActionListener {
     private Font customFont;
     private Font customFont2;
+    private Font customFont3;
     private Inventory inventory;
     private BufferedImage spriteSheet;
     private BufferedImage inventoryImage;
@@ -26,6 +27,9 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
     private boolean planting;
     private int row;
     private int col;
+    private int farmerX;
+    private int farmerY;
+    private int direction;
     private String one;
     private String two;
     private String three;
@@ -45,6 +49,7 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
         four = "";
         customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 18f);
         customFont2 = FontLoader.loadFont("src/Fonts/Daydream.ttf", 35f);
+        customFont3 = FontLoader.loadFont("src/Fonts/Daydream.ttf", 10f);
         try {
             inventoryImage = ImageIO.read(new File("src/Sprites/inventory.png"));
             spriteSheet = ImageIO.read(new File("src/Sprites/crop_spritesheet-1.png-2.png"));
@@ -70,8 +75,11 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
         requestFocusInWindow();
     }
 
-    public void panel(int row, int col) {
+    public void panel(int row, int col,int farmerX, int farmerY, int direction) {
         setBackground(new Color(0, 0, 0, 0));
+        this.direction = direction;
+        this.farmerX = farmerX;
+        this.farmerY = farmerY;
         this.row = row;
         this.col = col;
         this.planting = true;
@@ -95,18 +103,18 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.WHITE);
-        g2d.setFont(customFont);
 
         if (!planting) {
             g.drawImage(inventoryImage, 0, 0, null);
         } else {
-            g.drawImage(seeds,800,500,null);
+            g.drawImage(seeds,farmerX+30,farmerY+100,null);
         }
         ArrayList<Item> items = inventory.getItems();
 
         int r = 0;
         int c = 0;
         if (!planting) {
+            g2d.setFont(customFont);
             for (Item item : items) {
                 c++;
                 switch (item.getName()) {
@@ -209,14 +217,19 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
             }
         } else {
             for (Item item : items) {
+                g2d.setFont(customFont3);
+                g2d.setColor(Color.darkGray);
                 switch (item.getName()) {
                     case "Rice seeds" -> {
                         int sx1 = 11 * 48;
                         int sy1 = 4 * 48;
-                        int dx1 = 850 + (87 * c);
-                        int dy1 = 450 + (88);
-                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
-                        g2d.drawString("" + item.getQuantity(), 900 + (87 * c), 500 + (88));
+                        int dx1 = farmerX + (53 * c) + 50;
+                        int dy1 = farmerY + (120);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 32, dy1 + 32, sx1, sy1, sx1 + 48, sy1 + 48, null);
+                        g2d.drawString("" + item.getQuantity(), farmerX + (53 * c) + 77, farmerY + (160));
+                        g2d.setFont(customFont3);
+                        g2d.setColor(Color.gray);
+                        g2d.drawString("" + item.getQuantity(), farmerX + (53 * c) + 75, farmerY + (160));
                         c++;
                         if (c == 1) {
                             one = item.getName();
@@ -231,10 +244,13 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
                     case "Potato seeds" -> {
                         int sx1 = 5 * 48;
                         int sy1 = 7 * 48;
-                        int dx1 = 850 + (87 * c);
-                        int dy1 = 450 + (88);
-                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
-                        g2d.drawString("" + item.getQuantity(), 900 + (87 * c), 500 + (88));
+                        int dx1 = farmerX + (53 * c) + 50;
+                        int dy1 = farmerY + (120);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 32, dy1 + 32, sx1, sy1, sx1 + 48, sy1 + 48, null);
+                        g2d.drawString("" + item.getQuantity(), farmerX + (53 * c) + 77, farmerY + (160));
+                        g2d.setFont(customFont3);
+                        g2d.setColor(Color.gray);
+                        g2d.drawString("" + item.getQuantity(), farmerX + (53 * c) + 75, farmerY + (160));
                         c++;
                         if (c == 1) {
                             one = item.getName();
@@ -249,10 +265,13 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
                     case "Wheat seeds" -> {
                         int sx1 = 5 * 48;
                         int sy1 = 5 * 48;
-                        int dx1 = 850 + (87 * c);
-                        int dy1 = 450 + (88);
-                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
-                        g2d.drawString("" + item.getQuantity(), 900 + (87 * c), 500 + (88));
+                        int dx1 = farmerX + (53 * c) + 50;
+                        int dy1 = farmerY + (120);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 32, dy1 + 32, sx1, sy1, sx1 + 48, sy1 + 48, null);
+                        g2d.drawString("" + item.getQuantity(), farmerX + (53 * c) + 77, farmerY + (160));
+                        g2d.setFont(customFont3);
+                        g2d.setColor(Color.gray);
+                        g2d.drawString("" + item.getQuantity(), farmerX + (53 * c) + 75, farmerY + (160));
                         c++;
                         if (c == 1) {
                             one = item.getName();
@@ -267,10 +286,13 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
                     case "Mandarin seeds" -> {
                         int sx1 = 5 * 48;
                         int sy1 = 8 * 48;
-                        int dx1 = 850 + (87 * c);
-                        int dy1 = 450 + (88);
-                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 48, dy1 + 48, sx1, sy1, sx1 + 48, sy1 + 48, null);
-                        g2d.drawString("" + item.getQuantity(), 900 + (87 * c), 500 + (88));
+                        int dx1 = farmerX + (53 * c) + 50;
+                        int dy1 = farmerY + (120);
+                        g.drawImage(spriteSheet, dx1, dy1, dx1 + 32, dy1 + 32, sx1, sy1, sx1 + 48, sy1 + 48, null);
+                        g2d.drawString("" + item.getQuantity(), farmerX + (53 * c) + 77, farmerY + (160));
+                        g2d.setFont(customFont3);
+                        g2d.setColor(Color.gray);
+                        g2d.drawString("" + item.getQuantity(), farmerX + (53 * c) + 75, farmerY + (160));
                         c++;
                         if (c == 1) {
                             one = item.getName();
@@ -306,26 +328,25 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
             case KeyEvent.VK_1:
                 if (!one.isEmpty()) {
                     player.getFarmPlots().getPlots()[row][col].plantCrop(one, player);
-                    farmGame.showFarm(0);
+                    farmGame.showAnimations(row, col, 3, farmerX, farmerY, direction);
                     break;
                 }
             case KeyEvent.VK_2:
                 if (!two.isEmpty()) {
                     player.getFarmPlots().getPlots()[row][col].plantCrop(two, player);
-                    farmGame.showFarm(0);
+                    farmGame.showAnimations(row, col, 3, farmerX, farmerY, direction);
                     break;
                 }
             case KeyEvent.VK_3:
                 if (!three.isEmpty()) {
                     player.getFarmPlots().getPlots()[row][col].plantCrop(three, player);
-                    farmGame.showFarm(0);
+                    farmGame.showAnimations(row, col, 3, farmerX, farmerY, direction);
                     break;
                 }
             case KeyEvent.VK_4:
                 if (!four.isEmpty()) {
                     player.getFarmPlots().getPlots()[row][col].plantCrop(four, player);
-
-                    farmGame.showFarm(0);
+                    farmGame.showAnimations(row, col, 3, farmerX, farmerY, direction);
                     break;
                 }
         };

@@ -281,6 +281,10 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
             farmGame.showAnimations(row, col, 2, farmerX, farmerY, direction);
             harvesting = false;
         }
+        if (planting){
+            farmGame.toggleInventory((int) row, (int) col, farmerX, farmerY, direction);
+            planting = false;
+        }
     }
 
     private boolean collidesWithBarn(int x, int y){
@@ -341,30 +345,31 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
             Crop[][] plots = player.getFarmPlots().getPlots();
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_1:
-                    if (plots[row][col] != null && plots[row][col].waterCrop(player)){
+                    if (plots[row][col].waterCrop(player)){
                         watering = true;
+                        selected = false;
                     }
                     break;
                 case KeyEvent.VK_2:
-                    if (plots[row][col] != null && plots[row][col].harvestCrop(player)){
+                    if (plots[row][col].harvestCrop(player)){
                         harvesting = true;
+                        selected = false;
                     }
                     break;
                 case KeyEvent.VK_3:
-                    if (plots[row][col] != null && plots[row][col].getCrop().equals("Soil")){
-                        farmGame.toggleInventory(row, col);
+                    if (plots[row][col].getCrop().equals("Soil")){
+                        selected = false;
+                        planting = true;
                     }
                     break;
             };
         }
         if (WithinTheBarn(farmerX + Xchange, farmerY + Ychange)) {
-            selected = false;
             farmerY += Ychange;
             farmerX += Xchange;
         }
 
         if (collidesWithBarn(farmerX, farmerY)){
-            selected = false;
             farmGame.showBarn(false);
             try {
                 Thread.sleep(20);
@@ -375,6 +380,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
             farmerY = 300;
             direction = 2;
             moving = false;
+            selected = false;
         }
         if (collidesWithShop(farmerX, farmerY)){
             farmGame.showShop();
@@ -387,6 +393,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
             farmerY = 300;
             direction = 2;
             moving = false;
+            selected = false;
         }
         repaint();
     }
@@ -402,7 +409,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         double row = (mouseY - 465) / 55.0;
         double col = (mouseX - 35) / 54.0;
 
-        if (row >= 0 && row < 4 && col >= 0 && col < 21) {
+        if (player.getFarmPlots().getPlots()[(int)row][(int)col] != null && row >= 0 && row < 4 && col >= 0 && col < 21) {
             selected = true;
         } else{
             selected = false;
