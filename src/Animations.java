@@ -17,6 +17,7 @@ public class Animations extends JPanel implements ActionListener {
     private BufferedImage spriteSheet;
     private BufferedImage snowbackground;
     private BufferedImage farmerRainIdle;
+    private BufferedImage plantingHoe;
     private BufferedImage farmerIdle;
     private BufferedImage farm;
     private BufferedImage sign;
@@ -25,6 +26,7 @@ public class Animations extends JPanel implements ActionListener {
     private BufferedImage shop;
     private int currentFrame;
     private int currentFrame2;
+    private int currentFrame3;
     private boolean watering;
     private boolean harvesting;
     private boolean planting;
@@ -45,8 +47,15 @@ public class Animations extends JPanel implements ActionListener {
             repaint();
         }).start();
 
+        new Timer(100, e -> {
+            currentFrame3 = (currentFrame3 + 1) % 11;
+            repaint();
+        }).start();
+
+
         currentFrame = 0;
         currentFrame2 = 0;
+        currentFrame3 = 0;
         customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 30f);
         this.farmGame = farmGame;
         this.player = player;
@@ -58,6 +67,7 @@ public class Animations extends JPanel implements ActionListener {
             health = ImageIO.read(new File("src/Sprites/health.png"));
             wateringCan = ImageIO.read(new File("src/Sprites/Watering.png"));
             harvestingScythe = ImageIO.read(new File("src/Sprites/Harvesting.png"));
+            plantingHoe = ImageIO.read(new File("src/Sprites/Planting.png"));
             farm = ImageIO.read(new File("src/Sprites/background.png"));
             barn = ImageIO.read(new File("src/Sprites/Barn.png"));
             snowbackground = ImageIO.read(new File("src/Sprites/SnowBackGround.png"));
@@ -195,6 +205,18 @@ public class Animations extends JPanel implements ActionListener {
                 farmGame.showFarm(0);
                 harvesting = false;
             }
+        } else if (planting) {
+            int wx1 = 42 * currentFrame3;
+            int wy1 = 0;
+            int wx2 = wx1 + 42;
+            int wy2 = wy1 + 42;
+            int x = (int) row * 54 ;
+            int y = (int) col * 55 + 400;
+            g.drawImage(plantingHoe, x, y, x + 82, y + 82, wx1, wy1, wx2, wy2, null);
+            if (currentFrame3 == 10) {
+                farmGame.showFarm(0);
+                planting = false;
+            }
         }
     }
     public void watering(double col, double row, int farmerX, int farmerY, int direction){
@@ -221,12 +243,12 @@ public class Animations extends JPanel implements ActionListener {
 
     public void planting(double col, double row, int farmerX, int farmerY, int direction){
         this.direction = direction;
-        currentFrame = 0;
+        currentFrame3 = 0;
         this.farmerX = farmerX;
         this.farmerY = farmerY;
         this.col = col;
         this.row = row;
-        watering = true;
+        planting = true;
         repaint();
     }
 

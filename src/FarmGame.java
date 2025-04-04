@@ -160,11 +160,10 @@ public class FarmGame extends JFrame{
         } else if (n == 2){
             animationsPanel.harvesting(col, row, x, y, d);
         } else if (n == 3){
-            animationsPanel.watering(col, row, x, y, d);
+            animationsPanel.planting(col, row, x, y, d);
         }
         animationsPanel.requestFocusInWindow();
     }
-
 
 
     public void toggleInventory(String panel){
