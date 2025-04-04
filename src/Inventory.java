@@ -31,6 +31,9 @@ public class Inventory {
         for (Item item : items) {
             if (item.getName().equals(name)) {
                 item.removeQuantity(amount);
+                if (item.getQuantity() == 0){
+                    items.remove(item);
+                }
             }
         }
     }

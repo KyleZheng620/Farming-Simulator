@@ -409,11 +409,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         double row = (mouseY - 465) / 55.0;
         double col = (mouseX - 35) / 54.0;
 
-        if (player.getFarmPlots().getPlots()[(int)row][(int)col] != null && row >= 0 && row < 4 && col >= 0 && col < 21) {
-            selected = true;
-        } else{
-            selected = false;
-        }
+        selected = row >= 0 && row < 4 && col >= 0 && col < 21 && player.getFarmPlots().getPlots()[(int) row][(int) col] != null;
 
         repaint();
     }
