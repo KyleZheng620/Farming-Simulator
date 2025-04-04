@@ -347,6 +347,7 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
                 System.out.println(player.getInventory().getQuanitiyOfItem(three));
                 if (!three.isEmpty() && player.getInventory().getQuanitiyOfItem(three)>0) {
                     farmGame.showAnimations(row, col, 3, farmerX, farmerY, direction);
+                    System.out.println(player.getInventory().getQuanitiyOfItem(three));
                     player.getFarmPlots().getPlots()[row][col].plantCrop(three, player);
                     break;
                 }

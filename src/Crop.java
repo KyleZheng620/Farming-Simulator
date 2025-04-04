@@ -69,7 +69,9 @@ public class Crop{
 
     public void plantCrop(String newCrop, Farmer player){
         if (crop.equals("Soil")) {
+            System.out.println(newCrop);
             player.getInventory().removeItem(newCrop,1);
+            System.out.println("eee");
             crop = newCrop.substring(0,newCrop.length()-6);
             if (crop.equals("Rice")) {
                 growthTime = 6;
