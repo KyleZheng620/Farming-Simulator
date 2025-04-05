@@ -215,8 +215,8 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
         }
         if (collidesWithCook(farmerX, farmerY)){
             farmGame.showCooking();
-            this.farmerX = 960;
-            this.farmerY = 660;
+            this.farmerX = 962;
+            this.farmerY = 658;
             direction = 0;
             moving = false;
         }

@@ -211,7 +211,7 @@ public class Animations extends JPanel implements ActionListener {
             int wx2 = wx1 + 42;
             int wy2 = wy1 + 42;
             int x = (int) row * 54 ;
-            int y = (int) col * 55 + 400;
+            int y = (int) col * 55 + 420;
             g.drawImage(plantingHoe, x, y, x + 82, y + 82, wx1, wy1, wx2, wy2, null);
             if (currentFrame3 == 10) {
                 farmGame.showFarm(0);

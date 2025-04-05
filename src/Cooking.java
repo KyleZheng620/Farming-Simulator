@@ -49,7 +49,7 @@ public class Cooking extends JPanel implements KeyListener, MouseListener, Actio
             health = ImageIO.read(new File("src/Sprites/health.png"));
             barnInside = ImageIO.read(new File("src/Sprites/Cooking.png"));
             CloseButton = ImageIO.read(new File("src/Sprites/ExitButton.png"));
-            CookingBackGround = ImageIO.read(new File("src/Sprites/CookBackground.png"));
+            CookingBackGround = ImageIO.read(new File("src/Sprites/CookingBackground.png"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -65,7 +65,7 @@ public class Cooking extends JPanel implements KeyListener, MouseListener, Actio
         g2d.setColor(new Color(56, 23,0));
         g.drawImage(barnInside, 0, 0, null);
 
-        g.drawImage(CookingBackGround,550,200,736,380,null);
+        g.drawImage(CookingBackGround,0,0,null);
 
         g.drawImage(CloseButton,766,130, 300, 120,null);
         Xbutton.setLocation(766,130);
