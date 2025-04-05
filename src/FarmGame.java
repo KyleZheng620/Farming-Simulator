@@ -13,6 +13,8 @@ public class FarmGame extends JFrame{
     private TransitionPanel transitionPanel;
     private Inventory inventory;
     private InventoryPanel inventoryPanel;
+    private Cutscene cutscenePanel;
+    private StartingScreen startPanel;
 
     public FarmGame() {
         inventory = new Inventory();
@@ -29,6 +31,8 @@ public class FarmGame extends JFrame{
         inventory.addItem("Potato",3);
         inventory.addItem("Water", 10);
 
+        startPanel = new StartingScreen(this);
+        cutscenePanel = new Cutscene(this);
         farmPanel = new Farm(this, player);
         barnPanel = new Barn(this, player);
         shopPanel = new Shop(this, player);
@@ -36,6 +40,8 @@ public class FarmGame extends JFrame{
         transitionPanel = new TransitionPanel(player);
         animationsPanel = new Animations(this, player);
 
+        mainPanel.add(startPanel, "Start");
+        mainPanel.add(cutscenePanel, "Cutscene");
         mainPanel.add(farmPanel, "Farm");
         mainPanel.add(barnPanel, "Barn");
         mainPanel.add(shopPanel, "Shop");
@@ -56,6 +62,12 @@ public class FarmGame extends JFrame{
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public void showCutscene(){
+        cardLayout.show(mainPanel, "Cutscene");
+        cutscenePanel.onShow();
+        cutscenePanel.requestFocusInWindow();
     }
 
     public void showBarn(int a){

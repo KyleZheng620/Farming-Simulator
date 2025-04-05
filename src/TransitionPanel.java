@@ -29,6 +29,7 @@ public class TransitionPanel extends JPanel {
     private boolean sleeping;
 
     public TransitionPanel(Farmer player){
+        this.card = "Farm";
         this.player = player;
     }
 
@@ -84,6 +85,7 @@ public class TransitionPanel extends JPanel {
         this.a = a;
         this.card = card;
         try {
+            sign = ImageIO.read(new File("src/Sprites/Sign.png"));
             farm = ImageIO.read(new File("src/Sprites/background.png"));
             barn = ImageIO.read(new File("src/Sprites/Barn.png"));
             snowbackground = ImageIO.read(new File("src/Sprites/SnowBackGround.png"));
@@ -104,7 +106,7 @@ public class TransitionPanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setFont(customFont);
         g2d.setColor(new Color(56, 23,0));
-        if (card.equals("Farm")){
+        if (card == null || card.equals("Farm")){
             if (player.getCurrentWeather().equals("Snowy")) {
                 g.drawImage(snowbackground,0,0,null);
             } else {

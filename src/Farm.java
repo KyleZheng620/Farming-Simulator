@@ -68,7 +68,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         currentFrame = 0;
         farmerX = 170;
         farmerY = 300;
-        direction = 0;
+        direction = 2;
         SnowFlakesList = new ArrayList<>();
         e = new SnowFlake();
         selected = false;
@@ -104,7 +104,6 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         addMouseListener(this);
         addKeyListener(this);
         setFocusable(true);
-        requestFocusInWindow();
     }
 
 

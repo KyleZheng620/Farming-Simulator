@@ -222,7 +222,7 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
             four = "";
             for (Item item : items) {
                 g2d.setFont(customFont3);
-                g2d.setColor(Color.darkGray);
+                g2d.setColor(Color.black);
                 switch (item.getName()) {
                     case "Rice seeds" -> {
                         int sx1 = 11 * 48;
@@ -232,7 +232,7 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
                         g.drawImage(spriteSheet, dx1, dy1, dx1 + 32, dy1 + 32, sx1, sy1, sx1 + 48, sy1 + 48, null);
                         g2d.drawString("" + item.getQuantity(), farmerX + (53 * c) + 77, farmerY + (160));
                         g2d.setFont(customFont3);
-                        g2d.setColor(Color.gray);
+                        g2d.setColor(Color.white);
                         g2d.drawString("" + item.getQuantity(), farmerX + (53 * c) + 75, farmerY + (160));
                         c++;
                         if (c == 1) {
@@ -253,7 +253,7 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
                         g.drawImage(spriteSheet, dx1, dy1, dx1 + 32, dy1 + 32, sx1, sy1, sx1 + 48, sy1 + 48, null);
                         g2d.drawString("" + item.getQuantity(), farmerX + (53 * c) + 77, farmerY + (160));
                         g2d.setFont(customFont3);
-                        g2d.setColor(Color.gray);
+                        g2d.setColor(Color.white);
                         g2d.drawString("" + item.getQuantity(), farmerX + (53 * c) + 75, farmerY + (160));
                         c++;
                         if (c == 1) {
@@ -274,7 +274,7 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
                         g.drawImage(spriteSheet, dx1, dy1, dx1 + 32, dy1 + 32, sx1, sy1, sx1 + 48, sy1 + 48, null);
                         g2d.drawString("" + item.getQuantity(), farmerX + (53 * c) + 77, farmerY + (160));
                         g2d.setFont(customFont3);
-                        g2d.setColor(Color.gray);
+                        g2d.setColor(Color.white);
                         g2d.drawString("" + item.getQuantity(), farmerX + (53 * c) + 75, farmerY + (160));
                         c++;
                         if (c == 1) {
@@ -295,7 +295,7 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
                         g.drawImage(spriteSheet, dx1, dy1, dx1 + 32, dy1 + 32, sx1, sy1, sx1 + 48, sy1 + 48, null);
                         g2d.drawString("" + item.getQuantity(), farmerX + (53 * c) + 77, farmerY + (160));
                         g2d.setFont(customFont3);
-                        g2d.setColor(Color.gray);
+                        g2d.setColor(Color.white);
                         g2d.drawString("" + item.getQuantity(), farmerX + (53 * c) + 75, farmerY + (160));
                         c++;
                         if (c == 1) {

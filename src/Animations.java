@@ -172,7 +172,7 @@ public class Animations extends JPanel implements ActionListener {
         }
 
         int fx1 = direction * 128;
-        int fy1 = currentFrame * 128;
+        int fy1 = 0;
         int fx2 = fx1 + 128;
         int fy2 = fy1 + 128;
         if (!player.getCurrentWeather().equals("Rain")){
