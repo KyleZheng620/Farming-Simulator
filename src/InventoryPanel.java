@@ -216,6 +216,10 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
                 }
             }
         } else {
+            one = "";
+            two = "";
+            three = "";
+            four = "";
             for (Item item : items) {
                 g2d.setFont(customFont3);
                 g2d.setColor(Color.darkGray);
@@ -326,27 +330,32 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
         }
         switch (e.getKeyCode()) {
             case KeyEvent.VK_1:
-                if (!one.isEmpty()) {
-                    player.getFarmPlots().getPlots()[row][col].plantCrop(one, player);
+                System.out.println(player.getInventory().getQuanitiyOfItem(one));
+                if (!one.isEmpty() && player.getInventory().getQuanitiyOfItem(one)>0) {
                     farmGame.showAnimations(row, col, 3, farmerX, farmerY, direction);
+                    player.getFarmPlots().getPlots()[row][col].plantCrop(one, player);
                     break;
                 }
             case KeyEvent.VK_2:
-                if (!two.isEmpty()) {
-                    player.getFarmPlots().getPlots()[row][col].plantCrop(two, player);
+                System.out.println(player.getInventory().getQuanitiyOfItem(two));
+                if (!two.isEmpty() && player.getInventory().getQuanitiyOfItem(two)>0) {
                     farmGame.showAnimations(row, col, 3, farmerX, farmerY, direction);
+                    player.getFarmPlots().getPlots()[row][col].plantCrop(two, player);
                     break;
                 }
             case KeyEvent.VK_3:
-                if (!three.isEmpty()) {
-                    player.getFarmPlots().getPlots()[row][col].plantCrop(three, player);
+                System.out.println(player.getInventory().getQuanitiyOfItem(three));
+                if (!three.isEmpty() && player.getInventory().getQuanitiyOfItem(three)>0) {
                     farmGame.showAnimations(row, col, 3, farmerX, farmerY, direction);
+                    System.out.println(player.getInventory().getQuanitiyOfItem(three));
+                    player.getFarmPlots().getPlots()[row][col].plantCrop(three, player);
                     break;
                 }
             case KeyEvent.VK_4:
-                if (!four.isEmpty()) {
-                    player.getFarmPlots().getPlots()[row][col].plantCrop(four, player);
+                System.out.println(player.getInventory().getQuanitiyOfItem(four));
+                if (!four.isEmpty() && player.getInventory().getQuanitiyOfItem(four)>0) {
                     farmGame.showAnimations(row, col, 3, farmerX, farmerY, direction);
+                    player.getFarmPlots().getPlots()[row][col].plantCrop(four, player);
                     break;
                 }
         };

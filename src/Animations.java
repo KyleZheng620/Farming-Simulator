@@ -37,7 +37,7 @@ public class Animations extends JPanel implements ActionListener {
 
 
     public Animations(FarmGame farmGame, Farmer player){
-        new Timer(500, e -> {
+        new Timer(400, e -> {
             currentFrame = (currentFrame + 1) % 4;
             repaint();
         }).start();

@@ -184,6 +184,7 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
         if (WithinBarn(farmerX + Xchange, farmerY + Ychange)) {
             farmerY += Ychange;
             farmerX += Xchange;
+            System.out.println("X: " + farmerX +  "Y: " + farmerY);
         }
 
         repaint();
@@ -214,6 +215,10 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
         }
         if (collidesWithCook(farmerX, farmerY)){
             farmGame.showCooking();
+            this.farmerX = 960;
+            this.farmerY = 660;
+            direction = 0;
+            moving = false;
         }
     }
 
