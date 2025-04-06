@@ -47,7 +47,7 @@ public class Animations extends JPanel implements ActionListener {
             repaint();
         }).start();
 
-        new Timer(100, e -> {
+        new Timer(75, e -> {
             currentFrame3 = (currentFrame3 + 1) % 11;
             repaint();
         }).start();

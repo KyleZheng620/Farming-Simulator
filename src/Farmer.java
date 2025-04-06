@@ -50,12 +50,13 @@ public class Farmer {
         return farmPlots;
     }
 
-    public void sleep(){
+    public boolean sleep(){
         day++;
         CurrentWeather = weather.changeWeather();
         farmPlots.dayPass();
         thirst--;
         hunger--;
+        return thirst != 0 && hunger != 0;
     }
     public int getDay(){
         return day;

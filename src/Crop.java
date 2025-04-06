@@ -58,7 +58,7 @@ public class Crop{
                 if (chance < 0.9) {
                     growthTime--;
                 }
-                waterLevel += 3;
+                waterLevel += 2;
             }
         }
         waterLevel--;

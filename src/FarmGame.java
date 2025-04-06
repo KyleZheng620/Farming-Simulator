@@ -15,6 +15,7 @@ public class FarmGame extends JFrame{
     private InventoryPanel inventoryPanel;
     private Cutscene cutscenePanel;
     private StartingScreen startPanel;
+    private WinLoseScreen winLoseScreenPanel;
 
     public FarmGame() {
         inventory = new Inventory();
@@ -22,6 +23,8 @@ public class FarmGame extends JFrame{
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
         inventoryPanel = new InventoryPanel(inventory, this, player);
+        inventory.addItem("Rice seeds", 4);
+        inventory.addItem("Water", 8);
         inventory.addItem("Rice seeds", 10);
         inventory.addItem("Wheat seeds", 5);
         inventory.addItem("Potato seeds", 3);
@@ -33,6 +36,7 @@ public class FarmGame extends JFrame{
 
         startPanel = new StartingScreen(this);
         cutscenePanel = new Cutscene(this);
+        winLoseScreenPanel = new WinLoseScreen();
         farmPanel = new Farm(this, player);
         barnPanel = new Barn(this, player);
         shopPanel = new Shop(this, player);
@@ -43,6 +47,8 @@ public class FarmGame extends JFrame{
         mainPanel.add(farmPanel, "Farm");
         mainPanel.add(startPanel, "Start");
         mainPanel.add(cutscenePanel, "Cutscene");
+        mainPanel.add(winLoseScreenPanel, "WinLose");
+        mainPanel.add(farmPanel, "Farm");
 //        mainPanel.add(farmPanel, "Farm");
         mainPanel.add(barnPanel, "Barn");
         mainPanel.add(shopPanel, "Shop");
@@ -87,8 +93,12 @@ public class FarmGame extends JFrame{
         cardLayout.show(mainPanel, "Cooking");
         cookPanel.requestFocusInWindow();
     }
-
-    public void showBarn(boolean sleeping){
+    public void showWinLose(int a){
+        cardLayout.show(mainPanel, "WinLose");
+        winLoseScreenPanel.setScreen(a);
+        winLoseScreenPanel.requestFocusInWindow();
+    }
+    public void showBarn(boolean sleeping, boolean a){
         new Thread(() -> {
             cardLayout.show(mainPanel, "TRANSITION");
 
@@ -102,13 +112,17 @@ public class FarmGame extends JFrame{
                         e.printStackTrace();
                     }
                 }
-                for (int i = 255; i >= 0; i -= 20) {
-                    transitionPanel.setAlpha(i, "Barn", sleeping);
-                    transitionPanel.repaint();
-                    try {
-                        Thread.sleep(30);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                if (!a) {
+                    showWinLose(1);
+                }else {
+                    for (int i = 255; i >= 0; i -= 20) {
+                        transitionPanel.setAlpha(i, "Barn", sleeping);
+                        transitionPanel.repaint();
+                        try {
+                            Thread.sleep(30);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             } else {
@@ -123,7 +137,15 @@ public class FarmGame extends JFrame{
                 }
             }
 
-            cardLayout.show(mainPanel, "Barn");
+
+            if (a){
+                cardLayout.show(mainPanel, "Barn");
+                if (player.getDay() == 31){
+                    showWinLose(2);
+                }
+            }
+
+
             barnPanel.requestFocusInWindow();
         }).start();
     }
