@@ -1,4 +1,4 @@
-public class CropItem extends Item {
+public class CropItem extends FoodItem {
     private int cropSellPrice;
 
     public CropItem(String crop, int quantity) {

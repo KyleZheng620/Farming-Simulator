@@ -18,19 +18,19 @@ public class Cooking extends JPanel implements KeyListener, MouseListener, Actio
     private BufferedImage CookedRice;
     private BufferedImage WaterBottle;
     private BufferedImage select;
+    private BufferedImage spriteSheet;
+    private BufferedImage spriteSheet2;
 
     private FarmGame farmGame;
     private Farmer player;
     private Font customFont;
     private Font customFont2;
     private Font customFont3;
-    private FoodItem currentItem = null;
-    private int currentItemInt = -1;
+    private FoodItem currentItem;
+    private int currentItemInt;
     private int mouseX;
     private int mouseY;
-    private BufferedImage spriteSheet;
-    private BufferedImage spriteSheet2;
-    private boolean selected;
+
 
     private Rectangle PotatoButton;
     private Rectangle BreadButton;
@@ -41,6 +41,8 @@ public class Cooking extends JPanel implements KeyListener, MouseListener, Actio
     private Rectangle[] buttons;
 
     public Cooking(FarmGame farmGame, Farmer player) {
+        currentItem = null;
+        currentItemInt = -1;
         this.farmGame = farmGame;
         this.player = player;
         Timer timer = new Timer(150, this);
@@ -98,14 +100,6 @@ public class Cooking extends JPanel implements KeyListener, MouseListener, Actio
         g.drawImage(barnInside, 0, 0, null);
 
         g.drawImage(CookingBackGround,0,0,null);
-//        for (int i = 0; i <= 1920;i +=100) {
-//            for (int j = 0; j <= 1080; j+=100) {
-//                Rectangle rec = new Rectangle(i-1, j-1, 3,3);
-//                g2d.fill(rec);
-//                g2d.setColor(Color.RED);
-//                g2d.draw(rec);
-//            }
-//        }
 
         g.drawImage(CloseButton,800,400,300,100,null);
 
@@ -123,9 +117,9 @@ public class Cooking extends JPanel implements KeyListener, MouseListener, Actio
             g2d.setColor(new Color(56, 23,0));
             g2d.drawString(currentItem.getName() , 750, 70);
             g2d.setFont(customFont2);
-            g2d.drawString("poison? " + currentItem.IsPoisoned(), 750, 110);
-            g2d.drawString("Hunger++ " + currentItem.getHungerValue(), 750, 150);
-            g2d.drawString("WaterLevel++ " + currentItem.getWaterValue(), 750, 190);
+            g2d.drawString("Poisoned? " + currentItem.isPoisoned(), 750, 110);
+            g2d.drawString("Hunger+ " + currentItem.getHungerValue(), 750, 150);
+            g2d.drawString("WaterLevel+ " + currentItem.getWaterValue(), 750, 190);
             g2d.drawString("Description:", 750, 230);
 
             g2d.drawString(currentItem.getDescript(), 750, 270);
@@ -217,15 +211,6 @@ public class Cooking extends JPanel implements KeyListener, MouseListener, Actio
         }
 
 
-//        for (int i = 0; i <= 1920;i +=10) {
-//            for (int j = 0; j <= 1080; j+=10) {
-//                Rectangle rec = new Rectangle(i, j, 1,1);
-//                g2d.fill(rec);
-//                g2d.setColor(Color.GREEN);
-//                g2d.draw(rec);
-//            }
-//        }
-
         int playerHunger = player.getHunger();
         int playerThirst = player.getThirst();
         for (int i = 0; i < 5; i++){
@@ -316,7 +301,7 @@ public class Cooking extends JPanel implements KeyListener, MouseListener, Actio
                 } else if (currentItem.getName().equals("Boiled Water")) {
                     player.setWaterPoison(false);
                 } else {
-                    player.setFoodPoison(currentItem.IsPoisoned());
+                    player.setFoodPoison(currentItem.isPoisoned());
                 }
             }
         }
@@ -324,33 +309,21 @@ public class Cooking extends JPanel implements KeyListener, MouseListener, Actio
             if (player.getInventory().getQuanitiyOfItem("Potato") >= 2) {
                 player.getInventory().addItem(new FoodItem("Cooked Potato",1));
                 player.getInventory().removeItem("Potato", 2);
-                System.out.println("Cooked Potatoes");
-            } else {
-                System.out.println("Not enough Potatoes");
             }
         } else if (BreadButton.contains(mouseX,mouseY)) {
             if (player.getInventory().getQuanitiyOfItem("Wheat") >= 3) {
                 player.getInventory().addItem(new FoodItem("Bread", 1));
                 player.getInventory().removeItem("Wheat", 3);
-                System.out.println("cooked bread");
-            } else {
-                System.out.println("Not enough Wheat");
             }
         } else if (RiceButton.contains(mouseX,mouseY)) {
             if (player.getInventory().getQuanitiyOfItem("Rice") >= 1) {
                 player.getInventory().addItem(new FoodItem("Cooked Rice",1));
                 player.getInventory().removeItem("Rice",1);
-                System.out.println("Cooked Rice");
-            } else {
-                System.out.println("Not enough Rice");
             }
         } else if (WaterButton.contains(mouseX,mouseY)) {
             if (player.getInventory().getQuanitiyOfItem("Water") >= 1) {
                 player.getInventory().addItem(new FoodItem("Boiled Water",1));
                 player.getInventory().removeItem("Water",1);
-                System.out.println("Boiled Water");
-            } else {
-                System.out.println("Not enough Water");
             }
         }
         int buttonPressed = Button(mouseX,mouseY);
@@ -362,7 +335,6 @@ public class Cooking extends JPanel implements KeyListener, MouseListener, Actio
         } else {
                 currentItem = null;
                 currentItemInt = -1;
-                System.out.println("not here");
         }
 
 

@@ -1,55 +1,53 @@
-import java.nio.file.attribute.PosixFileAttributes;
+public class FoodItem extends Item{
 
-public class FoodItem extends CropItem{
-
-    private boolean Poisoned;
+    private boolean poisoned;
     private int hungerValue;
     private int waterValue;
-    private boolean IsFood;
-    private String Descript;
+    private boolean isFood;
+    private String descript;
 
 
     public FoodItem(String Food, int quantity) {
         super(Food, quantity);
-        IsFood =true;
-        Poisoned = true;
+        isFood =true;
+        poisoned = true;
         hungerValue = 0;
         waterValue = 0;
         if (Food.equals("Rice")) {
             hungerValue = 1;
             waterValue = -1;
-            Descript = "Crunchy Rice!";
+            descript = "Crunchy Rice!";
         } else if (Food.equals("Potato")) {
-            hungerValue = -1;
+            hungerValue = 1;
             waterValue = -1;;
-            Descript = "Maybe Rotten?";
+            descript = "Maybe Rotten?";
         } else if (Food.equals("Wheat")) {
-            hungerValue = -1;
+            hungerValue = 1;
             waterValue = -2;
-            Descript = "Don't Eat";
+            descript = "Don't Eat";
         } else if (Food.equals("Water") ) {
             waterValue = -2;
-            Descript = "Dirty Water";
+            descript = "Dirty Water";
         } else {
-            Poisoned = false;
+            poisoned = false;
             if (Food.equals("Mandarin")) {
                 hungerValue = 1;
                 waterValue = 2;
-                Descript = "Yum yum Fruit";
+                descript = "Yum yum Fruit";
             } else if (Food.equals("Cooked Rice")){
                 hungerValue = 2;
-                Descript = "DELICIOUS RICE";
+                descript = "DELICIOUS RICE";
             } else if (Food.equals("Cooked Potato")){
                 hungerValue = 3;
-                Descript = "potato...";
+                descript = "potato...";
             } else if (Food.equals("Bread")){
                 hungerValue = 3;
-                Descript = "eat me";
+                descript = "eat me";
             } else if (Food.equals("Boiled Water")){
                 waterValue = 3;
-                Descript = "99.9% bateria free!";
+                descript = "99.9% bacteria free!";
             } else {
-                IsFood = false;
+                isFood = false;
             }
         }
     }
@@ -62,16 +60,16 @@ public class FoodItem extends CropItem{
         return waterValue;
     }
 
-    public boolean IsPoisoned() {
-        return Poisoned;
+    public boolean isPoisoned() {
+        return poisoned;
     }
 
     public String getDescript() {
-        return Descript;
+        return descript;
     }
 
-    public boolean Isfood() {
-        return IsFood;
+    public boolean getIsFood() {
+        return isFood;
     }
 
 }

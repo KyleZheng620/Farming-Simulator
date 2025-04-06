@@ -57,11 +57,16 @@ public class Farmer {
         }
     }
 
-    public void setFoodPoison (boolean p) {foodPoison = p;}
+    public void setFoodPoison (boolean p) {
+        foodPoison = p;
+    }
+
     public boolean isFoodPoison(){
         return foodPoison;
     }
-    public void setWaterPoison (boolean p) {waterPoison = p;}
+    public void setWaterPoison (boolean p) {
+        waterPoison = p;
+    }
 
     public boolean isWaterPoison(){
         return waterPoison;

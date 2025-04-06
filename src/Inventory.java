@@ -41,12 +41,10 @@ public class Inventory {
         for (Item item : items) {
             if (item.getName().equals(name)) {
                 item.removeQuantity(amount);
-                System.out.println(item.getQuantity());
                 if (item.getQuantity() == 0){
                     items.remove(item);
                     break;
                 }
-                System.out.println(item.getName());
             }
         }
 
