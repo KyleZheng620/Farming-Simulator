@@ -34,14 +34,34 @@ public class Farmer {
     public int getThirst(){
         return thirst;
     }
+    public void addThirst(int water) {
+        if (thirst + water > 10) {
+            thirst = 10;
+        } else if (thirst + water < 0) {
+            thirst = 0;
+        } else {
+            thirst+= water;
+        }
+    }
 
     public int getHunger(){
         return hunger;
     }
+    public void addHunger(int hunger) {
+        if (this.hunger + hunger > 10) {
+            this.hunger = 10;
+        } else if (this.hunger + hunger < 0) {
+            this.hunger = 0;
+        } else {
+            this.hunger+= hunger;
+        }
+    }
 
+    public void setFoodPoison (boolean p) {foodPoison = p;}
     public boolean isFoodPoison(){
         return foodPoison;
     }
+    public void setWaterPoison (boolean p) {waterPoison = p;}
 
     public boolean isWaterPoison(){
         return waterPoison;
@@ -54,6 +74,12 @@ public class Farmer {
         day++;
         CurrentWeather = weather.changeWeather();
         farmPlots.dayPass();
+        if (isWaterPoison()) {
+            thirst--;
+        }
+        if (isFoodPoison()) {
+            hunger--;
+        }
         thirst--;
         hunger--;
         return thirst != 0 && hunger != 0;

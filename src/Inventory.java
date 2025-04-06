@@ -69,7 +69,6 @@ public class Inventory {
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i) instanceof FoodItem) {
                 foods.add((FoodItem) items.get(i));
-                System.out.println("added");
             }
         }
 
