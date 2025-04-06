@@ -336,6 +336,9 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
                 moving = true;
                 Xchange += 10;
                 direction = 1;
+                if (farmerX == 1270 && player.getInventory().itemAmount("Boat") >= 1){
+                    farmGame.showWinLose(3);
+                }
                 break;
         };
         if (selected){
@@ -369,12 +372,7 @@ public class Farm extends JPanel implements KeyListener, MouseListener, ActionLi
         }
 
         if (collidesWithBarn(farmerX, farmerY)){
-            farmGame.showBarn(false);
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException x) {
-                x.printStackTrace();
-            }
+            farmGame.showBarn(false, true);
             farmerX = 170;
             farmerY = 300;
             direction = 2;

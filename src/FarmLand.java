@@ -53,7 +53,7 @@ public class FarmLand {
             return false;
         } else {
             player.setMoney(player.getMoney()-plotPrice);
-            plotPrice *= 2.2;
+            plotPrice *= 1.5;
         }
         if (lastBoughtRow == 3){
             lastBoughtRow = 0;

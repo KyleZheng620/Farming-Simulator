@@ -51,7 +51,7 @@ public class Cutscene extends JPanel {
 
         if (currentFrame == 2) {
             g.drawImage(scene1, 0, 0, null);
-            g2d.drawString("KYLE: James, keep running! We're going to hold them off.", 200, 970);
+            g2d.drawString("KYLE: James, you keep going! We're going to hold them off.", 200, 970);
         }
 
         if (currentFrame == 3) {
