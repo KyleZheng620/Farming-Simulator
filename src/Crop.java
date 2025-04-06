@@ -75,16 +75,16 @@ public class Crop{
             crop = newCrop.substring(0,newCrop.length()-6);
             if (crop.equals("Rice")) {
                 growthTime = 6;
-                cropItem = new CropItem("Rice", 1);
+                cropItem = new FoodItem("Rice", 1);
             } else if (crop.equals("Potato")) {
                 growthTime = 6;
-                cropItem = new CropItem("Potato", 1);
+                cropItem = new FoodItem("Potato", 1);
             } else if (crop.equals("Wheat")) {
                 growthTime = 6;
-                cropItem = new CropItem("Wheat", 1);
+                cropItem = new FoodItem("Wheat", 1);
             } else if (crop.equals("Mandarin")) {
                 growthTime = 6;
-                cropItem = new CropItem("Mandarin", 1);
+                cropItem = new FoodItem("Mandarin", 1);
             }
         }
     }

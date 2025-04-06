@@ -3,11 +3,10 @@ import java.util.ArrayList;
 public class Inventory {
 
     private ArrayList<Item> items;
-
     public Inventory() {
         items = new ArrayList<>();
-
     }
+
     public void addItem(String name, int amount) {
         for (Item item : items) {
             if (item.getName().equals(name)) {
@@ -15,9 +14,20 @@ public class Inventory {
                 return;
             }
         }
+
         items.add(new Item(name, amount));
     }
     public void addItem(Item i) {
+        for (Item item : items) {
+            if (item.getName().equals(i.getName())) {
+                item.addQuantity(i.getQuantity());
+                return;
+            }
+        }
+        items.add(i);
+    }
+
+    public void addItem(FoodItem i) {
         for (Item item : items) {
             if (item.getName().equals(i.getName())) {
                 item.addQuantity(i.getQuantity());
@@ -52,6 +62,18 @@ public class Inventory {
 
     public ArrayList<Item> getItems() {
         return items;
+    }
+
+    public ArrayList<FoodItem> getFoodItems() {
+        ArrayList<FoodItem> foods = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i) instanceof FoodItem) {
+                foods.add((FoodItem) items.get(i));
+                System.out.println("added");
+            }
+        }
+
+        return foods;
     }
 
     public int getQuanitiyOfItem(String name) {

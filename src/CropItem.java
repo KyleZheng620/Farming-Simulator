@@ -13,5 +13,4 @@ public class CropItem extends Item {
             cropSellPrice = 5;
         }
     }
-
 }

@@ -20,6 +20,7 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
     private BufferedImage Bread;
     private BufferedImage CookedRice;
     private BufferedImage seeds;
+    private BufferedImage WaterBottle;
     private String panel;
     private boolean toggleInventory;
     private FarmGame farmGame;
@@ -58,6 +59,7 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
             BakedPotato = ImageIO.read(new File("src/Sprites/BakedPotato.png"));
             CookedRice = ImageIO.read(new File("src/Sprites/CookedRice.png"));
             Bread = ImageIO.read(new File("src/Sprites/Bread.png"));
+            WaterBottle = ImageIO.read(new File("src/Sprites/WaterBottle.png"));
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -208,7 +210,12 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
                         g.drawImage(BakedPotato, dx1 + 8, dy1, 48, 48, null);
                         g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
                     }
-
+                    case "Boiled Water" -> {
+                        int dx1 = 470 + (87 * c);
+                        int dy1 = 445 + (88 * r);
+                        g.drawImage(WaterBottle, dx1, dy1, 48, 48, null);
+                        g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
+                    }
                 }
                 if (c == 8) {
                     c = 0;

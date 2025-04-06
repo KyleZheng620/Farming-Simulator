@@ -26,10 +26,10 @@ public class FarmGame extends JFrame{
         inventory.addItem("Wheat seeds", 5);
         inventory.addItem("Potato seeds", 3);
         inventory.addItem("Mandarin seeds", 3);
-        inventory.addItem("Wheat",3);
-        inventory.addItem("Rice",3);
-        inventory.addItem("Potato",3);
-        inventory.addItem("Water", 10);
+        inventory.addItem(new FoodItem("Wheat",3));
+        inventory.addItem(new FoodItem("Rice",3));
+        inventory.addItem(new FoodItem("Potato",3));
+        inventory.addItem(new FoodItem("Water",10));
 
         startPanel = new StartingScreen(this);
         cutscenePanel = new Cutscene(this);
@@ -40,9 +40,10 @@ public class FarmGame extends JFrame{
         transitionPanel = new TransitionPanel(player);
         animationsPanel = new Animations(this, player);
 
+        mainPanel.add(farmPanel, "Farm");
         mainPanel.add(startPanel, "Start");
         mainPanel.add(cutscenePanel, "Cutscene");
-        mainPanel.add(farmPanel, "Farm");
+//        mainPanel.add(farmPanel, "Farm");
         mainPanel.add(barnPanel, "Barn");
         mainPanel.add(shopPanel, "Shop");
         mainPanel.add(cookPanel,"Cooking");
