@@ -98,14 +98,14 @@ public class Cooking extends JPanel implements KeyListener, MouseListener, Actio
         g.drawImage(barnInside, 0, 0, null);
 
         g.drawImage(CookingBackGround,0,0,null);
-        for (int i = 0; i <= 1920;i +=100) {
-            for (int j = 0; j <= 1080; j+=100) {
-                Rectangle rec = new Rectangle(i-1, j-1, 3,3);
-                g2d.fill(rec);
-                g2d.setColor(Color.RED);
-                g2d.draw(rec);
-            }
-        }
+//        for (int i = 0; i <= 1920;i +=100) {
+//            for (int j = 0; j <= 1080; j+=100) {
+//                Rectangle rec = new Rectangle(i-1, j-1, 3,3);
+//                g2d.fill(rec);
+//                g2d.setColor(Color.RED);
+//                g2d.draw(rec);
+//            }
+//        }
 
         g.drawImage(CloseButton,800,400,300,100,null);
 
@@ -217,14 +217,14 @@ public class Cooking extends JPanel implements KeyListener, MouseListener, Actio
         }
 
 
-        for (int i = 0; i <= 1920;i +=10) {
-            for (int j = 0; j <= 1080; j+=10) {
-                Rectangle rec = new Rectangle(i, j, 1,1);
-                g2d.fill(rec);
-                g2d.setColor(Color.GREEN);
-                g2d.draw(rec);
-            }
-        }
+//        for (int i = 0; i <= 1920;i +=10) {
+//            for (int j = 0; j <= 1080; j+=10) {
+//                Rectangle rec = new Rectangle(i, j, 1,1);
+//                g2d.fill(rec);
+//                g2d.setColor(Color.GREEN);
+//                g2d.draw(rec);
+//            }
+//        }
 
         int playerHunger = player.getHunger();
         int playerThirst = player.getThirst();

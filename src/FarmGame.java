@@ -42,11 +42,11 @@ public class FarmGame extends JFrame{
         transitionPanel = new TransitionPanel(player);
         animationsPanel = new Animations(this, player);
 
-        mainPanel.add(farmPanel, "Farm");
+
         mainPanel.add(startPanel, "Start");
         mainPanel.add(cutscenePanel, "Cutscene");
         mainPanel.add(winLoseScreenPanel, "WinLose");
-//        mainPanel.add(farmPanel, "Farm");
+        mainPanel.add(farmPanel, "Farm");
         mainPanel.add(barnPanel, "Barn");
         mainPanel.add(shopPanel, "Shop");
         mainPanel.add(cookPanel,"Cooking");
