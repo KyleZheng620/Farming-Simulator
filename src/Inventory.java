@@ -7,27 +7,7 @@ public class Inventory {
         items = new ArrayList<>();
     }
 
-    public void addItem(String name, int amount) {
-        for (Item item : items) {
-            if (item.getName().equals(name)) {
-                item.addQuantity(amount);
-                return;
-            }
-        }
-
-        items.add(new Item(name, amount));
-    }
     public void addItem(Item i) {
-        for (Item item : items) {
-            if (item.getName().equals(i.getName())) {
-                item.addQuantity(i.getQuantity());
-                return;
-            }
-        }
-        items.add(i);
-    }
-
-    public void addItem(FoodItem i) {
         for (Item item : items) {
             if (item.getName().equals(i.getName())) {
                 item.addQuantity(i.getQuantity());

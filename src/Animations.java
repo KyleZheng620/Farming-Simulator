@@ -98,34 +98,31 @@ public class Animations extends JPanel implements ActionListener {
         int spriteHeight = 48;
         g.drawImage(sign, 1650, 10, null);
         g2d.drawString("DAY  " + player.getDay(), 1700, 60);
-        for (int c = 0; c < player.getFarmPlots().getPlots()[0].length; c++) {
-            for (int r = 0; r < player.getFarmPlots().getPlots().length; r++) {
-                if (player.getFarmPlots().getPlots()[r][c] == null) {
-                    break;
-                }
-                if (player.getFarmPlots().getPlots()[r][c].getCrop().equals("Rice")) {
-                    int sx1 = 11 * spriteWidth - (4 - player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
+        for (int c = 0; c < player.getFarmPlots().getPlots()[0].length; c++){
+            for (int r = 0; r < player.getFarmPlots().getPlots().length; r++){
+                if (player.getFarmPlots().getPlots()[r][c].getCrop().equals("Rice")){
+                    int sx1 = 11 * spriteWidth - (4- player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
                     int sy1 = 4 * spriteHeight;
-                    int dx1 = 35 + (53 * c);
-                    int dy1 = 460 + (55 * r);
+                    int dx1 = 35 + (54 * c);
+                    int dy1 = 462 + (55 * r);
                     g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
-                } else if (player.getFarmPlots().getPlots()[r][c].getCrop().equals("Potato")) {
-                    int sx1 = 5 * spriteWidth - (4 - player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
+                } else if (player.getFarmPlots().getPlots()[r][c].getCrop().equals("Potato")){
+                    int sx1 = 5 * spriteWidth - (4- player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
                     int sy1 = 7 * spriteHeight;
-                    int dx1 = 40 + (53 * c);
-                    int dy1 = 455 + (55 * r);
+                    int dx1 = 35 + (54 * c);
+                    int dy1 = 462 + (55 * r);
                     g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
-                } else if (player.getFarmPlots().getPlots()[r][c].getCrop().equals("Wheat")) {
-                    int sx1 = 5 * spriteWidth - (4 - player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
+                } else if (player.getFarmPlots().getPlots()[r][c].getCrop().equals("Wheat")){
+                    int sx1 = 5 * spriteWidth - (4- player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
                     int sy1 = 5 * spriteHeight;
-                    int dx1 = 40 + (53 * c);
-                    int dy1 = 465 + (55 * r);
+                    int dx1 = 35 + (54 * c);
+                    int dy1 = 462 + (55 * r);
                     g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
-                } else if ((player.getFarmPlots().getPlots()[r][c].getCrop().equals("Mandarin"))) {
-                    int sx1 = 5 * spriteWidth - (4 - player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
+                } else if ((player.getFarmPlots().getPlots()[r][c].getCrop().equals("Mandarin"))){
+                    int sx1 = 5 * spriteWidth - (4- player.getFarmPlots().getPlots()[r][c].getGrowthTime()) * 48;
                     int sy1 = 8 * spriteHeight;
-                    int dx1 = 35 + (53 * c);
-                    int dy1 = 460 + (55 * r);
+                    int dx1 = 35 + (54 * c);
+                    int dy1 = 462 + (55 * r);
                     g.drawImage(spriteSheet, dx1, dy1, dx1 + spriteWidth, dy1 + spriteHeight, sx1, sy1, sx1 + spriteWidth, sy1 + spriteHeight, null);
                 }
             }

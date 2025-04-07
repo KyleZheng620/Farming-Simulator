@@ -334,38 +334,34 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
         if (e.getKeyCode() == KeyEvent.VK_E) {
             toggleInventory = false;
             repaint();
+        }if (planting) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_1:
+                    if (!one.isEmpty() && player.getInventory().getQuanitiyOfItem(one) > 0) {
+                        farmGame.showAnimations(row, col, 3, farmerX, farmerY, direction);
+                        player.getFarmPlots().getPlots()[row][col].plantCrop(one, player);
+                        break;
+                    }
+                case KeyEvent.VK_2:
+                    if (!two.isEmpty() && player.getInventory().getQuanitiyOfItem(two) > 0) {
+                        farmGame.showAnimations(row, col, 3, farmerX, farmerY, direction);
+                        player.getFarmPlots().getPlots()[row][col].plantCrop(two, player);
+                        break;
+                    }
+                case KeyEvent.VK_3:
+                    if (!three.isEmpty() && player.getInventory().getQuanitiyOfItem(three) > 0) {
+                        farmGame.showAnimations(row, col, 3, farmerX, farmerY, direction);
+                        player.getFarmPlots().getPlots()[row][col].plantCrop(three, player);
+                        break;
+                    }
+                case KeyEvent.VK_4:
+                    if (!four.isEmpty() && player.getInventory().getQuanitiyOfItem(four) > 0) {
+                        farmGame.showAnimations(row, col, 3, farmerX, farmerY, direction);
+                        player.getFarmPlots().getPlots()[row][col].plantCrop(four, player);
+                        break;
+                    }
+            };
         }
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_1:
-                System.out.println(player.getInventory().getQuanitiyOfItem(one));
-                if (!one.isEmpty() && player.getInventory().getQuanitiyOfItem(one)>0) {
-                    farmGame.showAnimations(row, col, 3, farmerX, farmerY, direction);
-                    player.getFarmPlots().getPlots()[row][col].plantCrop(one, player);
-                    break;
-                }
-            case KeyEvent.VK_2:
-                System.out.println(player.getInventory().getQuanitiyOfItem(two));
-                if (!two.isEmpty() && player.getInventory().getQuanitiyOfItem(two)>0) {
-                    farmGame.showAnimations(row, col, 3, farmerX, farmerY, direction);
-                    player.getFarmPlots().getPlots()[row][col].plantCrop(two, player);
-                    break;
-                }
-            case KeyEvent.VK_3:
-                System.out.println(player.getInventory().getQuanitiyOfItem(three));
-                if (!three.isEmpty() && player.getInventory().getQuanitiyOfItem(three)>0) {
-                    farmGame.showAnimations(row, col, 3, farmerX, farmerY, direction);
-                    System.out.println(player.getInventory().getQuanitiyOfItem(three));
-                    player.getFarmPlots().getPlots()[row][col].plantCrop(three, player);
-                    break;
-                }
-            case KeyEvent.VK_4:
-                System.out.println(player.getInventory().getQuanitiyOfItem(four));
-                if (!four.isEmpty() && player.getInventory().getQuanitiyOfItem(four)>0) {
-                    farmGame.showAnimations(row, col, 3, farmerX, farmerY, direction);
-                    player.getFarmPlots().getPlots()[row][col].plantCrop(four, player);
-                    break;
-                }
-        };
     }
 
     @Override

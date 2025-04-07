@@ -68,7 +68,7 @@ public class ShopMenu extends JDialog {
         addShopItem(itemGrid, "Wheat seeds", 10, 2, 0, "Wheat seeds for planting.\nBasic crop.");
         addShopItem(itemGrid, "Mandarin seeds", 20, 3, 0, "Mandarin seeds for planting.\nPremium crop.");
         addShopItem(itemGrid, "Water", 5, 4, 0, "Water for your crops.\nKeeps plants healthy.");
-        addShopItem(itemGrid, "Boat", 100, 5, 0, "A sturdy fishing boat.\nAllows you to row into the horizon.");
+        addShopItem(itemGrid, "Boat", 1000, 5, 0, "A sturdy fishing boat.\nAllows you to row into the horizon.");
         // Removed duplicate water item
         
         // Layout for buy panel
@@ -84,7 +84,7 @@ public class ShopMenu extends JDialog {
         splitPane.setBottomComponent(createSellPanel(farmGame));
         
         add(splitPane, BorderLayout.CENTER);
-        setSize(800, 600);
+        setSize(1200, 700);
         setLocationRelativeTo(parent);
     }
     
@@ -102,7 +102,7 @@ public class ShopMenu extends JDialog {
             }
         };
         itemPanel.setOpaque(false);
-        
+
         // Add hover effect
         itemPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -121,14 +121,6 @@ public class ShopMenu extends JDialog {
         nameLabel.setForeground(new Color(101, 67, 33));
         
         // Create items with their prices
-        Item shopItem;
-        if (itemName.contains("seeds")) {
-            shopItem = new SeedItem(itemName, 1);
-        } else if (itemName.equals("Water")) {
-            shopItem = new Item(itemName, 1);
-        } else {
-            shopItem = new CropItem(itemName, 1);
-        }
 
         JLabel priceLabel = new JLabel(price + " gold", SwingConstants.CENTER) {
             @Override
@@ -216,15 +208,8 @@ public class ShopMenu extends JDialog {
                 player.setMoney(player.getMoney() - price);
                 
                 // Add the purchased item to player's inventory
-                if (itemName.contains("seeds")) {
-                    farmGame.getInventory().addItem(new SeedItem(itemName.replace(" seeds", ""), 1));
-                } else if (itemName.equals("Water")) {
-                    farmGame.getInventory().addItem(new Item("Water", 1));
-                } else if (itemName.equals("Boat")) {
-                    farmGame.getInventory().addItem(new Item("Boat", 1));
-                } else {
-                    farmGame.getInventory().addItem(new Item(itemName, 1));
-                }
+                farmGame.getInventory().addItem(new CropItem(itemName, 1));
+
                 
                 JOptionPane.showMessageDialog(this, 
                     "You bought " + itemName + " for " + price + " gold!", 
@@ -281,9 +266,9 @@ public class ShopMenu extends JDialog {
         inventoryGrid.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     
         // Add items to grid
-        for (Item item : farmGame.getInventory().getItems()) {
-            if (!item.getName().contains("seeds") && !item.getName().equals("Water") && item.getQuantity() > 0) {
-                addSellableItem(inventoryGrid, item, sellDescriptionPanel);
+        for (Item item : player.getInventory().getItems()) {
+            if (item instanceof CropItem) {
+                addSellableItem(inventoryGrid, (CropItem) item, sellDescriptionPanel);
             }
         }
     
@@ -310,7 +295,7 @@ public class ShopMenu extends JDialog {
         return sellPanel;
     }
 
-    private void addSellableItem(JPanel grid, Item item, JPanel descriptionPanel) {
+    private void addSellableItem(JPanel grid, CropItem item, JPanel descriptionPanel) {
         JPanel itemPanel = new JPanel(new BorderLayout(5, 5)) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -326,7 +311,7 @@ public class ShopMenu extends JDialog {
         itemPanel.setOpaque(false);
 
         // Calculate sell price (90% of buy price)
-        int buyPrice = getItemBuyPrice(item.getName());
+        int buyPrice = item.getCropSellPrice();
         int sellPrice = (int)(buyPrice * 0.9);
 
         JLabel nameLabel = new JLabel(item.getName(), SwingConstants.CENTER);
@@ -361,7 +346,7 @@ public class ShopMenu extends JDialog {
         grid.add(itemPanel);
     }
 
-    private void updateSellDescription(JPanel descriptionPanel, Item item, int sellPrice) {
+    private void updateSellDescription(JPanel descriptionPanel, CropItem item, int sellPrice) {
         descriptionPanel.removeAll();
         
         JPanel content = new JPanel(new BorderLayout(10, 10));
@@ -371,7 +356,7 @@ public class ShopMenu extends JDialog {
         JLabel nameLabel = new JLabel(item.getName());
         nameLabel.setFont(customFont.deriveFont(14f));
 
-        String description = getItemDescription(item.getName());
+        String description = item.getItemDescription();
         JTextArea descArea = new JTextArea(description);
         descArea.setFont(customFont.deriveFont(12f));
         descArea.setEditable(false);
@@ -438,27 +423,5 @@ public class ShopMenu extends JDialog {
         descriptionPanel.add(content);
         descriptionPanel.revalidate();
         descriptionPanel.repaint();
-    }
-
-    private int getItemBuyPrice(String itemName) {
-        switch(itemName) {
-            case "Rice": return 30;
-            case "Potato": return 25;
-            case "Wheat": return 20;
-            case "Mandarin": return 35;
-            case "Boat": return 100;
-            default: return 0;
-        }
-    }
-
-    private String getItemDescription(String itemName) {
-        switch(itemName) {
-            case "Rice": return "Fresh harvested rice.\nCan be sold or cooked.";
-            case "Potato": return "Fresh harvested potato.\nCan be sold or cooked.";
-            case "Wheat": return "Fresh harvested wheat.\nCan be sold or cooked.";
-            case "Mandarin": return "Fresh harvested mandarin.\nSweet and juicy fruit.";
-            case "Boat": return "A sturdy fishing boat.\nMay be used to row away...";
-            default: return "No description available.";
-        }
     }
 }
