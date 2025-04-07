@@ -206,7 +206,12 @@ public class ShopMenu extends JDialog {
                 player.setMoney(player.getMoney() - price);
                 
                 // Add the purchased item to player's inventory
-                farmGame.getInventory().addItem(new Item(itemName, 1));
+                if (itemName.equals("Water")) {
+                    farmGame.getInventory().addItem(new FoodItem(itemName, 1));
+                } else {
+                    farmGame.getInventory().addItem(new Item(itemName, 1));
+                }
+
 
                 
                 JOptionPane.showMessageDialog(this, 
