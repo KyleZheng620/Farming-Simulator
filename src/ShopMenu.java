@@ -57,7 +57,7 @@ public class ShopMenu extends JDialog {
         goldPanel.add(goldLabel);
 
         buyPanel.add(goldPanel, BorderLayout.NORTH);
-        
+
         // Remove duplicate background loading code
         
         // Adjust grid to match background boxes
@@ -227,7 +227,11 @@ public class ShopMenu extends JDialog {
                     JOptionPane.INFORMATION_MESSAGE);
                 
                 // Refresh the UI
-                farmGame.repaint();
+                Window window = SwingUtilities.getWindowAncestor(descriptionPanel);
+                if (window instanceof JDialog) {
+                    window.dispose();
+                    new ShopMenu((JFrame)farmGame, player, farmGame).setVisible(true);
+                }
             } else {
                 JOptionPane.showMessageDialog(this, 
                     "Not enough gold! You need " + price + " gold.", 
@@ -296,6 +300,7 @@ public class ShopMenu extends JDialog {
         JLabel initialMessage = new JLabel("Select an item to sell", SwingConstants.CENTER);
         initialMessage.setFont(customFont.deriveFont(14f));
         initialMessage.setForeground(new Color(139, 69, 19));
+        initialMessage.setBackground(new Color(139, 69, 19));
         sellDescriptionPanel.add(initialMessage, BorderLayout.CENTER);
     
         // Add panels to main sell panel
@@ -335,6 +340,7 @@ public class ShopMenu extends JDialog {
             @Override
             public void mouseClicked(MouseEvent e) {
                 updateSellDescription(descriptionPanel, item, sellPrice);
+
             }
             
             @Override
