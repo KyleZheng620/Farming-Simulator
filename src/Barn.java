@@ -121,7 +121,13 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
         } else {
             g.drawImage(farmerIdle, farmerX, farmerY, farmerX + 128, farmerY + 128, fx1, fy1, fx2, fy2, this);
         }
-
+        doorRectangle = new Rectangle(830, 1050, 50,30);
+        bedRectangle = new Rectangle(940, 140, 30,40);
+        CookingPlace = new Rectangle(940,620,50,30);
+        box = new Rectangle(810,630,70,310);
+        box2 = new Rectangle(870,620,240,220);
+        box3 = new Rectangle(1060,80,50,560);
+        box4 = new Rectangle(740,90,370,200);
 
     }
 
@@ -142,6 +148,7 @@ public class Barn extends JPanel implements KeyListener, MouseListener, ActionLi
         Rectangle player = new Rectangle(x,y,128,128);
         return(player.intersects(doorRectangle));
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         currentFrame = (currentFrame + 1) % 4;

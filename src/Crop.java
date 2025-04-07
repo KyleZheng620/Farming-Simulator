@@ -47,13 +47,22 @@ public class Crop{
             double chance = Math.random();
             if (weather.equals("Sunny")) {
                 if (chance < 0.9) {
-                    growthTime-=2;
+                    if (growthTime - 2 <= 0) {
+                        growthTime = 0;
+                    } else {
+                        growthTime -=2;
+                    }
                 }
             }
 
             if (weather.equals("Rain")) {
                 if (chance < 0.9) {
-                    growthTime--;
+                    if (growthTime -1 <= 0) {
+                        growthTime = 0;
+                    } else {
+                        growthTime--;
+                    }
+
                 }
                 waterLevel += 2;
             }
