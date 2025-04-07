@@ -3,8 +3,8 @@
 <title>FarmLand.java</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style type="text/css">
-.s0 { color: #cf8e6d;}
-.s1 { color: #bcbec4;}
+.s0 { color: #bcbec4;}
+.s1 { color: #cf8e6d;}
 .s2 { color: #bcbec4;}
 .s3 { color: #2aacb8;}
 .s4 { color: #6aab73;}
@@ -16,53 +16,77 @@
 <font face="Arial, Helvetica" color="#000000">
 FarmLand.java</font>
 </center></td></tr></table>
-<pre><span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">ArrayList</span><span class="s2">;</span>
+<pre>
+<span class="s1">public class </span><span class="s0">FarmLand </span><span class="s2">{</span>
+    <span class="s1">private </span><span class="s0">Crop</span><span class="s2">[][] </span><span class="s0">plots</span><span class="s2">;</span>
+    <span class="s1">private </span><span class="s0">Crop soil</span><span class="s2">;</span>
+    <span class="s1">private </span><span class="s0">Farmer player</span><span class="s2">;</span>
+    <span class="s1">private int </span><span class="s0">plotPrice</span><span class="s2">;</span>
+    <span class="s1">private int </span><span class="s0">lastBoughtRow</span><span class="s2">;</span>
+    <span class="s1">private int </span><span class="s0">lastBoughtCol</span><span class="s2">;</span>
 
-<span class="s0">public class </span><span class="s1">FarmLand </span><span class="s2">{</span>
-    <span class="s0">private </span><span class="s1">ArrayList</span><span class="s2">&lt;</span><span class="s1">ArrayList</span><span class="s2">&lt;</span><span class="s1">Crop</span><span class="s2">&gt;&gt; </span><span class="s1">plots</span><span class="s2">;</span>
-    <span class="s0">private </span><span class="s1">Farmer player</span><span class="s2">;</span>
-    <span class="s0">private int </span><span class="s1">plotPrice</span><span class="s2">;</span>
-
-    <span class="s0">public </span><span class="s1">FarmLand</span><span class="s2">(</span><span class="s1">Farmer player</span><span class="s2">){</span>
-        <span class="s1">plotPrice </span><span class="s2">= </span><span class="s3">20</span><span class="s2">;</span>
-        <span class="s0">this</span><span class="s2">.</span><span class="s1">player </span><span class="s2">= </span><span class="s1">player</span><span class="s2">;</span>
-        <span class="s1">plots </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
-        <span class="s1">Crop soil </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Crop </span><span class="s2">(</span><span class="s4">&quot;Soil&quot;</span><span class="s2">);</span>
-        <span class="s1">Crop rice </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Crop </span><span class="s2">(</span><span class="s4">&quot;Rice&quot;</span><span class="s2">);</span>
-        <span class="s1">Crop mandarin </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Crop </span><span class="s2">(</span><span class="s4">&quot;Mandarin&quot;</span><span class="s2">);</span>
-        <span class="s1">Crop potatoes </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Crop </span><span class="s2">(</span><span class="s4">&quot;Potatoes&quot;</span><span class="s2">);</span>
-        <span class="s1">Crop wheat </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Crop </span><span class="s2">(</span><span class="s4">&quot;Wheat&quot;</span><span class="s2">);</span>
-        <span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">i </span><span class="s2">= </span><span class="s3">0</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&lt; </span><span class="s3">4</span><span class="s2">; </span><span class="s1">i</span><span class="s2">++) {</span>
-            <span class="s1">plots</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;</span><span class="s1">Crop</span><span class="s2">&gt;());</span>
+    <span class="s1">public </span><span class="s0">FarmLand</span><span class="s2">(</span><span class="s0">Farmer player</span><span class="s2">){</span>
+        <span class="s0">plotPrice </span><span class="s2">= </span><span class="s3">20</span><span class="s2">;</span>
+        <span class="s1">this</span><span class="s2">.</span><span class="s0">player </span><span class="s2">= </span><span class="s0">player</span><span class="s2">;</span>
+        <span class="s0">plots </span><span class="s2">= </span><span class="s1">new </span><span class="s0">Crop</span><span class="s2">[</span><span class="s3">4</span><span class="s2">][</span><span class="s3">21</span><span class="s2">];</span>
+        <span class="s0">lastBoughtRow </span><span class="s2">= </span><span class="s3">3</span><span class="s2">;</span>
+        <span class="s0">lastBoughtCol </span><span class="s2">= </span><span class="s3">0</span><span class="s2">;</span>
+        <span class="s0">soil </span><span class="s2">= </span><span class="s1">new </span><span class="s0">Crop </span><span class="s2">(</span><span class="s4">&quot;Soil&quot;</span><span class="s2">);</span>
+        <span class="s0">Crop rice </span><span class="s2">= </span><span class="s1">new </span><span class="s0">Crop </span><span class="s2">(</span><span class="s4">&quot;Rice&quot;</span><span class="s2">);</span>
+        <span class="s0">Crop mandarin </span><span class="s2">= </span><span class="s1">new </span><span class="s0">Crop </span><span class="s2">(</span><span class="s4">&quot;Mandarin&quot;</span><span class="s2">);</span>
+        <span class="s0">Crop potato </span><span class="s2">= </span><span class="s1">new </span><span class="s0">Crop </span><span class="s2">(</span><span class="s4">&quot;Potato&quot;</span><span class="s2">);</span>
+        <span class="s0">Crop wheat </span><span class="s2">= </span><span class="s1">new </span><span class="s0">Crop </span><span class="s2">(</span><span class="s4">&quot;Wheat&quot;</span><span class="s2">);</span>
+        <span class="s1">for </span><span class="s2">(</span><span class="s1">int </span><span class="s0">i </span><span class="s2">= </span><span class="s3">0</span><span class="s2">; </span><span class="s0">i </span><span class="s2">&lt; </span><span class="s3">4</span><span class="s2">; </span><span class="s0">i</span><span class="s2">++) {</span>
+            <span class="s0">plots</span><span class="s2">[</span><span class="s0">i</span><span class="s2">][</span><span class="s3">0</span><span class="s2">] = </span><span class="s1">new </span><span class="s0">Crop </span><span class="s2">(</span><span class="s4">&quot;Rice&quot;</span><span class="s2">);</span>
         <span class="s2">}</span>
-        <span class="s1">plots</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s3">0</span><span class="s2">).</span><span class="s1">add</span><span class="s2">(</span><span class="s1">soil</span><span class="s2">);</span>
-        <span class="s1">plots</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s3">1</span><span class="s2">).</span><span class="s1">add</span><span class="s2">(</span><span class="s1">soil</span><span class="s2">);</span>
-        <span class="s1">plots</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s3">2</span><span class="s2">).</span><span class="s1">add</span><span class="s2">(</span><span class="s1">soil</span><span class="s2">);</span>
-        <span class="s1">plots</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s3">3</span><span class="s2">).</span><span class="s1">add</span><span class="s2">(</span><span class="s1">soil</span><span class="s2">);</span>
+        <span class="s1">for </span><span class="s2">(</span><span class="s1">int </span><span class="s0">i </span><span class="s2">= </span><span class="s3">0</span><span class="s2">; </span><span class="s0">i </span><span class="s2">&lt; </span><span class="s3">4</span><span class="s2">; </span><span class="s0">i</span><span class="s2">++) {</span>
+            <span class="s0">plots</span><span class="s2">[</span><span class="s0">i</span><span class="s2">][</span><span class="s3">1</span><span class="s2">] = </span><span class="s1">new </span><span class="s0">Crop </span><span class="s2">(</span><span class="s4">&quot;Mandarin&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+        <span class="s1">for </span><span class="s2">(</span><span class="s1">int </span><span class="s0">i </span><span class="s2">= </span><span class="s3">0</span><span class="s2">; </span><span class="s0">i </span><span class="s2">&lt; </span><span class="s3">4</span><span class="s2">; </span><span class="s0">i</span><span class="s2">++) {</span>
+            <span class="s0">plots</span><span class="s2">[</span><span class="s0">i</span><span class="s2">][</span><span class="s3">2</span><span class="s2">] = </span><span class="s1">new </span><span class="s0">Crop </span><span class="s2">(</span><span class="s4">&quot;Potato&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+        <span class="s1">for </span><span class="s2">(</span><span class="s1">int </span><span class="s0">i </span><span class="s2">= </span><span class="s3">0</span><span class="s2">; </span><span class="s0">i </span><span class="s2">&lt; </span><span class="s3">4</span><span class="s2">; </span><span class="s0">i</span><span class="s2">++) {</span>
+            <span class="s0">plots</span><span class="s2">[</span><span class="s0">i</span><span class="s2">][</span><span class="s3">3</span><span class="s2">] = </span><span class="s1">new </span><span class="s0">Crop </span><span class="s2">(</span><span class="s4">&quot;Wheat&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+        <span class="s1">for </span><span class="s2">(</span><span class="s1">int </span><span class="s0">i </span><span class="s2">= </span><span class="s3">0</span><span class="s2">; </span><span class="s0">i </span><span class="s2">&lt; </span><span class="s3">4</span><span class="s2">; </span><span class="s0">i</span><span class="s2">++) {</span>
+            <span class="s0">plots</span><span class="s2">[</span><span class="s0">i</span><span class="s2">][</span><span class="s3">4</span><span class="s2">] = </span><span class="s1">new </span><span class="s0">Crop </span><span class="s2">(</span><span class="s4">&quot;Soil&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
     <span class="s2">}</span>
 
-    <span class="s0">public void </span><span class="s1">DayPass</span><span class="s2">() {</span>
-        <span class="s0">for </span><span class="s2">(</span><span class="s1">ArrayList</span><span class="s2">&lt;</span><span class="s1">Crop</span><span class="s2">&gt; </span><span class="s1">row</span><span class="s2">: </span><span class="s1">plots</span><span class="s2">) {</span>
-            <span class="s0">for </span><span class="s2">(</span><span class="s1">Crop e </span><span class="s2">: </span><span class="s1">row</span><span class="s2">) {</span>
-                <span class="s1">e</span><span class="s2">.</span><span class="s1">dayPass</span><span class="s2">(</span><span class="s1">player</span><span class="s2">.</span><span class="s1">getCurrentWeather</span><span class="s2">());</span>
+    <span class="s1">public void </span><span class="s0">dayPass</span><span class="s2">() {</span>
+        <span class="s1">for </span><span class="s2">(</span><span class="s0">Crop</span><span class="s2">[] </span><span class="s0">row</span><span class="s2">: </span><span class="s0">plots</span><span class="s2">) {</span>
+            <span class="s1">for </span><span class="s2">(</span><span class="s0">Crop e </span><span class="s2">: </span><span class="s0">row</span><span class="s2">) {</span>
+                <span class="s1">if </span><span class="s2">(</span><span class="s0">e</span><span class="s2">!=</span><span class="s1">null</span><span class="s2">){</span>
+                    <span class="s0">e</span><span class="s2">.</span><span class="s0">dayPass</span><span class="s2">(</span><span class="s0">player</span><span class="s2">.</span><span class="s0">getCurrentWeather</span><span class="s2">());</span>
+                <span class="s2">}</span>
             <span class="s2">}</span>
         <span class="s2">}</span>
     <span class="s2">}</span>
 
-    <span class="s0">public boolean </span><span class="s1">buyPlot</span><span class="s2">(){</span>
-        <span class="s0">if </span><span class="s2">(</span><span class="s1">player</span><span class="s2">.</span><span class="s1">getMoney</span><span class="s2">() &lt; </span><span class="s1">plotPrice</span><span class="s2">){</span>
-            <span class="s0">return false</span><span class="s2">;</span>
-        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
-            <span class="s1">player</span><span class="s2">.</span><span class="s1">setMoney</span><span class="s2">(</span><span class="s1">player</span><span class="s2">.</span><span class="s1">getMoney</span><span class="s2">()-</span><span class="s1">plotPrice</span><span class="s2">);</span>
-            <span class="s1">plotPrice </span><span class="s2">*= </span><span class="s3">2.2</span><span class="s2">;</span>
+    <span class="s1">public </span><span class="s0">Boolean buyPlot</span><span class="s2">(){</span>
+        <span class="s1">if </span><span class="s2">(</span><span class="s0">lastBoughtCol</span><span class="s2">==</span><span class="s3">20 </span><span class="s2">&amp;&amp; </span><span class="s0">lastBoughtRow </span><span class="s2">== </span><span class="s3">3</span><span class="s2">){</span>
+            <span class="s1">return null</span><span class="s2">;</span>
         <span class="s2">}</span>
-        <span class="s0">return true</span><span class="s2">;</span>
+        <span class="s1">if </span><span class="s2">(</span><span class="s0">player</span><span class="s2">.</span><span class="s0">getMoney</span><span class="s2">() &lt; </span><span class="s0">plotPrice</span><span class="s2">){</span>
+            <span class="s1">return false</span><span class="s2">;</span>
+        <span class="s2">} </span><span class="s1">else </span><span class="s2">{</span>
+            <span class="s0">player</span><span class="s2">.</span><span class="s0">setMoney</span><span class="s2">(</span><span class="s0">player</span><span class="s2">.</span><span class="s0">getMoney</span><span class="s2">()-</span><span class="s0">plotPrice</span><span class="s2">);</span>
+            <span class="s0">plotPrice </span><span class="s2">*= </span><span class="s3">2.2</span><span class="s2">;</span>
+        <span class="s2">}</span>
+        <span class="s1">if </span><span class="s2">(</span><span class="s0">lastBoughtRow </span><span class="s2">== </span><span class="s3">3</span><span class="s2">){</span>
+            <span class="s0">lastBoughtRow </span><span class="s2">= </span><span class="s3">0</span><span class="s2">;</span>
+        <span class="s2">} </span><span class="s1">else </span><span class="s2">{</span>
+            <span class="s0">lastBoughtRow</span><span class="s2">++;</span>
+        <span class="s2">}</span>
+        <span class="s0">lastBoughtCol</span><span class="s2">++;</span>
+        <span class="s0">plots</span><span class="s2">[</span><span class="s0">lastBoughtRow</span><span class="s2">][</span><span class="s0">lastBoughtCol</span><span class="s2">] = </span><span class="s0">soil</span><span class="s2">;</span>
+
+        <span class="s1">return true</span><span class="s2">;</span>
     <span class="s2">}</span>
 
 
-
-    <span class="s0">public </span><span class="s1">ArrayList</span><span class="s2">&lt;</span><span class="s1">ArrayList</span><span class="s2">&lt;</span><span class="s1">Crop</span><span class="s2">&gt;&gt; </span><span class="s1">getPlots</span><span class="s2">() {</span>
-        <span class="s0">return </span><span class="s1">plots</span><span class="s2">;</span>
+    <span class="s1">public </span><span class="s0">Crop</span><span class="s2">[][] </span><span class="s0">getPlots</span><span class="s2">() {</span>
+        <span class="s1">return </span><span class="s0">plots</span><span class="s2">;</span>
     <span class="s2">}</span>
 <span class="s2">}</span>
 </pre>

@@ -25,6 +25,8 @@ FarmGame.java</font>
     <span class="s0">private </span><span class="s1">Farm farmPanel</span><span class="s2">;</span>
     <span class="s0">private </span><span class="s1">Barn barnPanel</span><span class="s2">;</span>
     <span class="s0">private </span><span class="s1">Shop shopPanel</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">Cooking cookPanel</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">Animations animationsPanel</span><span class="s2">;</span>
     <span class="s0">private </span><span class="s1">Farmer player</span><span class="s2">;</span>
     <span class="s0">private </span><span class="s1">TransitionPanel transitionPanel</span><span class="s2">;</span>
     <span class="s0">private </span><span class="s1">Inventory inventory</span><span class="s2">;</span>
@@ -32,7 +34,6 @@ FarmGame.java</font>
 
     <span class="s0">public </span><span class="s1">FarmGame</span><span class="s2">() {</span>
         <span class="s1">inventory </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Inventory</span><span class="s2">();</span>
-
         <span class="s1">player </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Farmer</span><span class="s2">(</span><span class="s1">inventory</span><span class="s2">);</span>
         <span class="s1">cardLayout </span><span class="s2">= </span><span class="s0">new </span><span class="s1">CardLayout</span><span class="s2">();</span>
         <span class="s1">mainPanel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JPanel</span><span class="s2">(</span><span class="s1">cardLayout</span><span class="s2">);</span>
@@ -41,15 +42,23 @@ FarmGame.java</font>
         <span class="s1">inventory</span><span class="s2">.</span><span class="s1">addItem</span><span class="s2">(</span><span class="s3">&quot;Wheat seeds&quot;</span><span class="s2">, </span><span class="s4">5</span><span class="s2">);</span>
         <span class="s1">inventory</span><span class="s2">.</span><span class="s1">addItem</span><span class="s2">(</span><span class="s3">&quot;Potato seeds&quot;</span><span class="s2">, </span><span class="s4">3</span><span class="s2">);</span>
         <span class="s1">inventory</span><span class="s2">.</span><span class="s1">addItem</span><span class="s2">(</span><span class="s3">&quot;Mandarin seeds&quot;</span><span class="s2">, </span><span class="s4">3</span><span class="s2">);</span>
+        <span class="s1">inventory</span><span class="s2">.</span><span class="s1">addItem</span><span class="s2">(</span><span class="s3">&quot;Wheat&quot;</span><span class="s2">,</span><span class="s4">3</span><span class="s2">);</span>
+        <span class="s1">inventory</span><span class="s2">.</span><span class="s1">addItem</span><span class="s2">(</span><span class="s3">&quot;Rice&quot;</span><span class="s2">,</span><span class="s4">3</span><span class="s2">);</span>
+        <span class="s1">inventory</span><span class="s2">.</span><span class="s1">addItem</span><span class="s2">(</span><span class="s3">&quot;Potato&quot;</span><span class="s2">,</span><span class="s4">3</span><span class="s2">);</span>
+        <span class="s1">inventory</span><span class="s2">.</span><span class="s1">addItem</span><span class="s2">(</span><span class="s3">&quot;Water&quot;</span><span class="s2">, </span><span class="s4">10</span><span class="s2">);</span>
 
         <span class="s1">farmPanel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Farm</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s1">player</span><span class="s2">);</span>
         <span class="s1">barnPanel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Barn</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s1">player</span><span class="s2">);</span>
         <span class="s1">shopPanel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Shop</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s1">player</span><span class="s2">);</span>
+        <span class="s1">cookPanel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Cooking</span><span class="s2">(</span><span class="s0">this</span><span class="s2">,</span><span class="s1">player</span><span class="s2">);</span>
         <span class="s1">transitionPanel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">TransitionPanel</span><span class="s2">(</span><span class="s1">player</span><span class="s2">);</span>
+        <span class="s1">animationsPanel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Animations</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s1">player</span><span class="s2">);</span>
 
         <span class="s1">mainPanel</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">farmPanel</span><span class="s2">, </span><span class="s3">&quot;Farm&quot;</span><span class="s2">);</span>
         <span class="s1">mainPanel</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">barnPanel</span><span class="s2">, </span><span class="s3">&quot;Barn&quot;</span><span class="s2">);</span>
         <span class="s1">mainPanel</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">shopPanel</span><span class="s2">, </span><span class="s3">&quot;Shop&quot;</span><span class="s2">);</span>
+        <span class="s1">mainPanel</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">cookPanel</span><span class="s2">,</span><span class="s3">&quot;Cooking&quot;</span><span class="s2">);</span>
+        <span class="s1">mainPanel</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">animationsPanel</span><span class="s2">,</span><span class="s3">&quot;Animations&quot;</span><span class="s2">);</span>
         <span class="s1">mainPanel</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">inventoryPanel</span><span class="s2">, </span><span class="s3">&quot;Inventory&quot;</span><span class="s2">);</span>
         <span class="s1">mainPanel</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">transitionPanel</span><span class="s2">, </span><span class="s3">&quot;TRANSITION&quot;</span><span class="s2">);</span>
 
@@ -63,6 +72,9 @@ FarmGame.java</font>
         <span class="s1">setVisible</span><span class="s2">(</span><span class="s0">true</span><span class="s2">);</span>
     <span class="s2">}</span>
 
+    <span class="s0">public </span><span class="s1">Inventory getInventory</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">inventory</span><span class="s2">;</span>
+    <span class="s2">}</span>
 
     <span class="s0">public void </span><span class="s1">showBarn</span><span class="s2">(</span><span class="s0">int </span><span class="s1">a</span><span class="s2">){</span>
         <span class="s1">cardLayout</span><span class="s2">.</span><span class="s1">show</span><span class="s2">(</span><span class="s1">mainPanel</span><span class="s2">, </span><span class="s3">&quot;Barn&quot;</span><span class="s2">);</span>
@@ -75,6 +87,10 @@ FarmGame.java</font>
     <span class="s0">public void </span><span class="s1">showShop</span><span class="s2">(</span><span class="s0">int </span><span class="s1">a</span><span class="s2">){</span>
         <span class="s1">cardLayout</span><span class="s2">.</span><span class="s1">show</span><span class="s2">(</span><span class="s1">mainPanel</span><span class="s2">, </span><span class="s3">&quot;Shop&quot;</span><span class="s2">);</span>
         <span class="s1">shopPanel</span><span class="s2">.</span><span class="s1">requestFocusInWindow</span><span class="s2">();</span>
+    <span class="s2">}</span>
+    <span class="s0">public void </span><span class="s1">showCooking</span><span class="s2">() {</span>
+        <span class="s1">cardLayout</span><span class="s2">.</span><span class="s1">show</span><span class="s2">(</span><span class="s1">mainPanel</span><span class="s2">, </span><span class="s3">&quot;Cooking&quot;</span><span class="s2">);</span>
+        <span class="s1">cookPanel</span><span class="s2">.</span><span class="s1">requestFocusInWindow</span><span class="s2">();</span>
     <span class="s2">}</span>
 
     <span class="s0">public void </span><span class="s1">showBarn</span><span class="s2">(</span><span class="s0">boolean </span><span class="s1">sleeping</span><span class="s2">){</span>
@@ -155,11 +171,28 @@ FarmGame.java</font>
         <span class="s2">}).</span><span class="s1">start</span><span class="s2">();</span>
     <span class="s2">}</span>
 
+    <span class="s0">public void </span><span class="s1">showAnimations</span><span class="s2">(</span><span class="s0">double </span><span class="s1">col</span><span class="s2">, </span><span class="s0">double </span><span class="s1">row</span><span class="s2">, </span><span class="s0">int </span><span class="s1">n</span><span class="s2">, </span><span class="s0">int </span><span class="s1">x</span><span class="s2">, </span><span class="s0">int </span><span class="s1">y</span><span class="s2">, </span><span class="s0">int </span><span class="s1">d</span><span class="s2">){</span>
+        <span class="s1">cardLayout</span><span class="s2">.</span><span class="s1">show</span><span class="s2">(</span><span class="s1">mainPanel</span><span class="s2">, </span><span class="s3">&quot;Animations&quot;</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">n </span><span class="s2">== </span><span class="s4">1</span><span class="s2">) {</span>
+            <span class="s1">animationsPanel</span><span class="s2">.</span><span class="s1">watering</span><span class="s2">(</span><span class="s1">col</span><span class="s2">, </span><span class="s1">row</span><span class="s2">, </span><span class="s1">x</span><span class="s2">, </span><span class="s1">y</span><span class="s2">, </span><span class="s1">d</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else if </span><span class="s2">(</span><span class="s1">n </span><span class="s2">== </span><span class="s4">2</span><span class="s2">){</span>
+            <span class="s1">animationsPanel</span><span class="s2">.</span><span class="s1">harvesting</span><span class="s2">(</span><span class="s1">col</span><span class="s2">, </span><span class="s1">row</span><span class="s2">, </span><span class="s1">x</span><span class="s2">, </span><span class="s1">y</span><span class="s2">, </span><span class="s1">d</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else if </span><span class="s2">(</span><span class="s1">n </span><span class="s2">== </span><span class="s4">3</span><span class="s2">){</span>
+            <span class="s1">animationsPanel</span><span class="s2">.</span><span class="s1">watering</span><span class="s2">(</span><span class="s1">col</span><span class="s2">, </span><span class="s1">row</span><span class="s2">, </span><span class="s1">x</span><span class="s2">, </span><span class="s1">y</span><span class="s2">, </span><span class="s1">d</span><span class="s2">);</span>
+        <span class="s2">}</span>
+        <span class="s1">animationsPanel</span><span class="s2">.</span><span class="s1">requestFocusInWindow</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
 
 
     <span class="s0">public void </span><span class="s1">toggleInventory</span><span class="s2">(</span><span class="s1">String panel</span><span class="s2">){</span>
         <span class="s1">cardLayout</span><span class="s2">.</span><span class="s1">show</span><span class="s2">(</span><span class="s1">mainPanel</span><span class="s2">, </span><span class="s3">&quot;Inventory&quot;</span><span class="s2">);</span>
         <span class="s1">inventoryPanel</span><span class="s2">.</span><span class="s1">panel</span><span class="s2">(</span><span class="s1">panel</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">toggleInventory</span><span class="s2">(</span><span class="s0">int </span><span class="s1">r</span><span class="s2">, </span><span class="s0">int </span><span class="s1">c</span><span class="s2">, </span><span class="s0">int </span><span class="s1">x</span><span class="s2">, </span><span class="s0">int </span><span class="s1">y</span><span class="s2">, </span><span class="s0">int </span><span class="s1">d</span><span class="s2">){</span>
+        <span class="s1">cardLayout</span><span class="s2">.</span><span class="s1">show</span><span class="s2">(</span><span class="s1">mainPanel</span><span class="s2">, </span><span class="s3">&quot;Inventory&quot;</span><span class="s2">);</span>
+        <span class="s1">inventoryPanel</span><span class="s2">.</span><span class="s1">panel</span><span class="s2">(</span><span class="s1">r</span><span class="s2">, </span><span class="s1">c</span><span class="s2">, </span><span class="s1">x</span><span class="s2">, </span><span class="s1">y</span><span class="s2">, </span><span class="s1">d</span><span class="s2">);</span>
     <span class="s2">}</span>
 <span class="s2">}</span>
 </pre>

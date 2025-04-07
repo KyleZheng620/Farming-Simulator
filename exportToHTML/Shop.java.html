@@ -33,6 +33,7 @@ Shop.java</font>
     <span class="s0">private </span><span class="s1">BufferedImage farmer</span><span class="s2">;</span>
     <span class="s0">private </span><span class="s1">BufferedImage farmerIdle</span><span class="s2">;</span>
     <span class="s0">private </span><span class="s1">BufferedImage sign</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">BufferedImage health</span><span class="s2">;</span>
     <span class="s0">private </span><span class="s1">Font customFont</span><span class="s2">;</span>
     <span class="s0">private </span><span class="s1">Farmer player</span><span class="s2">;</span>
     <span class="s0">private boolean </span><span class="s1">moving</span><span class="s2">;</span>
@@ -63,8 +64,6 @@ Shop.java</font>
         <span class="s1">C_box3 </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Rectangle</span><span class="s2">(</span><span class="s3">530</span><span class="s2">,</span><span class="s3">460</span><span class="s2">,</span><span class="s3">190</span><span class="s2">,  </span><span class="s3">90</span><span class="s2">);</span>
         <span class="s1">C_box4 </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Rectangle</span><span class="s2">(</span><span class="s3">750</span><span class="s2">,</span><span class="s3">600</span><span class="s2">,</span><span class="s3">160</span><span class="s2">,</span><span class="s3">70</span><span class="s2">);</span>
 
-        <span class="s1">registerRectangle </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Rectangle</span><span class="s2">(</span><span class="s3">1050</span><span class="s2">,-</span><span class="s3">10</span><span class="s2">,</span><span class="s3">200</span><span class="s2">,</span><span class="s3">300</span><span class="s2">);</span>
-
         <span class="s1">customFont </span><span class="s2">= </span><span class="s1">FontLoader</span><span class="s2">.</span><span class="s1">loadFont</span><span class="s2">(</span><span class="s4">&quot;src/Fonts/Daydream.ttf&quot;</span><span class="s2">, </span><span class="s3">30f</span><span class="s2">);</span>
         <span class="s1">moving </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
         <span class="s1">currentFrame </span><span class="s2">= </span><span class="s3">0</span><span class="s2">;</span>
@@ -76,6 +75,7 @@ Shop.java</font>
         <span class="s1">timer</span><span class="s2">.</span><span class="s1">start</span><span class="s2">();</span>
 
         <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">health </span><span class="s2">= </span><span class="s1">ImageIO</span><span class="s2">.</span><span class="s1">read</span><span class="s2">(</span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s4">&quot;src/Sprites/health.png&quot;</span><span class="s2">));</span>
             <span class="s1">sign </span><span class="s2">= </span><span class="s1">ImageIO</span><span class="s2">.</span><span class="s1">read</span><span class="s2">(</span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s4">&quot;src/Sprites/Sign.png&quot;</span><span class="s2">));</span>
             <span class="s1">shopInside </span><span class="s2">= </span><span class="s1">ImageIO</span><span class="s2">.</span><span class="s1">read</span><span class="s2">(</span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s4">&quot;src/Sprites/ShopInside.png&quot;</span><span class="s2">));</span>
             <span class="s1">shopInside2 </span><span class="s2">= </span><span class="s1">ImageIO</span><span class="s2">.</span><span class="s1">read</span><span class="s2">(</span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s4">&quot;src/Sprites/ShopInside 2.png&quot;</span><span class="s2">));</span>
@@ -90,14 +90,62 @@ Shop.java</font>
         <span class="s1">requestFocusInWindow</span><span class="s2">();</span>
     <span class="s2">}</span>
 
+    <span class="s0">public void </span><span class="s1">showRegister</span><span class="s2">() {</span>
+        <span class="s1">ShopMenu shopMenu </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ShopMenu</span><span class="s2">(</span>
+                <span class="s2">(</span><span class="s1">JFrame</span><span class="s2">)</span><span class="s1">SwingUtilities</span><span class="s2">.</span><span class="s1">getWindowAncestor</span><span class="s2">(</span><span class="s0">this</span><span class="s2">),</span>
+                <span class="s1">player</span><span class="s2">,</span>
+                <span class="s1">farmGame</span>
+        <span class="s2">);</span>
+        <span class="s1">shopMenu</span><span class="s2">.</span><span class="s1">setVisible</span><span class="s2">(</span><span class="s0">true</span><span class="s2">);</span>
+    <span class="s2">}</span>
     <span class="s0">protected void </span><span class="s1">paintComponent</span><span class="s2">(</span><span class="s1">Graphics g</span><span class="s2">) {</span>
         <span class="s0">super</span><span class="s2">.</span><span class="s1">paintComponent</span><span class="s2">(</span><span class="s1">g</span><span class="s2">);</span>
         <span class="s1">Graphics2D g2d </span><span class="s2">= (</span><span class="s1">Graphics2D</span><span class="s2">) </span><span class="s1">g</span><span class="s2">;</span>
         <span class="s1">g2d</span><span class="s2">.</span><span class="s1">setFont</span><span class="s2">(</span><span class="s1">customFont</span><span class="s2">);</span>
         <span class="s1">g2d</span><span class="s2">.</span><span class="s1">setColor</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Color</span><span class="s2">(</span><span class="s3">56</span><span class="s2">, </span><span class="s3">23</span><span class="s2">,</span><span class="s3">0</span><span class="s2">));</span>
         <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">shopInside</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s0">int </span><span class="s1">playerHunger </span><span class="s2">= </span><span class="s1">player</span><span class="s2">.</span><span class="s1">getHunger</span><span class="s2">();</span>
+        <span class="s0">int </span><span class="s1">playerThirst </span><span class="s2">= </span><span class="s1">player</span><span class="s2">.</span><span class="s1">getThirst</span><span class="s2">();</span>
+        <span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">i </span><span class="s2">= </span><span class="s3">0</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&lt; </span><span class="s3">5</span><span class="s2">; </span><span class="s1">i</span><span class="s2">++){</span>
+            <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">health</span><span class="s2">,</span><span class="s3">1600 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">, </span><span class="s3">918</span><span class="s2">, </span><span class="s3">1672 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">,</span><span class="s3">990</span><span class="s2">, </span><span class="s3">649</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">720</span><span class="s2">,</span><span class="s3">72</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+            <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">health</span><span class="s2">,</span><span class="s3">1600 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">, </span><span class="s3">848</span><span class="s2">, </span><span class="s3">1672 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">,</span><span class="s3">920</span><span class="s2">, </span><span class="s3">577</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">648</span><span class="s2">,</span><span class="s3">72</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">playerHunger</span><span class="s2">&gt;=</span><span class="s3">1</span><span class="s2">){</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">player</span><span class="s2">.</span><span class="s1">isFoodPoison</span><span class="s2">()){</span>
+                    <span class="s0">if </span><span class="s2">(</span><span class="s1">playerHunger</span><span class="s2">&gt;=</span><span class="s3">2</span><span class="s2">){</span>
+                        <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">health</span><span class="s2">,</span><span class="s3">1600 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">, </span><span class="s3">918</span><span class="s2">, </span><span class="s3">1672 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">,</span><span class="s3">990</span><span class="s2">, </span><span class="s3">433</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">504</span><span class="s2">,</span><span class="s3">72</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+                    <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                        <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">health</span><span class="s2">,</span><span class="s3">1604 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">, </span><span class="s3">918</span><span class="s2">, </span><span class="s3">1672 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">,</span><span class="s3">990</span><span class="s2">, </span><span class="s3">505</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">576</span><span class="s2">,</span><span class="s3">72</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+                    <span class="s2">}</span>
+                <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                    <span class="s0">if </span><span class="s2">(</span><span class="s1">playerHunger</span><span class="s2">&gt;=</span><span class="s3">2</span><span class="s2">){</span>
+                        <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">health</span><span class="s2">,</span><span class="s3">1600 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">, </span><span class="s3">918</span><span class="s2">, </span><span class="s3">1672 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">,</span><span class="s3">990</span><span class="s2">, </span><span class="s3">289</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">360</span><span class="s2">,</span><span class="s3">72</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+                    <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                        <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">health</span><span class="s2">,</span><span class="s3">1603 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">, </span><span class="s3">918</span><span class="s2">, </span><span class="s3">1675 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">,</span><span class="s3">990</span><span class="s2">, </span><span class="s3">361</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">432</span><span class="s2">,</span><span class="s3">72</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+                    <span class="s2">}</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">playerThirst</span><span class="s2">&gt;=</span><span class="s3">1</span><span class="s2">){</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">player</span><span class="s2">.</span><span class="s1">isWaterPoison</span><span class="s2">()){</span>
+                    <span class="s0">if </span><span class="s2">(</span><span class="s1">playerThirst</span><span class="s2">&gt;=</span><span class="s3">2</span><span class="s2">){</span>
+                        <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">health</span><span class="s2">,</span><span class="s3">1599 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">, </span><span class="s3">847</span><span class="s2">, </span><span class="s3">1672 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">,</span><span class="s3">919</span><span class="s2">, </span><span class="s3">145</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">216</span><span class="s2">,</span><span class="s3">72</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+                    <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                        <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">health</span><span class="s2">,</span><span class="s3">1600 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">, </span><span class="s3">847</span><span class="s2">, </span><span class="s3">1672 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">,</span><span class="s3">919</span><span class="s2">, </span><span class="s3">217</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">288</span><span class="s2">,</span><span class="s3">72</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+                    <span class="s2">}</span>
+                <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                    <span class="s0">if </span><span class="s2">(</span><span class="s1">playerThirst</span><span class="s2">&gt;=</span><span class="s3">2</span><span class="s2">){</span>
+                        <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">health</span><span class="s2">,</span><span class="s3">1599 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">, </span><span class="s3">847</span><span class="s2">, </span><span class="s3">1672 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">,</span><span class="s3">919</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">72</span><span class="s2">,</span><span class="s3">72</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+                    <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                        <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">health</span><span class="s2">,</span><span class="s3">1600 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">, </span><span class="s3">847</span><span class="s2">, </span><span class="s3">1672 </span><span class="s2">+ </span><span class="s3">60</span><span class="s2">*</span><span class="s1">i</span><span class="s2">,</span><span class="s3">919</span><span class="s2">, </span><span class="s3">73</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">144</span><span class="s2">,</span><span class="s3">72</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+                    <span class="s2">}</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+            <span class="s1">playerHunger</span><span class="s2">-=</span><span class="s3">2</span><span class="s2">;</span>
+            <span class="s1">playerThirst</span><span class="s2">-=</span><span class="s3">2</span><span class="s2">;</span>
+        <span class="s2">}</span>
         <span class="s1">g</span><span class="s2">.</span><span class="s1">drawImage</span><span class="s2">(</span><span class="s1">sign</span><span class="s2">, </span><span class="s3">1650</span><span class="s2">,</span><span class="s3">10</span><span class="s2">,</span><span class="s0">null</span><span class="s2">);</span>
         <span class="s1">g2d</span><span class="s2">.</span><span class="s1">drawString</span><span class="s2">(</span><span class="s4">&quot;DAY  &quot; </span><span class="s2">+ </span><span class="s1">player</span><span class="s2">.</span><span class="s1">getDay</span><span class="s2">(), </span><span class="s3">1700</span><span class="s2">, </span><span class="s3">60</span><span class="s2">);</span>
+        <span class="s1">registerRectangle </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Rectangle</span><span class="s2">(</span><span class="s3">600</span><span class="s2">,</span><span class="s3">530</span><span class="s2">,</span><span class="s3">100</span><span class="s2">,</span><span class="s3">50</span><span class="s2">);</span>
         <span class="s0">int </span><span class="s1">fx1 </span><span class="s2">= </span><span class="s1">direction </span><span class="s2">* </span><span class="s3">128</span><span class="s2">;</span>
         <span class="s0">int </span><span class="s1">fy1 </span><span class="s2">= </span><span class="s1">currentFrame </span><span class="s2">* </span><span class="s3">128</span><span class="s2">;</span>
         <span class="s0">int </span><span class="s1">fx2 </span><span class="s2">= </span><span class="s1">fx1 </span><span class="s2">+ </span><span class="s3">128</span><span class="s2">;</span>
@@ -127,9 +175,6 @@ Shop.java</font>
     <span class="s0">private boolean </span><span class="s1">collidesWithRegister</span><span class="s2">(</span><span class="s0">int </span><span class="s1">x</span><span class="s2">, </span><span class="s0">int </span><span class="s1">y</span><span class="s2">){</span>
         <span class="s1">Rectangle player </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Rectangle</span><span class="s2">(</span><span class="s1">x</span><span class="s2">,</span><span class="s1">y</span><span class="s2">,</span><span class="s3">128</span><span class="s2">,</span><span class="s3">128</span><span class="s2">);</span>
         <span class="s0">return</span><span class="s2">(</span><span class="s1">player</span><span class="s2">.</span><span class="s1">intersects</span><span class="s2">(</span><span class="s1">registerRectangle</span><span class="s2">));</span>
-    <span class="s2">}</span>
-
-    <span class="s0">public void </span><span class="s1">showRegister</span><span class="s2">(){</span>
     <span class="s2">}</span>
 
     <span class="s1">@Override</span>
@@ -168,8 +213,11 @@ Shop.java</font>
         <span class="s0">if </span><span class="s2">(</span><span class="s1">WithinShop</span><span class="s2">(</span><span class="s1">farmerX </span><span class="s2">+ </span><span class="s1">Xchange</span><span class="s2">, </span><span class="s1">farmerY </span><span class="s2">+ </span><span class="s1">Ychange</span><span class="s2">)) {</span>
             <span class="s1">farmerY </span><span class="s2">+= </span><span class="s1">Ychange</span><span class="s2">;</span>
             <span class="s1">farmerX </span><span class="s2">+= </span><span class="s1">Xchange</span><span class="s2">;</span>
+            <span class="s0">while </span><span class="s2">(</span><span class="s1">farmerX </span><span class="s2">== </span><span class="s3">1000</span><span class="s2">){</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s1">farmerX</span><span class="s2">);</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s1">farmerY</span><span class="s2">);</span>
+            <span class="s2">}</span>
         <span class="s2">}</span>
-        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s4">&quot;X: &quot; </span><span class="s2">+ </span><span class="s1">farmerX  </span><span class="s2">+ </span><span class="s4">&quot; Y: &quot; </span><span class="s2">+ </span><span class="s1">farmerY</span><span class="s2">);</span>
 
         <span class="s1">repaint</span><span class="s2">();</span>
         <span class="s0">if </span><span class="s2">(</span><span class="s1">collidesWithDoor</span><span class="s2">(</span><span class="s1">farmerX</span><span class="s2">, </span><span class="s1">farmerY</span><span class="s2">)){</span>
@@ -184,14 +232,9 @@ Shop.java</font>
             <span class="s1">farmerY </span><span class="s2">= </span><span class="s3">820</span><span class="s2">;</span>
             <span class="s1">direction </span><span class="s2">= </span><span class="s3">0</span><span class="s2">;</span>
         <span class="s2">}</span>
-        <span class="s0">while </span><span class="s2">(</span><span class="s1">collidesWithRegister</span><span class="s2">(</span><span class="s1">farmerX</span><span class="s2">, </span><span class="s1">farmerY</span><span class="s2">)){</span>
-            <span class="s1">farmGame</span><span class="s2">.</span><span class="s1">showShop</span><span class="s2">();</span>
-            <span class="s0">try </span><span class="s2">{</span>
-                <span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">20</span><span class="s2">);</span>
-            <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">InterruptedException x</span><span class="s2">) {</span>
-                <span class="s1">x</span><span class="s2">.</span><span class="s1">printStackTrace</span><span class="s2">();</span>
-            <span class="s2">}</span>
-            <span class="s1">moving </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">collidesWithRegister</span><span class="s2">(</span><span class="s1">farmerX</span><span class="s2">, </span><span class="s1">farmerY</span><span class="s2">)) {</span>
+                <span class="s1">moving </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+                <span class="s1">showRegister</span><span class="s2">();</span>
         <span class="s2">}</span>
     <span class="s2">}</span>
 

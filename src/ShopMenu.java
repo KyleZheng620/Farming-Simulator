@@ -1,118 +1,460 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 public class ShopMenu extends JDialog {
-    private Farmer player;
-    private FarmGame farmGame;
+    private JPanel descriptionPanel;
     private Font customFont;
-    private JLayeredPane menuContainer;
-    private BufferedImage backgroundImage;
-
+    private BufferedImage itemSprites;
+    private Farmer player;        // Add these fields
+    private FarmGame farmGame;    // Add these fields
+    
     public ShopMenu(JFrame parent, Farmer player, FarmGame farmGame) {
         super(parent, "Shop Menu", true);
         this.player = player;
         this.farmGame = farmGame;
-
-        setSize(1077, 950);
-        setLocationRelativeTo(parent);
-        setResizable(false);
-
-        customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 16f);
-
-        menuContainer = new JLayeredPane();
-        menuContainer.setPreferredSize(new Dimension(1077, 950));
-
-        // Load background
+        setLayout(new BorderLayout());
+        
+        // Load sprites and background once
         try {
-            backgroundImage = ImageIO.read(new File("src/Sprites/ShopMenu.png"));
-            JLabel background = new JLabel(new ImageIcon(backgroundImage));
-            background.setBounds(0, 0, 1077, 950);
-            menuContainer.add(background, JLayeredPane.DEFAULT_LAYER);
+            itemSprites = ImageIO.read(new File("src/Sprites/crop_spritesheet-1.png-2.png"));
+            BufferedImage shopBackground = ImageIO.read(new File("src/Sprites/ShopMenu.png"));
+            customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 16f);
+            
+            // Set single background for entire menu
+            setContentPane(new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(shopBackground, 0, 0, getWidth(), getHeight(), this);
+                }
+            });
+            getContentPane().setLayout(new BorderLayout());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        // Create shop items panel
-        JPanel itemsPanel = createShopItemsPanel();
-        itemsPanel.setBounds(50, 50, 700, 450);
-        menuContainer.add(itemsPanel, JLayeredPane.MODAL_LAYER);
-
-        // Add gold display
-        JLabel goldLabel = new JLabel("Gold: " + player.getMoney());
-        goldLabel.setFont(customFont);
-        goldLabel.setForeground(new Color(255, 215, 0));
-        goldLabel.setBounds(600, 20, 200, 30);
-        menuContainer.add(goldLabel, JLayeredPane.POPUP_LAYER);
-
-        // Add close button
-        JButton closeButton = new JButton("Close");
-        closeButton.setFont(customFont);
-        closeButton.setBounds(350, 520, 130, 30);
-        closeButton.addActionListener(e -> dispose());
-        menuContainer.add(closeButton, JLayeredPane.POPUP_LAYER);
-
-        add(menuContainer);
+        
+        // Adjust layout to match background boxes
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        splitPane.setOpaque(false);
+        splitPane.setDividerLocation(300);
+        splitPane.setBorder(null);
+        
+        // Make buy panel transparent
+        JPanel buyPanel = new JPanel(new BorderLayout());
+        buyPanel.setOpaque(false);
+        
+        // Remove duplicate background loading code
+        
+        // Adjust grid to match background boxes
+        JPanel itemGrid = new JPanel(new GridLayout(2, 4, 20, 20));
+        itemGrid.setOpaque(false);
+        itemGrid.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
+        
+        // Make description panel transparent
+        descriptionPanel = new JPanel(new BorderLayout());
+        descriptionPanel.setOpaque(false);
+        descriptionPanel.setBorder(BorderFactory.createEmptyBorder(40, 20, 40, 40));
+        descriptionPanel.setPreferredSize(new Dimension(300, 200));
+        
+        // Add items to grid including boat - fixed sprite coordinates
+        addShopItem(itemGrid, "Rice seeds", 15, 0, 0, "Rice seeds for planting.\nNeeds regular watering.");
+        addShopItem(itemGrid, "Potato seeds", 12, 1, 0, "Potato seeds for planting.\nHardy crop.");
+        addShopItem(itemGrid, "Wheat seeds", 10, 2, 0, "Wheat seeds for planting.\nBasic crop.");
+        addShopItem(itemGrid, "Mandarin seeds", 20, 3, 0, "Mandarin seeds for planting.\nPremium crop.");
+        addShopItem(itemGrid, "Water", 5, 4, 0, "Water for your crops.\nKeeps plants healthy.");
+        addShopItem(itemGrid, "Boat", 100, 5, 0, "A sturdy fishing boat.\nAllows you to row into the horizon.");
+        // Removed duplicate water item
+        
+        // Layout for buy panel
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setOpaque(false);
+        topPanel.add(itemGrid, BorderLayout.CENTER);
+        topPanel.add(descriptionPanel, BorderLayout.EAST);
+        
+        buyPanel.add(topPanel, BorderLayout.CENTER);
+        
+        // Add to split pane
+        splitPane.setTopComponent(buyPanel);
+        splitPane.setBottomComponent(createSellPanel(farmGame));
+        
+        add(splitPane, BorderLayout.CENTER);
+        setSize(800, 600);
+        setLocationRelativeTo(parent);
     }
-
-    private JPanel createShopItemsPanel() {
-        JPanel panel = new JPanel(new GridLayout(0, 2, 20, 20));
-        panel.setOpaque(false);
-
-        addShopItem(panel, "Rice seeds", 15);
-        addShopItem(panel, "Potato seeds", 12);
-        addShopItem(panel, "Wheat seeds", 10);
-        addShopItem(panel, "Mandarin seeds", 20);
-
-        return panel;
-    }
-
-    private void addShopItem(JPanel panel, String itemName, int price) {
-        JPanel itemPanel = new JPanel(new BorderLayout(10, 5));
-        itemPanel.setBackground(new Color(255, 255, 255, 180));
-        itemPanel.setBorder(BorderFactory.createLineBorder(new Color(56, 23, 0), 2));
-
-        JLabel nameLabel = new JLabel(itemName);
-        nameLabel.setFont(customFont);
-        JLabel priceLabel = new JLabel(price + " gold");
-        priceLabel.setFont(customFont);
-
-        JPanel infoPanel = new JPanel(new GridLayout(2, 1));
-        infoPanel.setOpaque(false);
-        infoPanel.add(nameLabel);
-        infoPanel.add(priceLabel);
-
-        JPanel controlPanel = new JPanel(new FlowLayout());
-        controlPanel.setOpaque(false);
-        JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 99, 1));
-        JButton buyButton = new JButton("Buy");
-        buyButton.setFont(customFont);
-
-        buyButton.addActionListener(e -> {
-            int quantity = (int)quantitySpinner.getValue();
-            int totalCost = price * quantity;
-
-            if (player.getMoney() >= totalCost) {
-                player.setMoney(player.getMoney() - totalCost);
-                farmGame.getInventory().addItem(itemName, quantity);
-                JOptionPane.showMessageDialog(this,
-                        "Purchased " + quantity + " " + itemName + " for " + totalCost + " gold!");
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        "Not enough gold!", "Error", JOptionPane.ERROR_MESSAGE);
+    
+    private void addShopItem(JPanel grid, String itemName, int price, int spriteX, int spriteY, String description) {
+        JPanel itemPanel = new JPanel(new BorderLayout(5, 5)) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setColor(new Color(245, 222, 179, 180));
+                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
+                g2d.setColor(new Color(139, 69, 19));
+                g2d.setStroke(new BasicStroke(2));
+                g2d.drawRoundRect(1, 1, getWidth()-3, getHeight()-3, 10, 10);
+            }
+        };
+        itemPanel.setOpaque(false);
+        
+        // Add hover effect
+        itemPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                itemPanel.setBorder(BorderFactory.createLineBorder(new Color(255, 215, 0), 2));
+                itemPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                itemPanel.setBorder(null);
+                itemPanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         });
 
-        controlPanel.add(new JLabel("Quantity:"));
-        controlPanel.add(quantitySpinner);
-        controlPanel.add(buyButton);
+        // Style the labels with pixel-like font and colors
+        JLabel nameLabel = new JLabel(itemName, SwingConstants.CENTER);
+        nameLabel.setFont(customFont.deriveFont(14f));
+        nameLabel.setForeground(new Color(101, 67, 33));
+        
+        // Create items with their prices
+        Item shopItem;
+        if (itemName.contains("seeds")) {
+            shopItem = new SeedItem(itemName, 1);
+        } else if (itemName.equals("Water")) {
+            shopItem = new Item(itemName, 1);
+        } else {
+            shopItem = new CropItem(itemName, 1);
+        }
 
-        itemPanel.add(infoPanel, BorderLayout.CENTER);
-        itemPanel.add(controlPanel, BorderLayout.SOUTH);
+        JLabel priceLabel = new JLabel(price + " gold", SwingConstants.CENTER) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setColor(new Color(255, 215, 0));
+                g2d.drawString("◆", 5, getHeight() - 5);
+            }
+        };
+        priceLabel.setFont(customFont.deriveFont(12f));
+        priceLabel.setForeground(new Color(139, 69, 19));
+        
+        // Create a custom icon label instead of a panel
+        JLabel iconLabel = new JLabel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (itemSprites != null) {
+                    // Draw the sprite with proper scaling
+                    int iconSize = Math.min(getWidth(), getHeight()) - 10;
+                    int x = (getWidth() - iconSize) / 2;
+                    int y = (getHeight() - iconSize) / 2;
+                    
+                    g.drawImage(itemSprites, 
+                        x, y, x + iconSize, y + iconSize,
+                        spriteX * 48, spriteY * 48, (spriteX + 1) * 48, (spriteY + 1) * 48,
+                        this);
+                }
+            }
+            
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(48, 48);
+            }
+            
+            @Override
+            public Dimension getMinimumSize() {
+                return new Dimension(32, 32);
+            }
+        };
+        
+        // Center the icon in a panel
+        JPanel iconContainer = new JPanel(new GridBagLayout());
+        iconContainer.setOpaque(false);
+        iconContainer.add(iconLabel);
+        
+        // Remove duplicate label declarations and keep the rest of the code
+        itemPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                updateDescription(itemName, description, price);
+            }
+        });
+        
+        itemPanel.add(iconContainer, BorderLayout.CENTER);
+        itemPanel.add(nameLabel, BorderLayout.NORTH);
+        itemPanel.add(priceLabel, BorderLayout.SOUTH);
+        
+        grid.add(itemPanel);
+    }
+    
+    private void updateDescription(String itemName, String description, int price) {
+        descriptionPanel.removeAll();
+        
+        JTextArea descArea = new JTextArea(description);
+        descArea.setFont(customFont.deriveFont(12f));
+        descArea.setForeground(new Color(101, 67, 33));
+        descArea.setBackground(new Color(0, 0, 0, 0));
+        descArea.setEditable(false);
+        descArea.setLineWrap(true);
+        descArea.setWrapStyleWord(true);
+        
+        JButton buyButton = new JButton("Buy");
+        buyButton.setFont(customFont.deriveFont(14f));
+        buyButton.setForeground(new Color(101, 67, 33));
+        buyButton.setBackground(new Color(255, 223, 186));
+        buyButton.setFocusPainted(false);
+        buyButton.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(139, 69, 19), 2),
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+        
+        buyButton.addActionListener(e -> {
+            if (player.getMoney() >= price) {
+                player.setMoney(player.getMoney() - price);
+                
+                // Add the purchased item to player's inventory
+                if (itemName.contains("seeds")) {
+                    farmGame.getInventory().addItem(new SeedItem(itemName.replace(" seeds", ""), 1));
+                } else if (itemName.equals("Water")) {
+                    farmGame.getInventory().addItem(new Item("Water", 1));
+                } else if (itemName.equals("Boat")) {
+                    farmGame.getInventory().addItem(new Item("Boat", 1));
+                } else {
+                    farmGame.getInventory().addItem(new Item(itemName, 1));
+                }
+                
+                JOptionPane.showMessageDialog(this, 
+                    "You bought " + itemName + " for " + price + " gold!", 
+                    "Purchase Successful", 
+                    JOptionPane.INFORMATION_MESSAGE);
+                
+                // Refresh the UI
+                farmGame.repaint();
+            } else {
+                JOptionPane.showMessageDialog(this, 
+                    "Not enough gold! You need " + price + " gold.", 
+                    "Purchase Failed", 
+                    JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.setOpaque(false);
+        buttonPanel.add(buyButton);
+        
+        descriptionPanel.add(descArea, BorderLayout.CENTER);
+        descriptionPanel.add(buttonPanel, BorderLayout.SOUTH);
+        descriptionPanel.revalidate();
+        descriptionPanel.repaint();
+    }
+    
+    private JPanel createSellPanel(FarmGame farmGame) {
+        JPanel sellPanel = new JPanel(new BorderLayout(15, 0));
+        sellPanel.setOpaque(false);
+    
+        // Create description panel first
+        JPanel sellDescriptionPanel = new JPanel(new BorderLayout());
+        sellDescriptionPanel.setOpaque(false);
+        sellDescriptionPanel.setPreferredSize(new Dimension(300, 200));
+        sellDescriptionPanel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createEmptyBorder(10, 10, 10, 10),
+            BorderFactory.createLineBorder(new Color(139, 69, 19), 2)
+        ));
+        
+    
+        // Left side - Inventory Panel
+        JPanel inventoryPanel = new JPanel(new BorderLayout());
+        inventoryPanel.setOpaque(false);
+        
+        // Title for inventory
+        JLabel inventoryTitle = new JLabel("Your Items", SwingConstants.CENTER);
+        inventoryTitle.setFont(customFont.deriveFont(16f));
+        inventoryTitle.setForeground(new Color(139, 69, 19));
+        inventoryTitle.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        
+        // Grid for inventory items
+        JPanel inventoryGrid = new JPanel(new GridLayout(0, 3, 10, 10));
+        inventoryGrid.setOpaque(false);
+        inventoryGrid.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    
+        // Add items to grid
+        for (Item item : farmGame.getInventory().getItems()) {
+            if (!item.getName().contains("seeds") && !item.getName().equals("Water") && item.getQuantity() > 0) {
+                addSellableItem(inventoryGrid, item, sellDescriptionPanel);
+            }
+        }
+    
+        // Scrollable inventory
+        JScrollPane scrollPane = new JScrollPane(inventoryGrid);
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(139, 69, 19), 2));
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+    
+        inventoryPanel.add(inventoryTitle, BorderLayout.NORTH);
+        inventoryPanel.add(scrollPane, BorderLayout.CENTER);
+    
+        // Initial message
+        JLabel initialMessage = new JLabel("Select an item to sell", SwingConstants.CENTER);
+        initialMessage.setFont(customFont.deriveFont(14f));
+        initialMessage.setForeground(new Color(139, 69, 19));
+        sellDescriptionPanel.add(initialMessage, BorderLayout.CENTER);
+    
+        // Add panels to main sell panel
+        sellPanel.add(inventoryPanel, BorderLayout.CENTER);
+        sellPanel.add(sellDescriptionPanel, BorderLayout.EAST);
+    
+        return sellPanel;
+    }
 
-        panel.add(itemPanel);
+    private void addSellableItem(JPanel grid, Item item, JPanel descriptionPanel) {
+        JPanel itemPanel = new JPanel(new BorderLayout(5, 5)) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setColor(new Color(245, 222, 179, 180));
+                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
+                g2d.setColor(new Color(139, 69, 19));
+                g2d.setStroke(new BasicStroke(2));
+                g2d.drawRoundRect(1, 1, getWidth()-3, getHeight()-3, 10, 10);
+            }
+        };
+        itemPanel.setOpaque(false);
+
+        // Calculate sell price (90% of buy price)
+        int buyPrice = getItemBuyPrice(item.getName());
+        int sellPrice = (int)(buyPrice * 0.9);
+
+        JLabel nameLabel = new JLabel(item.getName(), SwingConstants.CENTER);
+        nameLabel.setFont(customFont.deriveFont(14f));
+        nameLabel.setForeground(new Color(101, 67, 33));
+
+        JLabel quantityLabel = new JLabel("Owned: " + item.getQuantity(), SwingConstants.CENTER);
+        quantityLabel.setFont(customFont.deriveFont(12f));
+        quantityLabel.setForeground(new Color(139, 69, 19));
+
+        itemPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                updateSellDescription(descriptionPanel, item, sellPrice);
+            }
+            
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                itemPanel.setBorder(BorderFactory.createLineBorder(new Color(255, 215, 0), 2));
+                itemPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+            
+            @Override
+            public void mouseExited(MouseEvent e) {
+                itemPanel.setBorder(null);
+                itemPanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+
+        itemPanel.add(nameLabel, BorderLayout.NORTH);
+        itemPanel.add(quantityLabel, BorderLayout.SOUTH);
+        grid.add(itemPanel);
+    }
+
+    private void updateSellDescription(JPanel descriptionPanel, Item item, int sellPrice) {
+        descriptionPanel.removeAll();
+        
+        JPanel content = new JPanel(new BorderLayout(10, 10));
+        content.setOpaque(false);
+        content.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JLabel nameLabel = new JLabel(item.getName());
+        nameLabel.setFont(customFont.deriveFont(14f));
+
+        String description = getItemDescription(item.getName());
+        JTextArea descArea = new JTextArea(description);
+        descArea.setFont(customFont.deriveFont(12f));
+        descArea.setEditable(false);
+        descArea.setLineWrap(true);
+        descArea.setWrapStyleWord(true);
+        descArea.setOpaque(false);
+
+        JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(1, 1, item.getQuantity(), 1));
+        quantitySpinner.setFont(customFont.deriveFont(12f));
+
+        JButton sellButton = new JButton("Sell for " + sellPrice + " gold") {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2d.setColor(new Color(139, 69, 19));
+                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 8, 8);
+                g2d.setColor(new Color(255, 215, 0));
+                g2d.drawRoundRect(1, 1, getWidth()-3, getHeight()-3, 8, 8);
+                super.paintComponent(g);
+            }
+        };
+        sellButton.setForeground(Color.WHITE);
+        sellButton.setFont(customFont.deriveFont(12f));
+        sellButton.setBorderPainted(false);
+        sellButton.setContentAreaFilled(false);
+        sellButton.setFocusPainted(false);
+
+        sellButton.addActionListener(e -> {
+            int quantity = (int)quantitySpinner.getValue();
+            int totalPrice = sellPrice * quantity;
+            
+            // Remove item from game inventory only
+            farmGame.getInventory().removeItem(item.getName(), quantity);
+            
+            // Add money to player
+            player.setMoney(player.getMoney() + totalPrice);
+            
+            JOptionPane.showMessageDialog(this, 
+                "Sold " + quantity + " " + item.getName() + " for " + totalPrice + " gold!");
+            
+            // Refresh the shop menu
+            Window window = SwingUtilities.getWindowAncestor(descriptionPanel);
+            if (window instanceof JDialog) {
+                window.dispose();
+                new ShopMenu((JFrame)farmGame, player, farmGame).setVisible(true);
+            }
+        });
+
+        JPanel sellPanel = new JPanel(new FlowLayout());
+        sellPanel.setOpaque(false);
+        sellPanel.add(new JLabel("Quantity:"));
+        sellPanel.add(quantitySpinner);
+        sellPanel.add(sellButton);
+
+        content.add(nameLabel, BorderLayout.NORTH);
+        content.add(descArea, BorderLayout.CENTER);
+        content.add(sellPanel, BorderLayout.SOUTH);
+
+        descriptionPanel.add(content);
+        descriptionPanel.revalidate();
+        descriptionPanel.repaint();
+    }
+
+    private int getItemBuyPrice(String itemName) {
+        switch(itemName) {
+            case "Rice": return 30;
+            case "Potato": return 25;
+            case "Wheat": return 20;
+            case "Mandarin": return 35;
+            case "Boat": return 100;
+            default: return 0;
+        }
+    }
+
+    private String getItemDescription(String itemName) {
+        switch(itemName) {
+            case "Rice": return "Fresh harvested rice.\nCan be sold or cooked.";
+            case "Potato": return "Fresh harvested potato.\nCan be sold or cooked.";
+            case "Wheat": return "Fresh harvested wheat.\nCan be sold or cooked.";
+            case "Mandarin": return "Fresh harvested mandarin.\nSweet and juicy fruit.";
+            case "Boat": return "A sturdy fishing boat.\nMay be used to row away...";
+            default: return "No description available.";
+        }
     }
 }

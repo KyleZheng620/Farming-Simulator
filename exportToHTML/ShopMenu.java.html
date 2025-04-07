@@ -6,8 +6,8 @@
 .s0 { color: #cf8e6d;}
 .s1 { color: #bcbec4;}
 .s2 { color: #bcbec4;}
-.s3 { color: #2aacb8;}
-.s4 { color: #6aab73;}
+.s3 { color: #6aab73;}
+.s4 { color: #2aacb8;}
 .s5 { color: #7a7e85;}
 </style>
 </head>
@@ -17,177 +17,122 @@
 <font face="Arial, Helvetica" color="#000000">
 ShopMenu.java</font>
 </center></td></tr></table>
-<pre><span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">swing</span><span class="s2">.*;</span>
+<pre><span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">imageio</span><span class="s2">.</span><span class="s1">ImageIO</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">swing</span><span class="s2">.*;</span>
 <span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">awt</span><span class="s2">.*;</span>
-<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">awt</span><span class="s2">.</span><span class="s1">event</span><span class="s2">.*;</span>
 <span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">awt</span><span class="s2">.</span><span class="s1">image</span><span class="s2">.</span><span class="s1">BufferedImage</span><span class="s2">;</span>
-<span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">imageio</span><span class="s2">.</span><span class="s1">ImageIO</span><span class="s2">;</span>
 <span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">File</span><span class="s2">;</span>
 <span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">IOException</span><span class="s2">;</span>
 
-<span class="s0">public class </span><span class="s1">ShopMenu </span><span class="s0">extends </span><span class="s1">JPanel </span><span class="s0">implements </span><span class="s1">KeyListener</span><span class="s2">, </span><span class="s1">MouseListener</span><span class="s2">, </span><span class="s1">ActionListener</span><span class="s2">{</span>
-    <span class="s0">private </span><span class="s1">JFrame frame</span><span class="s2">;</span>
-    <span class="s0">private </span><span class="s1">JPanel gamePanel</span><span class="s2">;</span>
+<span class="s0">public class </span><span class="s1">ShopMenu </span><span class="s0">extends </span><span class="s1">JDialog </span><span class="s2">{</span>
+    <span class="s0">private </span><span class="s1">Farmer player</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">FarmGame farmGame</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">Font customFont</span><span class="s2">;</span>
     <span class="s0">private </span><span class="s1">JLayeredPane menuContainer</span><span class="s2">;</span>
-    <span class="s0">private </span><span class="s1">JLabel backgroundImage</span><span class="s2">;</span>
-    <span class="s0">private </span><span class="s1">JPopupMenu popupMenu</span><span class="s2">;</span>
-    <span class="s0">private int </span><span class="s1">farmerX</span><span class="s2">;</span>
-    <span class="s0">private int </span><span class="s1">farmerY</span><span class="s2">;</span>
-    <span class="s0">private int </span><span class="s1">currentFrame</span><span class="s2">;</span>
-    <span class="s0">private boolean </span><span class="s1">moving</span><span class="s2">;</span>
-    <span class="s0">private int </span><span class="s1">direction</span><span class="s2">;</span>
-    <span class="s0">private </span><span class="s1">BufferedImage farmer</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">BufferedImage backgroundImage</span><span class="s2">;</span>
 
-    <span class="s0">private </span><span class="s1">Rectangle shopArea </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Rectangle</span><span class="s2">(</span><span class="s3">100</span><span class="s2">, </span><span class="s3">100</span><span class="s2">, </span><span class="s3">200</span><span class="s2">, </span><span class="s3">200</span><span class="s2">);</span>
+    <span class="s0">public </span><span class="s1">ShopMenu</span><span class="s2">(</span><span class="s1">JFrame parent</span><span class="s2">, </span><span class="s1">Farmer player</span><span class="s2">, </span><span class="s1">FarmGame farmGame</span><span class="s2">) {</span>
+        <span class="s0">super</span><span class="s2">(</span><span class="s1">parent</span><span class="s2">, </span><span class="s3">&quot;Shop Menu&quot;</span><span class="s2">, </span><span class="s0">true</span><span class="s2">);</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">player </span><span class="s2">= </span><span class="s1">player</span><span class="s2">;</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">farmGame </span><span class="s2">= </span><span class="s1">farmGame</span><span class="s2">;</span>
 
-    <span class="s0">public </span><span class="s1">ShopMenu</span><span class="s2">() {</span>
-        <span class="s1">frame </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JFrame</span><span class="s2">(</span><span class="s4">&quot;Interactive Menu Demo&quot;</span><span class="s2">);</span>
-        <span class="s1">frame</span><span class="s2">.</span><span class="s1">setDefaultCloseOperation</span><span class="s2">(</span><span class="s1">JFrame</span><span class="s2">.</span><span class="s1">EXIT_ON_CLOSE</span><span class="s2">);</span>
+        <span class="s1">setSize</span><span class="s2">(</span><span class="s4">1077</span><span class="s2">, </span><span class="s4">950</span><span class="s2">);</span>
+        <span class="s1">setLocationRelativeTo</span><span class="s2">(</span><span class="s1">parent</span><span class="s2">);</span>
+        <span class="s1">setResizable</span><span class="s2">(</span><span class="s0">false</span><span class="s2">);</span>
 
-        <span class="s1">gamePanel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JPanel</span><span class="s2">() {</span>
-            <span class="s1">@Override</span>
-            <span class="s0">protected void </span><span class="s1">paintComponent</span><span class="s2">(</span><span class="s1">Graphics g</span><span class="s2">) {</span>
-                <span class="s0">super</span><span class="s2">.</span><span class="s1">paintComponent</span><span class="s2">(</span><span class="s1">g</span><span class="s2">);</span>
-                <span class="s1">g</span><span class="s2">.</span><span class="s1">drawRect</span><span class="s2">(</span><span class="s1">shopArea</span><span class="s2">.</span><span class="s1">x</span><span class="s2">, </span><span class="s1">shopArea</span><span class="s2">.</span><span class="s1">y</span><span class="s2">,</span>
-                        <span class="s1">shopArea</span><span class="s2">.</span><span class="s1">width</span><span class="s2">, </span><span class="s1">shopArea</span><span class="s2">.</span><span class="s1">height</span><span class="s2">);</span>
-            <span class="s2">}</span>
-        <span class="s2">};</span>
-        <span class="s1">gamePanel</span><span class="s2">.</span><span class="s1">setPreferredSize</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Dimension</span><span class="s2">(</span><span class="s3">500</span><span class="s2">, </span><span class="s3">500</span><span class="s2">));</span>
-        <span class="s1">gamePanel</span><span class="s2">.</span><span class="s1">setBackground</span><span class="s2">(</span><span class="s1">Color</span><span class="s2">.</span><span class="s1">WHITE</span><span class="s2">);</span>
+        <span class="s1">customFont </span><span class="s2">= </span><span class="s1">FontLoader</span><span class="s2">.</span><span class="s1">loadFont</span><span class="s2">(</span><span class="s3">&quot;src/Fonts/Daydream.ttf&quot;</span><span class="s2">, </span><span class="s4">16f</span><span class="s2">);</span>
 
-        <span class="s5">// Create layered pane for menu</span>
         <span class="s1">menuContainer </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JLayeredPane</span><span class="s2">();</span>
-        <span class="s1">menuContainer</span><span class="s2">.</span><span class="s1">setBounds</span><span class="s2">(</span><span class="s3">0</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">500</span><span class="s2">, </span><span class="s3">500</span><span class="s2">);</span>
+        <span class="s1">menuContainer</span><span class="s2">.</span><span class="s1">setPreferredSize</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Dimension</span><span class="s2">(</span><span class="s4">1077</span><span class="s2">, </span><span class="s4">950</span><span class="s2">));</span>
 
-        <span class="s5">// Load and set background image</span>
+        <span class="s5">// Load background</span>
         <span class="s0">try </span><span class="s2">{</span>
-            <span class="s1">BufferedImage img </span><span class="s2">= </span><span class="s1">ImageIO</span><span class="s2">.</span><span class="s1">read</span><span class="s2">(</span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s4">&quot;src/urplqfr8cnt61 (1).webp&quot;</span><span class="s2">));</span>
-            <span class="s1">backgroundImage </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JLabel</span><span class="s2">(</span><span class="s0">new </span><span class="s1">ImageIcon</span><span class="s2">(</span><span class="s1">img</span><span class="s2">));</span>
-            <span class="s1">backgroundImage</span><span class="s2">.</span><span class="s1">setBounds</span><span class="s2">(</span><span class="s3">0</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">500</span><span class="s2">, </span><span class="s3">500</span><span class="s2">);</span>
-            <span class="s1">menuContainer</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">backgroundImage</span><span class="s2">, </span><span class="s1">JLayeredPane</span><span class="s2">.</span><span class="s1">DEFAULT_LAYER</span><span class="s2">);</span>
+            <span class="s1">backgroundImage </span><span class="s2">= </span><span class="s1">ImageIO</span><span class="s2">.</span><span class="s1">read</span><span class="s2">(</span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s3">&quot;src/Sprites/ShopMenu.png&quot;</span><span class="s2">));</span>
+            <span class="s1">JLabel background </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JLabel</span><span class="s2">(</span><span class="s0">new </span><span class="s1">ImageIcon</span><span class="s2">(</span><span class="s1">backgroundImage</span><span class="s2">));</span>
+            <span class="s1">background</span><span class="s2">.</span><span class="s1">setBounds</span><span class="s2">(</span><span class="s4">0</span><span class="s2">, </span><span class="s4">0</span><span class="s2">, </span><span class="s4">1077</span><span class="s2">, </span><span class="s4">950</span><span class="s2">);</span>
+            <span class="s1">menuContainer</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">background</span><span class="s2">, </span><span class="s1">JLayeredPane</span><span class="s2">.</span><span class="s1">DEFAULT_LAYER</span><span class="s2">);</span>
         <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">IOException e</span><span class="s2">) {</span>
-            <span class="s5">// Fallback to colored background</span>
-            <span class="s1">JPanel coloredBackground </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JPanel</span><span class="s2">();</span>
-            <span class="s1">coloredBackground</span><span class="s2">.</span><span class="s1">setBackground</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Color</span><span class="s2">(</span><span class="s3">240</span><span class="s2">, </span><span class="s3">240</span><span class="s2">, </span><span class="s3">240</span><span class="s2">));</span>
-            <span class="s1">coloredBackground</span><span class="s2">.</span><span class="s1">setBounds</span><span class="s2">(</span><span class="s3">0</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">500</span><span class="s2">, </span><span class="s3">500</span><span class="s2">);</span>
-            <span class="s1">menuContainer</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">coloredBackground</span><span class="s2">, </span><span class="s1">JLayeredPane</span><span class="s2">.</span><span class="s1">DEFAULT_LAYER</span><span class="s2">);</span>
+            <span class="s1">e</span><span class="s2">.</span><span class="s1">printStackTrace</span><span class="s2">();</span>
         <span class="s2">}</span>
 
-        <span class="s1">createPopupMenu</span><span class="s2">();</span>
+        <span class="s5">// Create shop items panel</span>
+        <span class="s1">JPanel itemsPanel </span><span class="s2">= </span><span class="s1">createShopItemsPanel</span><span class="s2">();</span>
+        <span class="s1">itemsPanel</span><span class="s2">.</span><span class="s1">setBounds</span><span class="s2">(</span><span class="s4">50</span><span class="s2">, </span><span class="s4">50</span><span class="s2">, </span><span class="s4">700</span><span class="s2">, </span><span class="s4">450</span><span class="s2">);</span>
+        <span class="s1">menuContainer</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">itemsPanel</span><span class="s2">, </span><span class="s1">JLayeredPane</span><span class="s2">.</span><span class="s1">MODAL_LAYER</span><span class="s2">);</span>
 
-        <span class="s5">// Add mouse motion listener</span>
-        <span class="s1">gamePanel</span><span class="s2">.</span><span class="s1">addMouseMotionListener</span><span class="s2">(</span><span class="s0">new </span><span class="s1">MouseAdapter</span><span class="s2">() {</span>
-            <span class="s1">@Override</span>
-            <span class="s0">public void </span><span class="s1">mouseMoved</span><span class="s2">(</span><span class="s1">MouseEvent e</span><span class="s2">) {</span>
-                <span class="s0">if </span><span class="s2">(</span><span class="s1">shopArea</span><span class="s2">.</span><span class="s1">contains</span><span class="s2">(</span><span class="s1">e</span><span class="s2">.</span><span class="s1">getPoint</span><span class="s2">())) {</span>
-                    <span class="s1">popupMenu</span><span class="s2">.</span><span class="s1">show</span><span class="s2">(</span><span class="s1">gamePanel</span><span class="s2">, </span><span class="s1">e</span><span class="s2">.</span><span class="s1">getX</span><span class="s2">(), </span><span class="s1">e</span><span class="s2">.</span><span class="s1">getY</span><span class="s2">());</span>
-                <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
-                    <span class="s1">popupMenu</span><span class="s2">.</span><span class="s1">setVisible</span><span class="s2">(</span><span class="s0">false</span><span class="s2">);</span>
-                <span class="s2">}</span>
+        <span class="s5">// Add gold display</span>
+        <span class="s1">JLabel goldLabel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JLabel</span><span class="s2">(</span><span class="s3">&quot;Gold: &quot; </span><span class="s2">+ </span><span class="s1">player</span><span class="s2">.</span><span class="s1">getMoney</span><span class="s2">());</span>
+        <span class="s1">goldLabel</span><span class="s2">.</span><span class="s1">setFont</span><span class="s2">(</span><span class="s1">customFont</span><span class="s2">);</span>
+        <span class="s1">goldLabel</span><span class="s2">.</span><span class="s1">setForeground</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Color</span><span class="s2">(</span><span class="s4">255</span><span class="s2">, </span><span class="s4">215</span><span class="s2">, </span><span class="s4">0</span><span class="s2">));</span>
+        <span class="s1">goldLabel</span><span class="s2">.</span><span class="s1">setBounds</span><span class="s2">(</span><span class="s4">600</span><span class="s2">, </span><span class="s4">20</span><span class="s2">, </span><span class="s4">200</span><span class="s2">, </span><span class="s4">30</span><span class="s2">);</span>
+        <span class="s1">menuContainer</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">goldLabel</span><span class="s2">, </span><span class="s1">JLayeredPane</span><span class="s2">.</span><span class="s1">POPUP_LAYER</span><span class="s2">);</span>
+
+        <span class="s5">// Add close button</span>
+        <span class="s1">JButton closeButton </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JButton</span><span class="s2">(</span><span class="s3">&quot;Close&quot;</span><span class="s2">);</span>
+        <span class="s1">closeButton</span><span class="s2">.</span><span class="s1">setFont</span><span class="s2">(</span><span class="s1">customFont</span><span class="s2">);</span>
+        <span class="s1">closeButton</span><span class="s2">.</span><span class="s1">setBounds</span><span class="s2">(</span><span class="s4">350</span><span class="s2">, </span><span class="s4">520</span><span class="s2">, </span><span class="s4">130</span><span class="s2">, </span><span class="s4">30</span><span class="s2">);</span>
+        <span class="s1">closeButton</span><span class="s2">.</span><span class="s1">addActionListener</span><span class="s2">(</span><span class="s1">e -&gt; dispose</span><span class="s2">());</span>
+        <span class="s1">menuContainer</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">closeButton</span><span class="s2">, </span><span class="s1">JLayeredPane</span><span class="s2">.</span><span class="s1">POPUP_LAYER</span><span class="s2">);</span>
+
+        <span class="s1">add</span><span class="s2">(</span><span class="s1">menuContainer</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">private </span><span class="s1">JPanel createShopItemsPanel</span><span class="s2">() {</span>
+        <span class="s1">JPanel panel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JPanel</span><span class="s2">(</span><span class="s0">new </span><span class="s1">GridLayout</span><span class="s2">(</span><span class="s4">0</span><span class="s2">, </span><span class="s4">2</span><span class="s2">, </span><span class="s4">20</span><span class="s2">, </span><span class="s4">20</span><span class="s2">));</span>
+        <span class="s1">panel</span><span class="s2">.</span><span class="s1">setOpaque</span><span class="s2">(</span><span class="s0">false</span><span class="s2">);</span>
+
+        <span class="s1">addShopItem</span><span class="s2">(</span><span class="s1">panel</span><span class="s2">, </span><span class="s3">&quot;Rice seeds&quot;</span><span class="s2">, </span><span class="s4">15</span><span class="s2">);</span>
+        <span class="s1">addShopItem</span><span class="s2">(</span><span class="s1">panel</span><span class="s2">, </span><span class="s3">&quot;Potato seeds&quot;</span><span class="s2">, </span><span class="s4">12</span><span class="s2">);</span>
+        <span class="s1">addShopItem</span><span class="s2">(</span><span class="s1">panel</span><span class="s2">, </span><span class="s3">&quot;Wheat seeds&quot;</span><span class="s2">, </span><span class="s4">10</span><span class="s2">);</span>
+        <span class="s1">addShopItem</span><span class="s2">(</span><span class="s1">panel</span><span class="s2">, </span><span class="s3">&quot;Mandarin seeds&quot;</span><span class="s2">, </span><span class="s4">20</span><span class="s2">);</span>
+
+        <span class="s0">return </span><span class="s1">panel</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">private void </span><span class="s1">addShopItem</span><span class="s2">(</span><span class="s1">JPanel panel</span><span class="s2">, </span><span class="s1">String itemName</span><span class="s2">, </span><span class="s0">int </span><span class="s1">price</span><span class="s2">) {</span>
+        <span class="s1">JPanel itemPanel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JPanel</span><span class="s2">(</span><span class="s0">new </span><span class="s1">BorderLayout</span><span class="s2">(</span><span class="s4">10</span><span class="s2">, </span><span class="s4">5</span><span class="s2">));</span>
+        <span class="s1">itemPanel</span><span class="s2">.</span><span class="s1">setBackground</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Color</span><span class="s2">(</span><span class="s4">255</span><span class="s2">, </span><span class="s4">255</span><span class="s2">, </span><span class="s4">255</span><span class="s2">, </span><span class="s4">180</span><span class="s2">));</span>
+        <span class="s1">itemPanel</span><span class="s2">.</span><span class="s1">setBorder</span><span class="s2">(</span><span class="s1">BorderFactory</span><span class="s2">.</span><span class="s1">createLineBorder</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Color</span><span class="s2">(</span><span class="s4">56</span><span class="s2">, </span><span class="s4">23</span><span class="s2">, </span><span class="s4">0</span><span class="s2">), </span><span class="s4">2</span><span class="s2">));</span>
+
+        <span class="s1">JLabel nameLabel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JLabel</span><span class="s2">(</span><span class="s1">itemName</span><span class="s2">);</span>
+        <span class="s1">nameLabel</span><span class="s2">.</span><span class="s1">setFont</span><span class="s2">(</span><span class="s1">customFont</span><span class="s2">);</span>
+        <span class="s1">JLabel priceLabel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JLabel</span><span class="s2">(</span><span class="s1">price </span><span class="s2">+ </span><span class="s3">&quot; gold&quot;</span><span class="s2">);</span>
+        <span class="s1">priceLabel</span><span class="s2">.</span><span class="s1">setFont</span><span class="s2">(</span><span class="s1">customFont</span><span class="s2">);</span>
+
+        <span class="s1">JPanel infoPanel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JPanel</span><span class="s2">(</span><span class="s0">new </span><span class="s1">GridLayout</span><span class="s2">(</span><span class="s4">2</span><span class="s2">, </span><span class="s4">1</span><span class="s2">));</span>
+        <span class="s1">infoPanel</span><span class="s2">.</span><span class="s1">setOpaque</span><span class="s2">(</span><span class="s0">false</span><span class="s2">);</span>
+        <span class="s1">infoPanel</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">nameLabel</span><span class="s2">);</span>
+        <span class="s1">infoPanel</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">priceLabel</span><span class="s2">);</span>
+
+        <span class="s1">JPanel controlPanel </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JPanel</span><span class="s2">(</span><span class="s0">new </span><span class="s1">FlowLayout</span><span class="s2">());</span>
+        <span class="s1">controlPanel</span><span class="s2">.</span><span class="s1">setOpaque</span><span class="s2">(</span><span class="s0">false</span><span class="s2">);</span>
+        <span class="s1">JSpinner quantitySpinner </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JSpinner</span><span class="s2">(</span><span class="s0">new </span><span class="s1">SpinnerNumberModel</span><span class="s2">(</span><span class="s4">1</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">99</span><span class="s2">, </span><span class="s4">1</span><span class="s2">));</span>
+        <span class="s1">JButton buyButton </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JButton</span><span class="s2">(</span><span class="s3">&quot;Buy&quot;</span><span class="s2">);</span>
+        <span class="s1">buyButton</span><span class="s2">.</span><span class="s1">setFont</span><span class="s2">(</span><span class="s1">customFont</span><span class="s2">);</span>
+
+        <span class="s1">buyButton</span><span class="s2">.</span><span class="s1">addActionListener</span><span class="s2">(</span><span class="s1">e -&gt; </span><span class="s2">{</span>
+            <span class="s0">int </span><span class="s1">quantity </span><span class="s2">= (</span><span class="s0">int</span><span class="s2">)</span><span class="s1">quantitySpinner</span><span class="s2">.</span><span class="s1">getValue</span><span class="s2">();</span>
+            <span class="s0">int </span><span class="s1">totalCost </span><span class="s2">= </span><span class="s1">price </span><span class="s2">* </span><span class="s1">quantity</span><span class="s2">;</span>
+
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">player</span><span class="s2">.</span><span class="s1">getMoney</span><span class="s2">() &gt;= </span><span class="s1">totalCost</span><span class="s2">) {</span>
+                <span class="s1">player</span><span class="s2">.</span><span class="s1">setMoney</span><span class="s2">(</span><span class="s1">player</span><span class="s2">.</span><span class="s1">getMoney</span><span class="s2">() - </span><span class="s1">totalCost</span><span class="s2">);</span>
+                <span class="s1">farmGame</span><span class="s2">.</span><span class="s1">getInventory</span><span class="s2">().</span><span class="s1">addItem</span><span class="s2">(</span><span class="s1">itemName</span><span class="s2">, </span><span class="s1">quantity</span><span class="s2">);</span>
+                <span class="s1">JOptionPane</span><span class="s2">.</span><span class="s1">showMessageDialog</span><span class="s2">(</span><span class="s0">this</span><span class="s2">,</span>
+                        <span class="s3">&quot;Purchased &quot; </span><span class="s2">+ </span><span class="s1">quantity </span><span class="s2">+ </span><span class="s3">&quot; &quot; </span><span class="s2">+ </span><span class="s1">itemName </span><span class="s2">+ </span><span class="s3">&quot; for &quot; </span><span class="s2">+ </span><span class="s1">totalCost </span><span class="s2">+ </span><span class="s3">&quot; gold!&quot;</span><span class="s2">);</span>
+            <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                <span class="s1">JOptionPane</span><span class="s2">.</span><span class="s1">showMessageDialog</span><span class="s2">(</span><span class="s0">this</span><span class="s2">,</span>
+                        <span class="s3">&quot;Not enough gold!&quot;</span><span class="s2">, </span><span class="s3">&quot;Error&quot;</span><span class="s2">, </span><span class="s1">JOptionPane</span><span class="s2">.</span><span class="s1">ERROR_MESSAGE</span><span class="s2">);</span>
             <span class="s2">}</span>
         <span class="s2">});</span>
 
-        <span class="s1">frame</span><span class="s2">.</span><span class="s1">getContentPane</span><span class="s2">().</span><span class="s1">add</span><span class="s2">(</span><span class="s1">gamePanel</span><span class="s2">);</span>
-        <span class="s1">frame</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">menuContainer</span><span class="s2">);</span>
-        <span class="s1">frame</span><span class="s2">.</span><span class="s1">pack</span><span class="s2">();</span>
-        <span class="s1">frame</span><span class="s2">.</span><span class="s1">setLocationRelativeTo</span><span class="s2">(</span><span class="s0">null</span><span class="s2">);</span>
-        <span class="s1">frame</span><span class="s2">.</span><span class="s1">setVisible</span><span class="s2">(</span><span class="s0">true</span><span class="s2">);</span>
-    <span class="s2">}</span>
+        <span class="s1">controlPanel</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s0">new </span><span class="s1">JLabel</span><span class="s2">(</span><span class="s3">&quot;Quantity:&quot;</span><span class="s2">));</span>
+        <span class="s1">controlPanel</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">quantitySpinner</span><span class="s2">);</span>
+        <span class="s1">controlPanel</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">buyButton</span><span class="s2">);</span>
 
-    <span class="s0">private void </span><span class="s1">createPopupMenu</span><span class="s2">() {</span>
-        <span class="s1">popupMenu </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JPopupMenu</span><span class="s2">(</span><span class="s4">&quot;Farm Shop&quot;</span><span class="s2">) {</span>
-            <span class="s1">@Override</span>
-            <span class="s0">protected void </span><span class="s1">paintComponent</span><span class="s2">(</span><span class="s1">Graphics g</span><span class="s2">) {</span>
-                <span class="s0">super</span><span class="s2">.</span><span class="s1">paintComponent</span><span class="s2">(</span><span class="s1">g</span><span class="s2">);</span>
-                <span class="s5">// Optional: Add semi-transparent overlay</span>
-                <span class="s1">g</span><span class="s2">.</span><span class="s1">setColor</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Color</span><span class="s2">(</span><span class="s3">255</span><span class="s2">, </span><span class="s3">255</span><span class="s2">, </span><span class="s3">255</span><span class="s2">, </span><span class="s3">200</span><span class="s2">));</span>
-                <span class="s1">g</span><span class="s2">.</span><span class="s1">fillRect</span><span class="s2">(</span><span class="s3">0</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s1">getWidth</span><span class="s2">(), </span><span class="s1">getHeight</span><span class="s2">());</span>
-            <span class="s2">}</span>
-        <span class="s2">};</span>
+        <span class="s1">itemPanel</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">infoPanel</span><span class="s2">, </span><span class="s1">BorderLayout</span><span class="s2">.</span><span class="s1">CENTER</span><span class="s2">);</span>
+        <span class="s1">itemPanel</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">controlPanel</span><span class="s2">, </span><span class="s1">BorderLayout</span><span class="s2">.</span><span class="s1">SOUTH</span><span class="s2">);</span>
 
-        <span class="s5">// Add menu items with actions</span>
-        <span class="s1">JMenuItem item1 </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JMenuItem</span><span class="s2">(</span><span class="s4">&quot;Seed&quot;</span><span class="s2">);</span>
-        <span class="s1">item1</span><span class="s2">.</span><span class="s1">addActionListener</span><span class="s2">(</span><span class="s1">e -&gt; </span><span class="s2">{</span>
-            <span class="s1">JOptionPane</span><span class="s2">.</span><span class="s1">showMessageDialog</span><span class="s2">(</span><span class="s1">frame</span><span class="s2">, </span><span class="s4">&quot;Selected Option 1&quot;</span><span class="s2">);</span>
-        <span class="s2">});</span>
-        <span class="s1">popupMenu</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">item1</span><span class="s2">);</span>
-
-        <span class="s1">JMenuItem item2 </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JMenuItem</span><span class="s2">(</span><span class="s4">&quot;Water&quot;</span><span class="s2">);</span>
-        <span class="s1">item2</span><span class="s2">.</span><span class="s1">addActionListener</span><span class="s2">(</span><span class="s1">e -&gt; </span><span class="s2">{</span>
-            <span class="s1">JOptionPane</span><span class="s2">.</span><span class="s1">showMessageDialog</span><span class="s2">(</span><span class="s1">frame</span><span class="s2">, </span><span class="s4">&quot;Selected Option 2&quot;</span><span class="s2">);</span>
-        <span class="s2">});</span>
-        <span class="s1">popupMenu</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">item2</span><span class="s2">);</span>
-
-        <span class="s1">JMenuItem item3 </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JMenuItem</span><span class="s2">(</span><span class="s4">&quot;Sell&quot;</span><span class="s2">);</span>
-        <span class="s1">item3</span><span class="s2">.</span><span class="s1">addActionListener</span><span class="s2">(</span><span class="s1">e -&gt; </span><span class="s2">{</span>
-            <span class="s1">JOptionPane</span><span class="s2">.</span><span class="s1">showMessageDialog</span><span class="s2">(</span><span class="s1">frame</span><span class="s2">, </span><span class="s4">&quot;Selected Option 2&quot;</span><span class="s2">);</span>
-        <span class="s2">});</span>
-        <span class="s1">popupMenu</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">item3</span><span class="s2">);</span>
-
-        <span class="s1">popupMenu</span><span class="s2">.</span><span class="s1">addSeparator</span><span class="s2">();</span>
-
-        <span class="s1">JMenuItem exitItem </span><span class="s2">= </span><span class="s0">new </span><span class="s1">JMenuItem</span><span class="s2">(</span><span class="s4">&quot;Exit&quot;</span><span class="s2">);</span>
-        <span class="s1">exitItem</span><span class="s2">.</span><span class="s1">addActionListener</span><span class="s2">(</span><span class="s1">e -&gt; System</span><span class="s2">.</span><span class="s1">exit</span><span class="s2">(</span><span class="s3">0</span><span class="s2">));</span>
-        <span class="s1">popupMenu</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">exitItem</span><span class="s2">);</span>
-    <span class="s2">}</span>
-
-    <span class="s1">@Override</span>
-    <span class="s0">public void </span><span class="s1">actionPerformed</span><span class="s2">(</span><span class="s1">ActionEvent e</span><span class="s2">) {</span>
-        <span class="s1">currentFrame </span><span class="s2">= (</span><span class="s1">currentFrame </span><span class="s2">+ </span><span class="s3">1</span><span class="s2">) % </span><span class="s3">4</span><span class="s2">;</span>
-        <span class="s1">repaint</span><span class="s2">();</span>
-    <span class="s2">}</span>
-
-    <span class="s1">@Override</span>
-    <span class="s0">public void </span><span class="s1">keyTyped</span><span class="s2">(</span><span class="s1">KeyEvent e</span><span class="s2">) {}</span>
-
-    <span class="s1">@Override</span>
-    <span class="s0">public void </span><span class="s1">keyPressed</span><span class="s2">(</span><span class="s1">KeyEvent e</span><span class="s2">) {</span>
-        <span class="s1">moving </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
-        <span class="s0">switch </span><span class="s2">(</span><span class="s1">e</span><span class="s2">.</span><span class="s1">getKeyCode</span><span class="s2">()) {</span>
-            <span class="s0">case </span><span class="s1">KeyEvent</span><span class="s2">.</span><span class="s1">VK_UP</span><span class="s2">:</span>
-                <span class="s1">farmerY </span><span class="s2">-= </span><span class="s3">10</span><span class="s2">;</span>
-                <span class="s1">direction </span><span class="s2">= </span><span class="s3">0</span><span class="s2">;</span>
-                <span class="s0">break</span><span class="s2">;</span>
-            <span class="s0">case </span><span class="s1">KeyEvent</span><span class="s2">.</span><span class="s1">VK_DOWN</span><span class="s2">:</span>
-                <span class="s1">farmerY </span><span class="s2">+= </span><span class="s3">10</span><span class="s2">;</span>
-                <span class="s1">direction </span><span class="s2">= </span><span class="s3">2</span><span class="s2">;</span>
-                <span class="s0">break</span><span class="s2">;</span>
-            <span class="s0">case </span><span class="s1">KeyEvent</span><span class="s2">.</span><span class="s1">VK_LEFT</span><span class="s2">:</span>
-                <span class="s1">farmerX </span><span class="s2">-= </span><span class="s3">10</span><span class="s2">;</span>
-                <span class="s1">direction </span><span class="s2">= </span><span class="s3">3</span><span class="s2">;</span>
-                <span class="s0">break</span><span class="s2">;</span>
-            <span class="s0">case </span><span class="s1">KeyEvent</span><span class="s2">.</span><span class="s1">VK_RIGHT</span><span class="s2">:</span>
-                <span class="s1">farmerX </span><span class="s2">+= </span><span class="s3">10</span><span class="s2">;</span>
-                <span class="s1">direction </span><span class="s2">= </span><span class="s3">1</span><span class="s2">;</span>
-                <span class="s0">break</span><span class="s2">;</span>
-        <span class="s2">}</span>
-        <span class="s1">repaint</span><span class="s2">();</span>
-    <span class="s2">}</span>
-
-
-    <span class="s1">@Override</span>
-    <span class="s0">public void </span><span class="s1">keyReleased</span><span class="s2">(</span><span class="s1">KeyEvent e</span><span class="s2">) {</span>
-        <span class="s1">moving </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
-    <span class="s2">}</span>
-    <span class="s1">@Override</span>
-    <span class="s0">public void </span><span class="s1">mouseClicked</span><span class="s2">(</span><span class="s1">MouseEvent e</span><span class="s2">) {}</span>
-
-    <span class="s1">@Override</span>
-    <span class="s0">public void </span><span class="s1">mousePressed</span><span class="s2">(</span><span class="s1">MouseEvent e</span><span class="s2">) {}</span>
-
-    <span class="s1">@Override</span>
-    <span class="s0">public void </span><span class="s1">mouseReleased</span><span class="s2">(</span><span class="s1">MouseEvent e</span><span class="s2">) {</span>
-
-    <span class="s2">}</span>
-
-    <span class="s1">@Override</span>
-    <span class="s0">public void </span><span class="s1">mouseEntered</span><span class="s2">(</span><span class="s1">MouseEvent e</span><span class="s2">) {</span>
-
-    <span class="s2">}</span>
-
-    <span class="s1">@Override</span>
-    <span class="s0">public void </span><span class="s1">mouseExited</span><span class="s2">(</span><span class="s1">MouseEvent e</span><span class="s2">) {</span>
-
+        <span class="s1">panel</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">itemPanel</span><span class="s2">);</span>
     <span class="s2">}</span>
 <span class="s2">}</span></pre>
 </body>

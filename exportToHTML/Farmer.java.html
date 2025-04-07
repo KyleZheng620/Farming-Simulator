@@ -7,6 +7,7 @@
 .s1 { color: #bcbec4;}
 .s2 { color: #bcbec4;}
 .s3 { color: #2aacb8;}
+.s4 { color: #6aab73;}
 </style>
 </head>
 <body bgcolor="#1e1f22">
@@ -21,18 +22,23 @@ Farmer.java</font>
     <span class="s0">private int </span><span class="s1">hunger</span><span class="s2">;</span>
     <span class="s0">private int </span><span class="s1">thirst</span><span class="s2">;</span>
     <span class="s0">private int </span><span class="s1">day</span><span class="s2">;</span>
+    <span class="s0">private boolean </span><span class="s1">foodPoison</span><span class="s2">;</span>
+    <span class="s0">private boolean </span><span class="s1">waterPoison</span><span class="s2">;</span>
     <span class="s0">private </span><span class="s1">Weather weather</span><span class="s2">;</span>
     <span class="s0">private </span><span class="s1">String CurrentWeather</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">FarmLand farmPlots</span><span class="s2">;</span>
 
     <span class="s0">public </span><span class="s1">Farmer</span><span class="s2">(</span><span class="s1">Inventory inventory</span><span class="s2">){</span>
+        <span class="s1">farmPlots </span><span class="s2">= </span><span class="s0">new </span><span class="s1">FarmLand</span><span class="s2">(</span><span class="s0">this</span><span class="s2">);</span>
+        <span class="s1">foodPoison </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+        <span class="s1">waterPoison </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
         <span class="s1">money </span><span class="s2">= </span><span class="s3">0</span><span class="s2">;</span>
         <span class="s1">hunger </span><span class="s2">= </span><span class="s3">10</span><span class="s2">;</span>
         <span class="s1">thirst </span><span class="s2">= </span><span class="s3">10</span><span class="s2">;</span>
         <span class="s1">day </span><span class="s2">= </span><span class="s3">1</span><span class="s2">;</span>
         <span class="s0">this</span><span class="s2">.</span><span class="s1">inventory </span><span class="s2">= </span><span class="s1">inventory</span><span class="s2">;</span>
-
         <span class="s1">weather </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Weather</span><span class="s2">();</span>
-        <span class="s1">CurrentWeather </span><span class="s2">= </span><span class="s1">weather</span><span class="s2">.</span><span class="s1">changeWeather</span><span class="s2">();</span>
+        <span class="s1">CurrentWeather </span><span class="s2">= </span><span class="s4">&quot;Sunny&quot;</span><span class="s2">;</span>
     <span class="s2">}</span>
 
     <span class="s0">public int </span><span class="s1">getMoney</span><span class="s2">(){</span>
@@ -42,16 +48,32 @@ Farmer.java</font>
     <span class="s0">public void </span><span class="s1">setMoney</span><span class="s2">(</span><span class="s0">int </span><span class="s1">newMoney</span><span class="s2">){</span>
         <span class="s1">money </span><span class="s2">= </span><span class="s1">newMoney</span><span class="s2">;</span>
     <span class="s2">}</span>
+
     <span class="s0">public int </span><span class="s1">getThirst</span><span class="s2">(){</span>
         <span class="s0">return </span><span class="s1">thirst</span><span class="s2">;</span>
     <span class="s2">}</span>
+
     <span class="s0">public int </span><span class="s1">getHunger</span><span class="s2">(){</span>
         <span class="s0">return </span><span class="s1">hunger</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">isFoodPoison</span><span class="s2">(){</span>
+        <span class="s0">return </span><span class="s1">foodPoison</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">isWaterPoison</span><span class="s2">(){</span>
+        <span class="s0">return </span><span class="s1">waterPoison</span><span class="s2">;</span>
+    <span class="s2">}</span>
+    <span class="s0">public </span><span class="s1">FarmLand getFarmPlots</span><span class="s2">(){</span>
+        <span class="s0">return </span><span class="s1">farmPlots</span><span class="s2">;</span>
     <span class="s2">}</span>
 
     <span class="s0">public void </span><span class="s1">sleep</span><span class="s2">(){</span>
         <span class="s1">day</span><span class="s2">++;</span>
         <span class="s1">CurrentWeather </span><span class="s2">= </span><span class="s1">weather</span><span class="s2">.</span><span class="s1">changeWeather</span><span class="s2">();</span>
+        <span class="s1">farmPlots</span><span class="s2">.</span><span class="s1">dayPass</span><span class="s2">();</span>
+        <span class="s1">thirst</span><span class="s2">--;</span>
+        <span class="s1">hunger</span><span class="s2">--;</span>
     <span class="s2">}</span>
     <span class="s0">public int </span><span class="s1">getDay</span><span class="s2">(){</span>
         <span class="s0">return </span><span class="s1">day</span><span class="s2">;</span>
@@ -60,6 +82,11 @@ Farmer.java</font>
     <span class="s0">public </span><span class="s1">String getCurrentWeather</span><span class="s2">() {</span>
         <span class="s0">return </span><span class="s1">CurrentWeather</span><span class="s2">;</span>
     <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">Inventory getInventory</span><span class="s2">(){</span>
+        <span class="s0">return </span><span class="s1">inventory</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
 <span class="s2">}</span>
 </pre>
 </body>

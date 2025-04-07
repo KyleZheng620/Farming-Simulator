@@ -6,7 +6,6 @@
 .s0 { color: #cf8e6d;}
 .s1 { color: #bcbec4;}
 .s2 { color: #bcbec4;}
-.s3 { color: #2aacb8;}
 </style>
 </head>
 <body bgcolor="#1e1f22">
@@ -19,6 +18,9 @@ Item.java</font>
     <span class="s0">private </span><span class="s1">String name</span><span class="s2">;</span>
     <span class="s0">private int </span><span class="s1">quantity</span><span class="s2">;</span>
 
+    <span class="s0">public </span><span class="s1">Item</span><span class="s2">(</span><span class="s1">String name</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">name </span><span class="s2">= </span><span class="s1">name</span><span class="s2">;</span>
+    <span class="s2">}</span>
     <span class="s0">public </span><span class="s1">Item</span><span class="s2">(</span><span class="s1">String name</span><span class="s2">, </span><span class="s0">int </span><span class="s1">quantity</span><span class="s2">) {</span>
         <span class="s0">this</span><span class="s2">.</span><span class="s1">name </span><span class="s2">= </span><span class="s1">name</span><span class="s2">;</span>
         <span class="s0">this</span><span class="s2">.</span><span class="s1">quantity </span><span class="s2">= </span><span class="s1">quantity</span><span class="s2">;</span>
@@ -37,7 +39,7 @@ Item.java</font>
     <span class="s2">}</span>
 
     <span class="s0">public void </span><span class="s1">removeQuantity</span><span class="s2">(</span><span class="s0">int </span><span class="s1">amount</span><span class="s2">) {</span>
-        <span class="s0">this</span><span class="s2">.</span><span class="s1">quantity </span><span class="s2">= </span><span class="s1">Math</span><span class="s2">.</span><span class="s1">max</span><span class="s2">(</span><span class="s0">this</span><span class="s2">.</span><span class="s1">quantity </span><span class="s2">- </span><span class="s1">amount</span><span class="s2">, </span><span class="s3">0</span><span class="s2">);</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">quantity </span><span class="s2">-= </span><span class="s1">amount</span><span class="s2">;</span>
     <span class="s2">}</span>
 <span class="s2">}</span></pre>
 </body>
