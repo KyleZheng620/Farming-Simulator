@@ -63,8 +63,8 @@ public class ShopMenu extends JDialog {
         descriptionPanel.setPreferredSize(new Dimension(300, 200));
         
         // Add items to grid including boat - fixed sprite coordinates
-        addShopItem(itemGrid, "Rice seeds", 12, 2, 0, "Rice seeds for planting.\nNeeds regular watering.");
-        addShopItem(itemGrid, "Potato seeds", 9, 4, 0, "Potato seeds for planting.\nHardy crop.");
+        addShopItem(itemGrid, "Rice seeds", 14, 2, 0, "Rice seeds for planting.\nNeeds regular watering.");
+        addShopItem(itemGrid, "Potato seeds", 10, 4, 0, "Potato seeds for planting.\nHardy crop.");
         addShopItem(itemGrid, "Wheat seeds", 7, 5, 0, "Wheat seeds for planting.\nBasic crop.");
         addShopItem(itemGrid, "Mandarin seeds", 17, 3, 0, "Mandarin seeds for planting.\nPremium crop.");
         addShopItem(itemGrid, "Water", 4, 0, 0, "Water for your crops.\nKeeps plants healthy.");
