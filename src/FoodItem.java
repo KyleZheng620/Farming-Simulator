@@ -26,16 +26,16 @@ public class FoodItem extends Item{
             waterValue = -2;
             descript = "Don't Eat";
         } else if (Food.equals("Water") ) {
-            waterValue = -2;
+            waterValue = 2;
             descript = "Dirty Water";
         } else {
             poisoned = false;
             if (Food.equals("Mandarin")) {
                 hungerValue = 1;
-                waterValue = 2;
+                waterValue = 1;
                 descript = "Yum yum Fruit";
             } else if (Food.equals("Cooked Rice")){
-                hungerValue = 2;
+                hungerValue = 3;
                 descript = "DELICIOUS RICE";
             } else if (Food.equals("Cooked Potato")){
                 hungerValue = 3;

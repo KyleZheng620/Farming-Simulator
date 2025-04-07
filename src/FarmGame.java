@@ -23,8 +23,8 @@ public class FarmGame extends JFrame{
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
         inventoryPanel = new InventoryPanel(inventory, this, player);
-        inventory.addItem(new SeedItem("Rice seeds", 4));
-        inventory.addItem(new FoodItem("Rice",2));
+        inventory.addItem(new Item("Wheat seeds", 4));
+        inventory.addItem(new CropItem("Wheat",2));
         inventory.addItem(new FoodItem("Water",8));
 
         startPanel = new StartingScreen(this);
@@ -36,7 +36,6 @@ public class FarmGame extends JFrame{
         cookPanel = new Cooking(this,player);
         transitionPanel = new TransitionPanel(player);
         animationsPanel = new Animations(this, player);
-
 
         mainPanel.add(startPanel, "Start");
         mainPanel.add(cutscenePanel, "Cutscene");
@@ -68,7 +67,6 @@ public class FarmGame extends JFrame{
         cutscenePanel.onShow();
         cutscenePanel.requestFocusInWindow();
     }
-
     public void showBarn(int a){
         cardLayout.show(mainPanel, "Barn");
         barnPanel.requestFocusInWindow();
@@ -90,6 +88,7 @@ public class FarmGame extends JFrame{
         winLoseScreenPanel.setScreen(a);
         winLoseScreenPanel.requestFocusInWindow();
     }
+
     public void showBarn(boolean sleeping, boolean a){
         new Thread(() -> {
             cardLayout.show(mainPanel, "TRANSITION");

@@ -193,11 +193,12 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
                 break;
         };
         if (WithinShop(farmerX + Xchange, farmerY + Ychange)) {
-            farmerY += Ychange;
-            farmerX += Xchange;
-            while (farmerX == 1000){
-                System.out.println(farmerX);
-                System.out.println(farmerY);
+            if (collidesWithRegister(farmerX + Xchange, farmerY + Ychange)) {
+                moving = false;
+                showRegister();
+            } else {
+                farmerY += Ychange;
+                farmerX += Xchange;
             }
         }
 
@@ -213,10 +214,6 @@ public class Shop extends JPanel implements KeyListener, MouseListener, ActionLi
             farmerX = 890;
             farmerY = 820;
             direction = 0;
-        }
-        if (collidesWithRegister(farmerX, farmerY)) {
-                moving = false;
-                showRegister();
         }
     }
 

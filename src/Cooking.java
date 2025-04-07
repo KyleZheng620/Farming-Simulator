@@ -296,6 +296,9 @@ public class Cooking extends JPanel implements KeyListener, MouseListener, Actio
                 player.getInventory().removeItem(currentItem.getName(),1);
                 player.addHunger(currentItem.getHungerValue());
                 player.addThirst(currentItem.getWaterValue());
+                if (player.getThirst() == 0){
+                    farmGame.showWinLose(1);
+                }
                 if (currentItem.getName().equals("Water")) {
                     player.setWaterPoison(true);
                 } else if (currentItem.getName().equals("Boiled Water")) {

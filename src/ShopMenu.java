@@ -11,19 +11,19 @@ public class ShopMenu extends JDialog {
     private JPanel descriptionPanel;
     private Font customFont;
     private BufferedImage itemSprites;
-    private Farmer player;        // Add these fields
-    private FarmGame farmGame;    // Add these fields
+    private BufferedImage background;
+    private Farmer player;
+    private FarmGame farmGame;
     
     public ShopMenu(JFrame parent, Farmer player, FarmGame farmGame) {
         super(parent, "Shop Menu", true);
         this.player = player;
         this.farmGame = farmGame;
         setLayout(new BorderLayout());
-        
         // Load sprites and background once
         try {
-            itemSprites = ImageIO.read(new File("src/Sprites/crop_spritesheet-1.png-2.png"));
-            BufferedImage shopBackground = ImageIO.read(new File("src/Sprites/ShopMenu.png"));
+            itemSprites = ImageIO.read(new File("src/Sprites/sprites2.png"));
+            background = ImageIO.read(new File("src/Sprites/ShopMenu.png"));
             customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 16f);
             
             // Set single background for entire menu
@@ -31,7 +31,7 @@ public class ShopMenu extends JDialog {
                 @Override
                 protected void paintComponent(Graphics g) {
                     super.paintComponent(g);
-                    g.drawImage(shopBackground, 0, 0, getWidth(), getHeight(), this);
+                    g.drawImage(background,0,0,null);
                 }
             });
             getContentPane().setLayout(new BorderLayout());
@@ -63,12 +63,12 @@ public class ShopMenu extends JDialog {
         descriptionPanel.setPreferredSize(new Dimension(300, 200));
         
         // Add items to grid including boat - fixed sprite coordinates
-        addShopItem(itemGrid, "Rice seeds", 15, 0, 0, "Rice seeds for planting.\nNeeds regular watering.");
-        addShopItem(itemGrid, "Potato seeds", 12, 1, 0, "Potato seeds for planting.\nHardy crop.");
-        addShopItem(itemGrid, "Wheat seeds", 10, 2, 0, "Wheat seeds for planting.\nBasic crop.");
-        addShopItem(itemGrid, "Mandarin seeds", 20, 3, 0, "Mandarin seeds for planting.\nPremium crop.");
-        addShopItem(itemGrid, "Water", 5, 4, 0, "Water for your crops.\nKeeps plants healthy.");
-        addShopItem(itemGrid, "Boat", 1000, 5, 0, "A sturdy fishing boat.\nAllows you to row into the horizon.");
+        addShopItem(itemGrid, "Rice seeds", 12, 2, 0, "Rice seeds for planting.\nNeeds regular watering.");
+        addShopItem(itemGrid, "Potato seeds", 9, 4, 0, "Potato seeds for planting.\nHardy crop.");
+        addShopItem(itemGrid, "Wheat seeds", 7, 5, 0, "Wheat seeds for planting.\nBasic crop.");
+        addShopItem(itemGrid, "Mandarin seeds", 17, 3, 0, "Mandarin seeds for planting.\nPremium crop.");
+        addShopItem(itemGrid, "Water", 4, 0, 0, "Water for your crops.\nKeeps plants healthy.");
+        addShopItem(itemGrid, "Boat", 200, 1, 0, "A sturdy fishing boat.\nAllows you to row into the horizon.");
         // Removed duplicate water item
         
         // Layout for buy panel
@@ -145,9 +145,7 @@ public class ShopMenu extends JDialog {
                     int x = (getWidth() - iconSize) / 2;
                     int y = (getHeight() - iconSize) / 2;
                     
-                    g.drawImage(itemSprites, 
-                        x, y, x + iconSize, y + iconSize,
-                        spriteX * 48, spriteY * 48, (spriteX + 1) * 48, (spriteY + 1) * 48,
+                    g.drawImage(itemSprites, x, y, x + iconSize, y + iconSize, spriteX * 48, spriteY * 48, (spriteX + 1) * 48, (spriteY + 1) * 48,
                         this);
                 }
             }
@@ -208,7 +206,7 @@ public class ShopMenu extends JDialog {
                 player.setMoney(player.getMoney() - price);
                 
                 // Add the purchased item to player's inventory
-                farmGame.getInventory().addItem(new CropItem(itemName, 1));
+                farmGame.getInventory().addItem(new Item(itemName, 1));
 
                 
                 JOptionPane.showMessageDialog(this, 
@@ -311,8 +309,7 @@ public class ShopMenu extends JDialog {
         itemPanel.setOpaque(false);
 
         // Calculate sell price (90% of buy price)
-        int buyPrice = item.getCropSellPrice();
-        int sellPrice = (int)(buyPrice * 0.9);
+        int sellPrice = item.getCropSellPrice();
 
         JLabel nameLabel = new JLabel(item.getName(), SwingConstants.CENTER);
         nameLabel.setFont(customFont.deriveFont(14f));
