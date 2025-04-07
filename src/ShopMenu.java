@@ -382,23 +382,15 @@ public class ShopMenu extends JDialog {
         JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(1, 1, item.getQuantity(), 1));
         quantitySpinner.setFont(customFont.deriveFont(12f));
 
-        JButton sellButton = new JButton("Sell for " + sellPrice + " gold") {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2d.setColor(new Color(139, 69, 19));
-                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 8, 8);
-                g2d.setColor(new Color(255, 215, 0));
-                g2d.drawRoundRect(1, 1, getWidth()-3, getHeight()-3, 8, 8);
-                super.paintComponent(g);
-            }
-        };
-        sellButton.setForeground(Color.WHITE);
+        // Make the sell button more visible
+        JButton sellButton = new JButton("Sell for " + sellPrice + " gold");
         sellButton.setFont(customFont.deriveFont(12f));
-        sellButton.setBorderPainted(false);
-        sellButton.setContentAreaFilled(false);
+        sellButton.setForeground(Color.WHITE);
+        sellButton.setBackground(new Color(139, 69, 19));
         sellButton.setFocusPainted(false);
+        sellButton.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(255, 215, 0), 2),
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)));
 
         sellButton.addActionListener(e -> {
             int quantity = (int)quantitySpinner.getValue();
@@ -421,11 +413,23 @@ public class ShopMenu extends JDialog {
             }
         });
 
-        JPanel sellPanel = new JPanel(new FlowLayout());
+        // Improve the sell panel layout
+        JPanel sellPanel = new JPanel();
+        sellPanel.setLayout(new BoxLayout(sellPanel, BoxLayout.Y_AXIS));
         sellPanel.setOpaque(false);
-        sellPanel.add(new JLabel("Quantity:"));
-        sellPanel.add(quantitySpinner);
-        sellPanel.add(sellButton);
+        
+        JPanel quantityPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        quantityPanel.setOpaque(false);
+        quantityPanel.add(new JLabel("Quantity:"));
+        quantityPanel.add(quantitySpinner);
+        
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.setOpaque(false);
+        buttonPanel.add(sellButton);
+        
+        sellPanel.add(quantityPanel);
+        sellPanel.add(Box.createVerticalStrut(10));
+        sellPanel.add(buttonPanel);
 
         content.add(nameLabel, BorderLayout.NORTH);
         content.add(descArea, BorderLayout.CENTER);
