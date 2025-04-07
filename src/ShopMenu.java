@@ -48,6 +48,15 @@ public class ShopMenu extends JDialog {
         // Make buy panel transparent
         JPanel buyPanel = new JPanel(new BorderLayout());
         buyPanel.setOpaque(false);
+
+        JPanel goldPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        goldPanel.setOpaque(false);
+        JLabel goldLabel = new JLabel("Gold: " + player.getMoney() + " ◆", SwingConstants.RIGHT);
+        goldLabel.setFont(customFont.deriveFont(16f));
+        goldLabel.setForeground(new Color(255, 215, 0));
+        goldPanel.add(goldLabel);
+
+        buyPanel.add(goldPanel, BorderLayout.NORTH);
         
         // Remove duplicate background loading code
         
@@ -119,8 +128,6 @@ public class ShopMenu extends JDialog {
         JLabel nameLabel = new JLabel(itemName, SwingConstants.CENTER);
         nameLabel.setFont(customFont.deriveFont(14f));
         nameLabel.setForeground(new Color(101, 67, 33));
-        
-        // Create items with their prices
 
         JLabel priceLabel = new JLabel(price + " gold", SwingConstants.CENTER) {
             @Override
