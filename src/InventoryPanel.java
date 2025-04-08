@@ -216,6 +216,12 @@ public class InventoryPanel extends JPanel implements KeyListener, MouseListener
                         g.drawImage(WaterBottle, dx1, dy1, 48, 48, null);
                         g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
                     }
+                    case "Boat" -> {
+                        int dx1 = 470 + (87 * c);
+                        int dy1 = 445 + (88 * r);
+                        g.drawImage(spriteSheet2, dx1, dy1, dx1+64, dy1+64, 48,0,96,48,null);
+                        g2d.drawString("" + item.getQuantity(), 525 + (87 * c), 500 + (88 * r));
+                    }
                 }
                 if (c == 8) {
                     c = 0;

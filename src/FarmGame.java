@@ -27,6 +27,7 @@ public class FarmGame extends JFrame{
         inventory.addItem(new CropItem("Wheat",2));
         inventory.addItem(new FoodItem("Water",8));
 
+
         startPanel = new StartingScreen(this);
         cutscenePanel = new Cutscene(this);
         winLoseScreenPanel = new WinLoseScreen();

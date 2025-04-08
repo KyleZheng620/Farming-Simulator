@@ -33,7 +33,7 @@ public class Crop{
         }
         waterLevel++;
         player.getInventory().removeItem("Water", 1);
-        if (waterLevel>=10){
+        if (waterLevel>=7){
             crop = "Soil";
         }
         return true;
