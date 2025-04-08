@@ -199,7 +199,7 @@ public class ShopMenu extends JDialog {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 if (descriptionBg != null) {
-                    g.drawImage(descriptionBg, 0, -50, getWidth(), getHeight(), this);
+                    g.drawImage(descriptionBg, 0, -20, getWidth(), getHeight(), this);
                 }
             }
         };
