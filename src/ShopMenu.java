@@ -14,6 +14,7 @@ public class ShopMenu extends JDialog {
     private BufferedImage background;
     private Farmer player;
     private FarmGame farmGame;
+    private BufferedImage descriptionBg;
     
     public ShopMenu(JFrame parent, Farmer player, FarmGame farmGame) {
         super(parent, "Shop Menu", true);
@@ -24,6 +25,7 @@ public class ShopMenu extends JDialog {
         try {
             itemSprites = ImageIO.read(new File("src/Sprites/sprites2.png"));
             background = ImageIO.read(new File("src/Sprites/ShopMenu.png"));
+            descriptionBg = ImageIO.read(new File("src/Sprites/DescriptionBg (1).png"));
             customFont = FontLoader.loadFont("src/Fonts/Daydream.ttf", 16f);
             
             // Set single background for entire menu
@@ -191,6 +193,19 @@ public class ShopMenu extends JDialog {
     private void updateDescription(String itemName, String description, int price) {
         descriptionPanel.removeAll();
         
+        // Create a panel with the wooden background
+        JPanel woodPanel = new JPanel(new BorderLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (descriptionBg != null) {
+                    g.drawImage(descriptionBg, 0, -50, getWidth(), getHeight(), this);
+                }
+            }
+        };
+        woodPanel.setOpaque(false);
+        woodPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        
         JTextArea descArea = new JTextArea(description);
         descArea.setFont(customFont.deriveFont(12f));
         descArea.setForeground(new Color(101, 67, 33));
@@ -199,75 +214,92 @@ public class ShopMenu extends JDialog {
         descArea.setLineWrap(true);
         descArea.setWrapStyleWord(true);
         
-        JButton buyButton = new JButton("Buy");
-        buyButton.setFont(customFont.deriveFont(14f));
-        buyButton.setForeground(new Color(101, 67, 33));
-        buyButton.setBackground(new Color(255, 223, 186));
-        buyButton.setFocusPainted(false);
-        buyButton.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(139, 69, 19), 2),
-                BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+        woodPanel.add(descArea, BorderLayout.CENTER);
         
-        buyButton.addActionListener(e -> {
-            if (player.getMoney() >= price) {
-                player.setMoney(player.getMoney() - price);
-                
-                // Add the purchased item to player's inventory
-                if (itemName.equals("Water")) {
-                    farmGame.getInventory().addItem(new FoodItem(itemName, 1));
+        // If there's a buy button, add it to the wood panel
+        if (price > 0) {
+            JButton buyButton = new JButton("Buy for " + price + " gold");
+            buyButton.setFont(customFont.deriveFont(12f));
+            buyButton.setForeground(Color.WHITE);
+            buyButton.setBackground(new Color(139, 69, 19));
+            buyButton.setFocusPainted(false);
+            buyButton.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(new Color(255, 215, 0), 2),
+                    BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+            
+            buyButton.addActionListener(e -> {
+                if (player.getMoney() >= price) {
+                    player.setMoney(player.getMoney() - price);
+                    
+                    // Add the purchased item to player's inventory
+                    if (itemName.equals("Water")) {
+                        farmGame.getInventory().addItem(new FoodItem(itemName, 1));
+                    } else {
+                        farmGame.getInventory().addItem(new Item(itemName, 1));
+                    }
+                    
+                    JOptionPane.showMessageDialog(this, 
+                        "You bought " + itemName + " for " + price + " gold!", 
+                        "Purchase Successful", 
+                        JOptionPane.INFORMATION_MESSAGE);
+                    
+                    // Refresh the UI
+                    farmGame.repaint();
                 } else {
-                    farmGame.getInventory().addItem(new Item(itemName, 1));
+                    JOptionPane.showMessageDialog(this, 
+                        "Not enough gold! You need " + price + " gold.", 
+                        "Purchase Failed", 
+                        JOptionPane.WARNING_MESSAGE);
                 }
-
-
-                
-                JOptionPane.showMessageDialog(this, 
-                    "You bought " + itemName + " for " + price + " gold!", 
-                    "Purchase Successful", 
-                    JOptionPane.INFORMATION_MESSAGE);
-                
-                // Refresh the UI
-                farmGame.repaint();
-            } else {
-                JOptionPane.showMessageDialog(this, 
-                    "Not enough gold! You need " + price + " gold.", 
-                    "Purchase Failed", 
-                    JOptionPane.WARNING_MESSAGE);
-            }
-        });
+            });
+            
+            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            buttonPanel.setOpaque(false);
+            buttonPanel.add(buyButton);
+            
+            woodPanel.add(buttonPanel, BorderLayout.SOUTH);
+        }
         
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        buttonPanel.setOpaque(false);
-        buttonPanel.add(buyButton);
-        
-        descriptionPanel.add(descArea, BorderLayout.CENTER);
-        descriptionPanel.add(buttonPanel, BorderLayout.SOUTH);
+        descriptionPanel.add(woodPanel);
         descriptionPanel.revalidate();
-        descriptionPanel.repaint();
-    }
+        descriptionPanel.repaint();}
+    
     
     private JPanel createSellPanel(FarmGame farmGame) {
         JPanel sellPanel = new JPanel(new BorderLayout(15, 0));
         sellPanel.setOpaque(false);
     
-        // Create description panel first
-        JPanel sellDescriptionPanel = new JPanel(new BorderLayout());
+        // Create description panel first with wooden background - removed outline
+        JPanel sellDescriptionPanel = new JPanel(new BorderLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (descriptionBg != null) {
+                    g.drawImage(descriptionBg, 0, -50, getWidth(), getHeight(), this);
+                }
+            }
+        };
         sellDescriptionPanel.setOpaque(false);
         sellDescriptionPanel.setPreferredSize(new Dimension(300, 200));
-        sellDescriptionPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createEmptyBorder(10, 10, 10, 10),
-            BorderFactory.createLineBorder(new Color(139, 69, 19), 2)
-        ));
-        
+        sellDescriptionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     
-        // Left side - Inventory Panel
-        JPanel inventoryPanel = new JPanel(new BorderLayout());
+        // Left side - Inventory Panel with solid brown background matching the outline
+        JPanel inventoryPanel = new JPanel(new BorderLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setColor(new Color(139, 69, 19)); // Solid brown color matching the outline
+                g2d.setStroke(new BasicStroke(2)); // Same boldness as outline
+                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
+            }
+        };
         inventoryPanel.setOpaque(false);
         
-        // Title for inventory
+        // Title for inventory - update text color for better visibility on brown background
         JLabel inventoryTitle = new JLabel("Your Items", SwingConstants.CENTER);
         inventoryTitle.setFont(customFont.deriveFont(16f));
-        inventoryTitle.setForeground(new Color(139, 69, 19));
+        inventoryTitle.setForeground(new Color(255, 223, 186)); // Lighter color for better visibility
         inventoryTitle.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         
         // Grid for inventory items
@@ -319,18 +351,69 @@ public class ShopMenu extends JDialog {
             }
         };
         itemPanel.setOpaque(false);
-
+    
         // Calculate sell price (90% of buy price)
         int sellPrice = item.getCropSellPrice();
-
+    
         JLabel nameLabel = new JLabel(item.getName(), SwingConstants.CENTER);
         nameLabel.setFont(customFont.deriveFont(14f));
         nameLabel.setForeground(new Color(101, 67, 33));
-
+    
         JLabel quantityLabel = new JLabel("Owned: " + item.getQuantity(), SwingConstants.CENTER);
         quantityLabel.setFont(customFont.deriveFont(12f));
         quantityLabel.setForeground(new Color(139, 69, 19));
-
+        
+        // Add crop icon based on item name
+        JLabel iconLabel = new JLabel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (itemSprites != null) {
+                    int iconSize = Math.min(getWidth(), getHeight()) - 10;
+                    int x = (getWidth() - iconSize) / 2;
+                    int y = (getHeight() - iconSize) / 2;
+                    
+                    // Set sprite coordinates based on crop type
+                    int spriteX = 0;
+                    int spriteY = 0;
+                    
+                    if (item.getName().equals("Wheat")) {
+                        spriteX = 0;
+                        spriteY = 5;
+                    } else if (item.getName().equals("Rice")) {
+                        spriteX = 2;
+                        spriteY = 0;
+                    } else if (item.getName().equals("Potato")) {
+                        spriteX = 4;
+                        spriteY = 0;
+                    } else if (item.getName().equals("Mandarin")) {
+                        spriteX = 3;
+                        spriteY = 0;
+                    }
+                    
+                    g.drawImage(itemSprites, 
+                        x, y, x + iconSize, y + iconSize,
+                        spriteX * 48, spriteY * 48, (spriteX + 1) * 48, (spriteY + 1) * 48,
+                        this);
+                }
+            }
+            
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(48, 48);
+            }
+            
+            @Override
+            public Dimension getMinimumSize() {
+                return new Dimension(32, 32);
+            }
+        };
+        
+        // Center the icon in a panel
+        JPanel iconContainer = new JPanel(new GridBagLayout());
+        iconContainer.setOpaque(false);
+        iconContainer.add(iconLabel);
+    
         itemPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -349,15 +432,18 @@ public class ShopMenu extends JDialog {
                 itemPanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         });
-
+    
         itemPanel.add(nameLabel, BorderLayout.NORTH);
+        itemPanel.add(iconContainer, BorderLayout.CENTER); // Add the icon container
         itemPanel.add(quantityLabel, BorderLayout.SOUTH);
+        
         grid.add(itemPanel);
     }
 
     private void updateSellDescription(JPanel descriptionPanel, CropItem item, int sellPrice) {
         descriptionPanel.removeAll();
         
+        // Create a panel with the wooden background
         JPanel content = new JPanel(new BorderLayout(10, 10));
         content.setOpaque(false);
         content.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
